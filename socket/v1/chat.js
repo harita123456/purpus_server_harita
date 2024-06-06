@@ -5,7 +5,7 @@ const user_session = require("../../models/M_user_session");
 const notifications = require("../../models/M_notification");
 const user_interactions = require("../../models/M_user_interactions");
 
-const os = require('os');
+const os = require("os");
 
 const save_post = require("../../models/M_save_post");
 const pollvotes = require("../../models/M_poll_votes");
@@ -329,6 +329,8 @@ module.exports = {
       updated_at: currentDateTime,
     };
 
+    let image_array = [];
+
     if (reply_message_id != undefined) {
       let find_message = await chat.findById(reply_message_id);
 
@@ -419,7 +421,6 @@ module.exports = {
 
       image_array.push(files);
     }
-    var image_array = [];
 
     if (message_type == "voice") {
       for (var value of media_file) {
@@ -610,7 +611,6 @@ module.exports = {
           get_receiver_user.device_token != "" ||
           get_receiver_user.device_token != null
         ) {
-
           var find_token = await user_session.find({
             user_id: get_receiver_user?._id,
             is_deleted: false,
@@ -938,24 +938,17 @@ module.exports = {
 
   setSocketId: async (data) => {
     try {
-
       const user = await users.findOne({ _id: data.user_id });
 
       if (user) {
-        const valuedata = [
-          is_online = true,
-          data.user_id.toString(),
-        ];
+        const valuedata = [(is_online = true), data.user_id.toString()];
 
         const updatedata = await performQuery(
           "UPDATE user SET is_online = ? WHERE identifier = ?",
           valuedata
         );
 
-
-
-
-        console.log("updatedata", updatedata)
+        console.log("updatedata", updatedata);
         var updatedMessage = await users.findByIdAndUpdate(
           { _id: data.user_id },
           {
@@ -967,8 +960,6 @@ module.exports = {
         );
 
         return updatedMessage;
-
-
       }
     } catch (error) {
       console.log("error", error.message);
@@ -980,9 +971,7 @@ module.exports = {
     try {
       const user = await users.findOne({ socket_id: data });
 
-
-
-      console.log("user--------------", user)
+      console.log("user--------------", user);
 
       if (user) {
         var updatedMessage = await users.updateOne(
@@ -991,18 +980,16 @@ module.exports = {
             $set: {
               is_online: false,
               socket_id: null,
-              user_last_active_date: await new Date()
+              user_last_active_date: await new Date(),
             },
           },
           { new: true }
         );
 
-
-
         const datavalue = [
-          is_online = false,
-          last_seen = new Date(),
-          identifier = user._id.toString(),
+          (is_online = false),
+          (last_seen = new Date()),
+          (identifier = user._id.toString()),
         ];
 
         const updatedata = await performQuery(
@@ -1010,7 +997,7 @@ module.exports = {
           datavalue
         );
 
-        console.log("updatedata  in disconnect", updatedata)
+        console.log("updatedata  in disconnect", updatedata);
         return updatedMessage;
       }
     } catch (error) {
@@ -1100,7 +1087,6 @@ module.exports = {
 
         return updateData;
       }
-
     } catch (error) {
       console.log("error", error.message);
       throw new Error(error.message);
@@ -1309,7 +1295,6 @@ module.exports = {
           )
           .where({ is_delete_by: { $ne: user_id } });
       });
-
     }
     let result = { id_deleted: true };
 
@@ -1380,7 +1365,14 @@ module.exports = {
   },
 
   sharePost: async (data, socket) => {
-    var { sender_id, receiver_ids, post_id, interest_id, sub_interest_id, message } = data;
+    var {
+      sender_id,
+      receiver_ids,
+      post_id,
+      interest_id,
+      sub_interest_id,
+      message,
+    } = data;
     const currentDateTime = await dateTime();
 
     var find_user = await post
@@ -1398,7 +1390,7 @@ module.exports = {
       post_id: post_id,
       interaction_type: "share",
       is_share_post: true,
-    })
+    });
 
     if (!find_interaction) {
       var add_impression = await user_interactions.create({
@@ -1408,7 +1400,7 @@ module.exports = {
         post_id: post_id,
         interaction_type: "share",
         is_share_post: true,
-      })
+      });
 
       var update_interaction = post.findByIdAndUpdate(post_id, {
         $inc: { interaction_count: 1 },
@@ -1494,11 +1486,10 @@ module.exports = {
       var senddata;
       if (message) {
         let addsharemessage = await chat.create(insertData);
-        senddata =
-        {
+        senddata = {
           ...senddata,
-          addsharemessage
-        }
+          addsharemessage,
+        };
       }
 
       let getMessage = await chat
@@ -1588,7 +1579,7 @@ module.exports = {
             chat_room_data[0].other_user_id.profile_picture;
         }
 
-        var notiData
+        var notiData;
         if (senddata) {
           var data = senddata?.addsharemessage?.message;
           notiData = {
@@ -1599,7 +1590,6 @@ module.exports = {
             chat_room_id: existingChatRoom._id,
             details: chat_room_data[0],
           };
-
         } else {
           notiData = {
             noti_msg: messageTemp,
@@ -1786,14 +1776,15 @@ module.exports = {
         return result;
       })
     );
-    const totalUnreadMessages = UserList.reduce((total, value) => total + value.unread_message, 0);
+    const totalUnreadMessages = UserList.reduce(
+      (total, value) => total + value.unread_message,
+      0
+    );
 
     if (totalUnreadMessages >= 1) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
-
   },
-
 };
