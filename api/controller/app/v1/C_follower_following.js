@@ -63,7 +63,7 @@ const followUser = async (req, res) => {
       };
       let options = { upsert: true, new: true };
 
-      let data = await follower_following.updateOne(query, request, options);
+      await follower_following.updateOne(query, request, options);
 
       var follow_request_data = await follower_following.findOne().where({
         user_id: user_id,
@@ -72,7 +72,7 @@ const followUser = async (req, res) => {
         is_deleted: false,
       });
 
-      var deleteNoti = await notifications.deleteMany({
+      await notifications.deleteMany({
         sender_id: user_id,
         receiver_id: following_id,
         noti_for: { $in: ["started_following", "follow_request", "follow_request_accepted"] }
@@ -147,7 +147,7 @@ const followUser = async (req, res) => {
     };
     let options = { upsert: true, new: true };
 
-    let data = await follower_following.updateOne(query, request, options);
+    await follower_following.updateOne(query, request, options);
 
     var follow_request = await follower_following.findOne().where({
       user_id: user_id,
@@ -156,7 +156,7 @@ const followUser = async (req, res) => {
       is_deleted: false,
     });
 
-    var find_room = await chat_room.findOneAndUpdate(
+    await chat_room.findOneAndUpdate(
       {
         user_id: following_id,
         other_user_id: user_id,
@@ -169,7 +169,7 @@ const followUser = async (req, res) => {
       { new: true }
     );
 
-    var deleteNoti = await notifications.deleteMany({
+    await notifications.deleteMany({
       sender_id: user_id,
       receiver_id: following_id,
       noti_for: { $in: ["started_following", "follow_request", "follow_request_accepted"] }
@@ -250,7 +250,7 @@ const unFollowUser = async (req, res) => {
 
       var unFollow_user = await follower_following.findByIdAndDelete(follow_id);
 
-      var deleteNoti = await notifications.deleteMany({
+      await notifications.deleteMany({
         sender_id: user_id,
         receiver_id: following_user_id,
         noti_for: { $in: ["started_following"] }
@@ -287,7 +287,7 @@ const removeFollowUser = async (req, res) => {
       return errorRes(res, `Couldn't found record`);
     }
 
-    var deleteNoti = await notifications.deleteMany({
+    await notifications.deleteMany({
       sender_id: follower_user_id,
       receiver_id: user_id,
       noti_for: { $in: ["started_following"] }
@@ -358,7 +358,7 @@ const acceptfollowrequest = async (req, res) => {
           { new: true }
         );
 
-        var find_room = await chat_room.findOneAndUpdate(
+        await chat_room.findOneAndUpdate(
           {
             user_id: noti_update?.receiver_id,
             other_user_id: noti_update?.sender_id,
@@ -371,7 +371,7 @@ const acceptfollowrequest = async (req, res) => {
           { new: true }
         );
 
-        var deleteNoti = await notifications.deleteMany({
+        await notifications.deleteMany({
           sender_id: noti_update?.receiver_id,
           receiver_id: noti_update?.sender_id,
           noti_for: { $in: ["started_following", "follow_request_accepted"] }
@@ -442,7 +442,7 @@ const acceptfollowrequest = async (req, res) => {
           { new: true }
         );
 
-        var update_follower = await follower_following.findOneAndDelete(
+        await follower_following.findOneAndDelete(
           {
             user_id: noti_update.sender_id,
             following_id: noti_update.receiver_id,
