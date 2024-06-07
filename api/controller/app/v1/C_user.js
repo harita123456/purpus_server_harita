@@ -469,9 +469,6 @@ const signup = async (req, res) => {
       skills_details,
     } = req.body;
 
-    console.log("  demographics,social_media_link, education", req.body);
-
-    const currentDateTime = await dateTime();
     if (email_address) {
       let find_email = await users.findOne({
         email_address: { $eq: email_address, $ne: null, $nin: [""] },
@@ -2024,7 +2021,7 @@ const editProfile = async (req, res) => {
               find_data[0].id
             ];
 
-            const updatedata = await performQuery(
+            await performQuery(
               "UPDATE user_social SET linkedin_link = ?, facebook_link = ?, twitter_link = ?, instagram_link = ? WHERE id = ?",
               data
             );
@@ -2050,7 +2047,7 @@ const editProfile = async (req, res) => {
               skill = skills_update?.skill_name,
               identifier = skills_update._id.toString()
             ]
-          const updatedata = await performQuery(
+          await performQuery(
             "UPDATE user_skill SET skill = ?  WHERE identifier = ?",
             updateskill
           );
@@ -2585,7 +2582,7 @@ const getUserdetails = async (req, res) => {
         is_local: false,
       });
 
-      var find_repost = await post.find().where({
+      await post.find().where({
         user_id: user_id,
         is_repost: true,
         is_deleted: false,
@@ -2600,14 +2597,6 @@ const getUserdetails = async (req, res) => {
         })
         .sort({ createdAt: -1 });
 
-      var find_save_post_details = await save_post
-        .find()
-        .where({
-          user_id: user_id,
-          is_deleted: false,
-        })
-        .populate("post_id")
-        .sort({ createdAt: -1 });
 
       const follower_count = await follower_following.countDocuments({
         following_id: user_id,
@@ -2620,7 +2609,7 @@ const getUserdetails = async (req, res) => {
         is_request: true,
       });
 
-      const follower_list = await follower_following
+      await follower_following
         .find({
           following_id: user_id,
           is_deleted: false,
@@ -2628,7 +2617,7 @@ const getUserdetails = async (req, res) => {
         .populate("user_id")
         .populate("following_id");
 
-      const following_list = await follower_following
+      await follower_following
         .find()
         .where({
           user_id: user_id,
@@ -2637,10 +2626,6 @@ const getUserdetails = async (req, res) => {
         .populate("user_id")
         .populate("following_id");
 
-      const block_user_list = await block_user.find({
-        user_id: user_id,
-        is_deleted: false,
-      });
 
       const block_user_count = await block_user.countDocuments({
         user_id: user_id,
@@ -5418,7 +5403,7 @@ const deleteEduaction = async (req, res) => {
       _id: education_id,
     });
 
-    const updatedata = await performQuery(
+    await performQuery(
       "DELETE FROM user_education  WHERE identifier = ?",
       [education_id]
     );
@@ -5856,7 +5841,7 @@ const editExperince = async (req, res) => {
             { _id: experince_id },
             { $pull: { media: { _id: value1 } } }
           );
-          const deleteData = await performQuery(
+          await performQuery(
             "DELETE FROM user_experience_media WHERE identifier = ?",
             [value1.toString()]
           );
@@ -6406,7 +6391,7 @@ const editCustomfield = async (req, res) => {
         update_user._id.toString(),
       ];
 
-      const updatedata = await performQuery(
+      await performQuery(
         "UPDATE user_custom_field SET title = ?, description = ? WHERE identifier = ?",
         data
       );
@@ -6756,8 +6741,6 @@ const mysqlscript = async (req, res) => {
       is_deleted: false, is_block: false, _id: new ObjectId("665576ab5c9c61bfac79ba07")
     })
 
-    // console.log("find_user", find_user)
-
     var find_user = []
     find_user.push(find_user_data)
 
@@ -6797,21 +6780,13 @@ const mysqlscript = async (req, res) => {
           );
 
           if (insertdata) {
-            console.log("insertdata-----+++++++++++++------", insertdata.insertId)
-
-
             if (value?.demographics?.zipcode != null && value?.demographics?.zipcode != '') {
               const addressdata = [
                 identifier = value?._id.toString(),
                 user_idfr = insertdata?.insertId,
                 zipcode = value?.demographics?.zipcode,
               ]
-
-
-              console.log('addressdata', addressdata)
-
-
-              const add_address = await performQuery(
+              await performQuery(
                 "INSERT INTO user_address(identifier, user_idfr, zipcode) values(?,?,?)",
                 addressdata
               );
@@ -6831,7 +6806,7 @@ const mysqlscript = async (req, res) => {
               instagram_link = instagram_link,
             ];
 
-            const add_social = await performQuery(
+            await performQuery(
               "INSERT INTO user_social(identifier, user_idfr, linkedin_link ,facebook_link,twitter_link,instagram_link ) values(?,?,?,?,?,?)",
               social_data
             );
@@ -6847,7 +6822,7 @@ const mysqlscript = async (req, res) => {
                     level = 5,
                   ];
 
-                  const insertdatafsd = await performQuery(
+                  await performQuery(
                     "INSERT INTO user_skill(identifier, user_idfr, skill ,level ) values(?,?,?,?)",
                     datas
                   );
@@ -6876,7 +6851,7 @@ const mysqlscript = async (req, res) => {
                   device_info = val.device_type,
                   logout_timestamp = val.logout_time
                 ]
-                const session_data = await performQuery(
+                await performQuery(
                   "INSERT INTO user_session(identifier, user_idfr, login_timestamp ,session_token,device_info ,logout_timestamp) values(?,?,?,?,?,?)",
                   data
                 );
@@ -6899,7 +6874,7 @@ const mysqlscript = async (req, res) => {
                   title = val?.title,
                   description = val?.description
                 ];
-                const insertdataaa = await performQuery(
+                await performQuery(
                   "INSERT INTO user_custom_field (identifier, user_idfr, title ,description ) values(?,?,?,?)",
                   data
                 );
@@ -6935,7 +6910,6 @@ const mysqlscript = async (req, res) => {
                   data
                 );
 
-                console.log({ insertingdata });
                 if (insertingdata.affectedRows === 0) {
                   console.log("User not found.");
                 } else {
