@@ -541,23 +541,25 @@ module.exports = {
     var find_post_data = await group_chat.findOne({ _id: group_chat_id });
 
     const options = find_post_data?.options;
-    const totalVotes = options.reduce(
-      (total, opt) => total + opt.option_vote,
-      0
-    );
+    if (options != null) {
+      const totalVotes = options?.reduce(
+        (total, opt) => total + opt.option_vote,
+        0
+      );
 
-    for (let i = 0; i < options.length; i++) {
-      const option = options[i];
-      option.option_percentage = parseFloat(
-        ((option.option_vote / totalVotes) * 100 || 0).toFixed(2)
+      for (let i = 0; i < options.length; i++) {
+        const option = options[i];
+        option.option_percentage = parseFloat(
+          ((option.option_vote / totalVotes) * 100 || 0).toFixed(2)
+        );
+      }
+
+      var update_data = await group_chat.updateOne(
+        { _id: group_chat_id },
+        { $set: { options } },
+        { new: true }
       );
     }
-
-    var update_data = await group_chat.updateOne(
-      { _id: group_chat_id },
-      { $set: { options } },
-      { new: true }
-    );
 
     if (find_post_data) {
       return find_post_data;
