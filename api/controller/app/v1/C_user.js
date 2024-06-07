@@ -601,12 +601,12 @@ const signup = async (req, res) => {
     var firstName = nameParts[0];
     var middleName = nameParts[0];
     var lastName = nameParts[0];
-
+    // profile_picture = create_user?.profile_picture ? create_user?.profile_picture : create_user?.profile_url,
     const data = [
       identifier = create_user._id.toString(),
       first_name = firstName,
-      profile_picture = create_user?.profile_picture ? create_user?.profile_picture : create_user?.profile_url,
-      dob = create_user?.dob,
+      profile_picture = user_data?.profile_picture ?? user_data?.profile_url ?? null,
+      dob = create_user.dob,
       user_id = create_user.unique_name,
     ];
 
@@ -659,7 +659,7 @@ const signup = async (req, res) => {
 
       if (find_user_data) {
         const data = [
-          identifier = create_user?._id.toString(),
+          identifier = create_user._id.toString(),
           user_idfr = find_user_data[0].id,
           login_timestamp = session.createdAt,
           session_token = session.device_token,
@@ -925,16 +925,22 @@ const signIn = async (req, res) => {
     //Update data in mysql
 
 
-    const nameParts = user_data?.full_name.split(' ');
+    const nameParts = user_data.full_name.split(' ');
     var firstName = nameParts[0];
     var middleName = nameParts[1];
     var lastName = nameParts[2];
 
     const sql =
       "UPDATE user SET first_name = ?, profile_picture = ?  WHERE identifier  = ?";
+    // const values = [
+    //   first_name = firstName,
+    //   profile_picture = user_data?.profile_picture ? user_data?.profile_picture : user_data?.profile_url,
+    //   identifier = user_data?._id.toString(),
+    // ];
+
     const values = [
       first_name = firstName,
-      profile_picture = user_data?.profile_picture ? user_data?.profile_picture : user_data?.profile_url,
+      profile_picture = user_data?.profile_picture ?? user_data?.profile_url ?? null,
       identifier = user_data?._id.toString(),
     ];
     const results = await performQuery(sql, values);
@@ -6035,16 +6041,16 @@ const editExperince = async (req, res) => {
           console.log("Couldn't found user.");
         } else {
           const data = [
-            update_experince?.title,
-            update_experince?.emp_type,
-            update_experince?.company_name,
-            update_experince?.address,
-            update_experince?.industry,
-            update_experince?.start_date,
-            update_experince?.end_date,
-            update_experince?.description,
+            update_experince?.title ?? null,
+            update_experince?.emp_type ?? null,
+            update_experince?.company_name ?? null,
+            update_experince?.address ?? null,
+            update_experince?.industry ?? null,
+            update_experince?.start_date ?? null,
+            update_experince?.end_date ?? null,
+            update_experince?.description ?? null,
             results[0].id,
-            update_experince?._id.toString(),
+            update_experince._id.toString(),
           ];
           const updatedata = await performQuery(
             "UPDATE user_experience SET job_title = ?, employee_type = ?, company_name = ?, company_address = ?, industry = ?, start_date = ?, end_date = ?, job_description = ? WHERE user_idfr = ? AND identifier = ?",
@@ -6084,7 +6090,7 @@ const editExperince = async (req, res) => {
                   const results = await performQuery(sql, values);
 
                   const data1 = [
-                    identifier = value?._id.toString(),
+                    identifier = value._id.toString(),
                     user_experience_idfr = results[0].id,
                     media_url = value?.file_name,
                     media_size = value?.file_size,
@@ -6186,7 +6192,7 @@ const deleteExperince = async (req, res) => {
               if (err) console.log(err);
             });
           }
-          if (value?.file_type == "video") {
+          if (value?.file_type != null && value?.file_type == "video") {
             if (`${outputPath}/public/${value?.thumb_name}`) {
               unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
                 if (err) console.log(err);
@@ -6786,7 +6792,7 @@ const mysqlscript = async (req, res) => {
             console.log("insertdata-----+++++++++++++------", insertdata.insertId)
 
 
-            if (value?.demographics?.zipcode) {
+            if (value?.demographics?.zipcode != null && value?.demographics?.zipcode != '') {
               const addressdata = [
                 identifier = value?._id.toString(),
                 user_idfr = insertdata?.insertId,
@@ -6823,7 +6829,7 @@ const mysqlscript = async (req, res) => {
             );
 
 
-            if (value?.skills_details.length > 0) {
+            if (value?.skills_details != null && value?.skills_details.length > 0) {
               value?.skills_details.map(async (val) => {
                 if (val?._id) {
                   const datas = [
@@ -6855,12 +6861,12 @@ const mysqlscript = async (req, res) => {
               find_session?.map(async (val) => {
 
                 const data = [
-                  identifier = val?.user_id.toString(),
+                  identifier = val.user_id.toString(),
                   user_idfr = insertdata?.insertId,
                   login_timestamp = val.createdAt,
                   session_token = val.device_token,
                   device_info = val.device_type,
-                  logout_timestamp = val?.logout_time
+                  logout_timestamp = val.logout_time
                 ]
                 const session_data = await performQuery(
                   "INSERT INTO user_session(identifier, user_idfr, login_timestamp ,session_token,device_info ,logout_timestamp) values(?,?,?,?,?,?)",
