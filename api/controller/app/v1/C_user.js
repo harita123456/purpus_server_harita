@@ -6256,7 +6256,8 @@ const deleteExperince = async (req, res) => {
       _id: experince_id,
     });
 
-    const deleteData1 = await performQuery(
+    // const deleteData1 = 
+    await performQuery(
       "DELETE FROM user_experience WHERE identifier = ?",
       [delete_remove_experince?._id.toString()]
     );
@@ -6499,7 +6500,8 @@ const deleteCustomfield = async (req, res) => {
       _id: customfield_id,
     });
 
-    const updatedata = await performQuery(
+    // const updatedata = 
+    await performQuery(
       "DELETE FROM user_custom_field  WHERE identifier = ?",
       [customfield_id]
     );
@@ -6801,18 +6803,18 @@ const mysqlscript = async (req, res) => {
               );
 
             }
-            var linkedin_link_data = value?.social_media_link?.linkedin
-            var facebook_link_data = value?.social_media_link?.facebook
-            var twitter_link_data = value?.social_media_link?.twitter
-            var instagram_link_data = value?.social_media_link?.instagram
+            // var linkedin_link_data = value?.social_media_link?.linkedin
+            // var facebook_link_data = value?.social_media_link?.facebook
+            // var twitter_link_data = value?.social_media_link?.twitter
+            // var instagram_link_data = value?.social_media_link?.instagram
 
             const social_data = [
               identifier = value?._id.toString(),
               user_idfr = insertdata?.insertId,
-              linkedin_link = linkedin_link_data,
-              facebook_link = facebook_link_data,
-              twitter_link = twitter_link_data,
-              instagram_link = instagram_link_data,
+              linkedin_link = value?.social_media_link?.linkedin,
+              facebook_link = value?.social_media_link?.facebook,
+              twitter_link = value?.social_media_link?.twitter,
+              instagram_link = value?.social_media_link?.instagram,
             ];
 
             await performQuery(
