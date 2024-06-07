@@ -59,7 +59,6 @@ const {
   experinceList,
   linkedinpersonalInfo,
   getsubInteresttesting,
-  createTable,
   healthCheck,
   mysqlscript
 } = require("../../../api/controller/app/v1/C_user");
@@ -444,7 +443,6 @@ router.post(
   getsubInteresttesting
 );
 
-router.post("/create_table", multipartMiddleware, createTable);
 router.post("/mysql_script", multipartMiddleware, mysqlscript);
 
 module.exports = router;

@@ -1000,7 +1000,8 @@ const signIn = async (req, res) => {
           device_info = session.device_type,
         ];
 
-        const insertdata = await performQuery(
+        // const insertdata 
+        await performQuery(
           "INSERT INTO user_session(identifier, user_idfr, login_timestamp ,session_token,device_info) values(?,?,?,?,?)",
           data
         );
@@ -1292,7 +1293,8 @@ const logout = async (req, res) => {
 
       console.log("values", values)
 
-      const results = await performQuery(sql, values);
+      // const results 
+      await performQuery(sql, values);
 
       if (update_user) {
         return successRes(res, "Your account is logout successfully", []);
@@ -2038,17 +2040,23 @@ const editProfile = async (req, res) => {
             var twitter_link_data = social_media_link?.twitter
             var instagram_link_data = social_media_link?.instagram
 
-            const data = [
-              linkedin_link = linkedin_link_data,
-              facebook_link = facebook_link_data,
-              twitter_link = twitter_link_data,
-              instagram_link = instagram_link_data,
-              find_data[0].id
-            ];
+            // const data = [
+            //   linkedin_link = linkedin_link_data,
+            //   facebook_link = facebook_link_data,
+            //   twitter_link = twitter_link_data,
+            //   instagram_link = instagram_link_data,
+            //   find_data[0].id
+            // ];
 
             await performQuery(
               "UPDATE user_social SET linkedin_link = ?, facebook_link = ?, twitter_link = ?, instagram_link = ? WHERE id = ?",
-              data
+              [
+                linkedin_link = linkedin_link_data,
+                facebook_link = facebook_link_data,
+                twitter_link = twitter_link_data,
+                instagram_link = instagram_link_data,
+                find_data[0].id
+              ]
             );
           }
         }
@@ -2062,7 +2070,8 @@ const editProfile = async (req, res) => {
 
         var check_type = skills_update.length
         if (check_type == undefined) {
-          const result = await users.updateOne(
+          // const result =
+          await users.updateOne(
             { _id: user_id, "skills_details._id": new ObjectId(skills_update._id) },
             { $set: { "skills_details.$.skill_name": skills_update.skill_name } }
           );
@@ -2138,7 +2147,7 @@ const editProfile = async (req, res) => {
                     level = 5,
                   ];
 
-                  const insertdata = await performQuery(
+                  await performQuery(
                     "INSERT INTO user_skill(identifier, user_idfr, skill ,level ) values(?,?,?,?)",
                     datas
                   );
@@ -2152,11 +2161,13 @@ const editProfile = async (req, res) => {
       }
 
       if (skills_delete_id) {
-        var remove_image = await users.updateOne(
+        // var remove_image 
+        await users.updateOne(
           { _id: user_id },
           { $pull: { skills_details: { _id: skills_delete_id } } }
         );
-        const updatedata = await performQuery(
+        // const updatedata 
+        await performQuery(
           "DELETE FROM user_skill WHERE identifier = ?",
           [skills_delete_id]
         );
@@ -2236,7 +2247,8 @@ const editProfile = async (req, res) => {
             zipcode,
             identifier = updated_data._id.toString(),
           ];
-          const updatedata = await performQuery(
+          // const updatedata 
+          await performQuery(
             "UPDATE user_address SET zipcode = ? WHERE identifier = ?",
             data
           );
@@ -4014,7 +4026,7 @@ const searchPost = async (req, res) => {
 
     const following_user_Ids = following_data.map((data) => data.following_id);
 
-    const skip = (page - 1) * limits;
+    // const skip = (page - 1) * limits;
     var find_post = await post.aggregate([
       {
         $lookup: {
@@ -4818,11 +4830,11 @@ const testsignup = async (req, res) => {
     const createdUsers = [];
     for (let i = 0; i < count; i++) {
       const randomName = chance.name();
-      const randomEmail = chance.email();
+      // const randomEmail = chance.email();
       const fullNameData = randomName;
       const spaceIndex = fullNameData.indexOf(" ");
       const firstName = fullNameData.substring(0, spaceIndex);
-      const lastName = fullNameData.substring(spaceIndex + 1);
+      // const lastName = fullNameData.substring(spaceIndex + 1);
       const randomEmailAddress = `${firstName}@gmail.com`;
 
       const existingEmail = await users.findOne({
@@ -4958,7 +4970,8 @@ const title_descriptions = async (req, res) => {
       const post_id = posts_ids[i];
       const title = universalTruthsEnglish100Title[i];
       const description = universalTruthsEnglish100Description[i];
-      const find_post = await post.findByIdAndUpdate(
+      // const find_post = 
+      await post.findByIdAndUpdate(
         {
           _id: post_id,
           is_fake_post_updated: false,
@@ -5369,7 +5382,7 @@ const editEduaction = async (req, res) => {
         update_user._id.toString(),
       ];
 
-      const updatedata = await performQuery(
+      await performQuery(
         "UPDATE user_education SET degree_obtained = ?, field_of_study = ?, institution_attended = ?, start_date = ?, end_date = ?, description = ? , activities_societies = ? , grade =?  WHERE identifier = ?",
         data
       );
@@ -6220,7 +6233,8 @@ const deleteExperince = async (req, res) => {
         }
 
 
-        const deleteData = await performQuery(
+        // const deleteData 
+        await performQuery(
           "DELETE FROM user_experience_media WHERE identifier = ?",
           [value.toString()]
         );
@@ -6712,48 +6726,6 @@ const getsubInteresttesting = async (req, res) => {
   }
 };
 
-const createTable = async (req, res) => {
-  try {
-    const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS users (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      identifier CHAR(36) NOT NULL,
-      first_name VARCHAR(255) NOT NULL,
-      profile_picture TEXT,
-      profile_url TEXT,
-      user_id VARCHAR(255) NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-      UNIQUE (identifier)
-    )
-  `;
-    return;
-    // const alterTableQuery = `
-    // ALTER TABLE users
-    //   MODIFY COLUMN profile_picture TEXT,
-    //   MODIFY COLUMN profile_url TEXT
-    // `;
-
-    // const dropColumnQuery = `
-    // ALTER TABLE users
-    //   DROP COLUMN profile_picture
-    // `;
-
-    // Execute the SQL query to create the table
-    // database_connection.query(createTableQuery, (err, result) => {
-    //   if (err) {
-
-    //     return errorRes(res, "something went wrong",err);
-    //   } else {
-    //     return successRes(res, `Table created successfully`);
-    //   }
-    // });
-  } catch (error) {
-    console.log("Error : ", error);
-    return errorRes(res, "Internal server error");
-  }
-};
-
 const healthCheck = async (req, res) => {
   return successRes(res, "App APIs is running fine..");
 };
@@ -7079,7 +7051,6 @@ module.exports = {
   experinceList,
   linkedinpersonalInfo,
   getsubInteresttesting,
-  createTable,
   healthCheck,
   mysqlscript
 };
