@@ -69,7 +69,6 @@ const {
   sendotpdto,
   verifyOtpDto,
   resetPasswordDto,
-  checkmailDto,
   changePasswordDto,
   deactiveAccountDto,
   changeFollowernameDto,
@@ -147,7 +146,6 @@ router.post(
 router.post(
   "/check_mail",
   multipartMiddleware,
-  // validateRequest(checkmailDto),
   checkEmail
 );
 

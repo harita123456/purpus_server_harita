@@ -3,7 +3,7 @@ const multipart = require("connect-multiparty");
 const multipartMiddleware = multipart();
 const userAuth = require("../../../middlewares/auth");
 const validateRequest = require("../../../middlewares/validation");
-const { getAllPostsDto, getAllPostsBySubInterestDtoo } = require("../../../dto/app/v1/home_dto");
+const { getAllPostsDto } = require("../../../dto/app/v1/home_dto");
 
 const {
   getAllPosts,
