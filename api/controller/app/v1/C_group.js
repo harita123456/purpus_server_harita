@@ -532,7 +532,7 @@ const groupList = async (req, res) => {
   try {
     var user_id = req.user._id;
 
-    var { other_user_id, group_type, page = 1, limit = 80 } = req.body;
+    var { other_user_id, group_type, page = 1 } = req.body;
     console.log("user_id", user_id)
     console.log("other_user_id", req.body)
 
@@ -658,8 +658,6 @@ const groupList = async (req, res) => {
         };
       }
     }
-
-    const totalDocuments = await group.countDocuments(whereCond);
 
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -1752,12 +1750,6 @@ const membersList = async (req, res) => {
     });
 
     console.log("existingMemberInvite", existingMemberInvite)
-
-    const existingMemberRequest = await notifications.find({
-      group_id: group_id,
-      noti_for: "group_join_request",
-      is_deleted: false,
-    });
 
     const userBlockedByOthers = await block_user.find({
       user_id: user_id,
