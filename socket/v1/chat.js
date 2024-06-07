@@ -967,6 +967,8 @@ module.exports = {
     try {
       const user = await users.findOne({ socket_id: data });
 
+      const new_date = new Date();
+
       console.log("user--------------", user);
 
       if (user) {
@@ -976,7 +978,7 @@ module.exports = {
             $set: {
               is_online: false,
               socket_id: null,
-              user_last_active_date: await new Date(),
+              user_last_active_date: new_date,
             },
           },
           { new: true }
