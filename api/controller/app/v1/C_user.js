@@ -596,8 +596,8 @@ const signup = async (req, res) => {
 
     const nameParts = create_user.full_name.split(' ');
     var firstName = nameParts[0];
-    var middleName = nameParts[0];
-    var lastName = nameParts[0];
+    // var middleName = nameParts[0];
+    // var lastName = nameParts[0];
     // profile_picture = create_user?.profile_picture ? create_user?.profile_picture : create_user?.profile_url,
     const data = [
       identifier = create_user._id.toString(),
@@ -624,7 +624,8 @@ const signup = async (req, res) => {
     interested?.map(async (value) => {
       find_subinterste.map(async (data) => {
         if (value.toString() == data?._id.toString()) {
-          var create_data = await user_interactions.create({
+          // var create_data =
+          await user_interactions.create({
             user_id: create_user?._id,
             sub_interest_id: value,
             interest_id: data.interest_id,
@@ -928,8 +929,8 @@ const signIn = async (req, res) => {
 
     const nameParts = user_data.full_name.split(' ');
     var firstName = nameParts[0];
-    var middleName = nameParts[1];
-    var lastName = nameParts[2];
+    // var middleName = nameParts[1];
+    // var lastName = nameParts[2];
 
     const sql =
       "UPDATE user SET first_name = ?, profile_picture = ?  WHERE identifier  = ?";
@@ -1653,7 +1654,8 @@ const selfDelete = async (req, res) => {
           new: true,
         }
       );
-      var delete_notification = await notifications.updateMany(
+      // var delete_notification =
+      await notifications.updateMany(
         {
           $or: [{ sender_id: user_id }, { receiver_id: user_id }],
           is_deleted: false,
@@ -1686,7 +1688,8 @@ const selfDelete = async (req, res) => {
       var find_post = await post.find({ user_id: user_id, is_deleted: false });
 
       find_post.map(async (data) => {
-        var delete_repost = await post.updateMany(
+        // var delete_repost =
+        await post.updateMany(
           { repost_id: data?._id, is_deleted: false },
           { $set: { is_deleted: true } },
           {
@@ -2191,8 +2194,8 @@ const editProfile = async (req, res) => {
       const nameParts = updated_data.full_name.split(" ");
       // let firstName, middleName, lastName;
       var firstname = nameParts[0];
-      var middlename = nameParts[0];
-      var lastname = nameParts[0];
+      // var middlename = nameParts[0];
+      // var lastname = nameParts[0];
       const sql =
         "UPDATE user SET first_name = ?, profile_picture = ? , gender = ? ,disability=? ,relation_status=? ,dob =? WHERE identifier = ?";
 
@@ -2612,7 +2615,8 @@ const getUserdetails = async (req, res) => {
         is_local: false,
       });
 
-      var find_post = await post.find().where({
+      // var find_post =
+      await post.find().where({
         user_id: user_id,
         is_repost: false,
         is_deleted: false,
@@ -3359,7 +3363,8 @@ const notificationList = async (req, res) => {
       })
     );
 
-    let totalCount = await notifications
+    // let totalCount = 
+    await notifications
       .find({
         receiver_id: user_id,
       })
@@ -5432,7 +5437,8 @@ const deleteEduaction = async (req, res) => {
     }
 
     var educationIdToRemove = new ObjectId(education_id);
-    var remove_eduaction = await users.updateOne(
+    // var remove_eduaction 
+    await users.updateOne(
       { _id: user_id },
       { $pull: { education: educationIdToRemove } }
     );
@@ -5875,7 +5881,8 @@ const editExperince = async (req, res) => {
               }
             }
           }
-          var remove_image = await experienceSchema.updateOne(
+          // var remove_image =
+          await experienceSchema.updateOne(
             { _id: experince_id },
             { $pull: { media: { _id: value1 } } }
           );
@@ -5987,7 +5994,8 @@ const editExperince = async (req, res) => {
             });
           });
 
-          var updated_image = await experienceSchema.findByIdAndUpdate(
+          // var updated_image = a
+          await experienceSchema.findByIdAndUpdate(
             { _id: experince_id },
             { $push: { media: file_data } },
             { new: true }
@@ -6016,7 +6024,8 @@ const editExperince = async (req, res) => {
             });
           });
 
-          var updated_image = await experienceSchema.findByIdAndUpdate(
+          // var updated_image = 
+          await experienceSchema.findByIdAndUpdate(
             { _id: experince_id },
             { $push: { media: file_data } },
             { new: true }
@@ -6034,7 +6043,8 @@ const editExperince = async (req, res) => {
               file_type: "url",
               file_name: value,
             };
-            var updated_image = await experienceSchema.findByIdAndUpdate(
+            // var updated_image =
+            await experienceSchema.findByIdAndUpdate(
               { _id: experince_id },
               { $push: { media: file_data } },
               { new: true }
@@ -6207,7 +6217,8 @@ const deleteExperince = async (req, res) => {
     }
 
     var experinceIdToRemove = new ObjectId(experince_id);
-    var remove_experince = await users.updateOne(
+    // var remove_experince = 
+    await users.updateOne(
       { _id: user_id },
       { $pull: { experience: experinceIdToRemove } }
     );
@@ -6478,7 +6489,8 @@ const deleteCustomfield = async (req, res) => {
     }
 
     var customfieldIdToRemove = new ObjectId(customfield_id);
-    var remove_customfield = await users.updateOne(
+    // var remove_customfield =
+    await users.updateOne(
       { _id: user_id },
       { $pull: { custom_field: customfieldIdToRemove } }
     );
@@ -6733,13 +6745,13 @@ const healthCheck = async (req, res) => {
 const mysqlscript = async (req, res) => {
   try {
 
-    // var find_user = await users.find({ is_deleted: false, is_block: false })
-    var find_user_data = await users.findOne({
-      is_deleted: false, is_block: false, _id: new ObjectId("665576ab5c9c61bfac79ba07")
-    })
+    var find_user = await users.find({ is_deleted: false, is_block: false })
+    // var find_user_data = await users.findOne({
+    //   is_deleted: false, is_block: false, _id: new ObjectId("665576ab5c9c61bfac79ba07")
+    // })
 
-    var find_user = []
-    find_user.push(find_user_data)
+    // var find_user = []
+    // find_user.push(find_user_data)
 
 
 
