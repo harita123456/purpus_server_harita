@@ -605,7 +605,11 @@ const signup = async (req, res) => {
     const data = [
       identifier = create_user._id.toString(),
       first_name = firstName,
-      profile_picture = user_data?.profile_picture ?? user_data?.profile_url ?? null,
+      profile_picture = (user_data?.profile_picture != null && user_data.profile_picture !== '')
+        ? user_data.profile_picture
+        : (user_data?.profile_url != null && user_data.profile_url !== '')
+          ? user_data.profile_url
+          : null,
       dob = create_user.dob,
       user_id = create_user.unique_name,
     ];
@@ -940,7 +944,11 @@ const signIn = async (req, res) => {
 
     const values = [
       first_name = firstName,
-      profile_picture = user_data?.profile_picture ?? user_data?.profile_url ?? null,
+      profile_picture = (user_data?.profile_picture != null && user_data.profile_picture !== '')
+        ? user_data.profile_picture
+        : (user_data?.profile_url != null && user_data.profile_url !== '')
+          ? user_data.profile_url
+          : null,
       identifier = user_data?._id.toString(),
     ];
     const results = await performQuery(sql, values);
