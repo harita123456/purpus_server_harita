@@ -1305,7 +1305,7 @@ const getAllSavedPosts = async (req, res) => {
             post_id: data.repost_id._id,
           });
 
-          var store_option_id = repostIsPolled?.option_id;
+          var store_option_id_update = repostIsPolled?.option_id;
           const is_repost_you_status = await post?.findOne({
             user_id: user_id,
             repost_id: data?.repost_id?._id,
@@ -1328,7 +1328,7 @@ const getAllSavedPosts = async (req, res) => {
             is_like: !!repostIsLiked,
             is_save: !!repostIsSaved,
             is_poll_response: !!repostIsPolled,
-            store_option_id: store_option_id,
+            store_option_id: store_option_id_update,
             is_repost_you: !!is_repost_you_status,
             is_view_impression: !!is_view_impression,
             is_view_Post: !!is_view_Post,
@@ -1524,7 +1524,7 @@ const getAllLikedPosts = async (req, res) => {
             post_id: data.repost_id._id,
           });
 
-          var store_option_id = repostIsPolled?.option_id;
+          var store_option_id_update = repostIsPolled?.option_id;
           const is_repost_you_status = await post?.findOne({
             user_id: user_id,
             repost_id: data?.repost_id?._id,
@@ -1547,7 +1547,7 @@ const getAllLikedPosts = async (req, res) => {
             is_like: !!repostIsLiked,
             is_save: !!repostIsSaved,
             is_poll_response: !!repostIsPolled,
-            store_option_id: store_option_id,
+            store_option_id: store_option_id_update,
             is_repost_you: !!is_repost_you_status,
             is_view_impression: !!is_view_impression,
             is_view_Post: !!is_view_Post,
@@ -1907,12 +1907,12 @@ const addComment = async (req, res) => {
     }
 
     if (reply_comment_id) {
-      var find_post = await comment_post.findOne().where({
+      var find_post_reply_comment = await comment_post.findOne().where({
         _id: reply_comment_id,
         is_deleted: false,
       });
 
-      if (!find_post) {
+      if (!find_post_reply_comment) {
         return errorRes(res, "This reply_comment_id does not exist");
       }
     }
@@ -2623,12 +2623,12 @@ const editComment = async (req, res) => {
     }
 
     if (reply_comment_id) {
-      var find_post = await comment_post.findOne().where({
+      var find_post_reply_comment_id = await comment_post.findOne().where({
         _id: reply_comment_id,
         is_deleted: false,
       });
 
-      if (!find_post) {
+      if (!find_post_reply_comment_id) {
         return errorRes(res, "This reply_comment_id does not exist");
       }
     }
