@@ -5,7 +5,6 @@ const {
 } = require("../../../../utils/common_fun");
 const path = require("path");
 const mongoose = require("mongoose");
-const outputPath = path.join(__dirname, "../../../../");
 const post = require("../../../../models/M_post");
 const users = require("../../../../models/M_user");
 const interest = require("../../../../models/M_interest");
@@ -2593,32 +2592,6 @@ const getAllPosts = async (req, res) => {
       })
       .sort({ createdAt: "desc" });
 
-    const newUserTrendingData = await post
-      .find({
-        sub_interest_id: { $in: userOwnSubInterests },
-        is_deleted: false,
-        is_local: false,
-        is_repost: false,
-        user_id: { $nin: blockedUserIds },
-        user_id: { $nin: userWithPrivateAccountIds },
-        impression_count: { $gte: 300 },
-      })
-      .populate({
-        path: "user_id",
-        select:
-          "unique_name full_name post_type profile_url profile_picture full_name is_private_account is_verified",
-      })
-      .populate("interest_id sub_interest_id")
-      .populate({
-        path: "repost_id",
-        populate: {
-          path: "user_id",
-          select:
-            "unique_name full_name post_type profile_url profile_picture full_name is_private_account is_verified",
-        },
-      })
-      .sort({ impression_count: -1 });
-
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -2755,7 +2728,6 @@ const getAllPosts = async (req, res) => {
     // ]);
 
     const sortedSubinterestCountResult = subinterestCountResult.sort((a, b) => b.count - a.count);
-    const sortedinterestCountResult = interestCountResult.sort((a, b) => b.count - a.count);
 
     const totalCount = subinterestCountResult.reduce((acc, item) => acc + item.count, 0);
     const percentageData = subinterestCountResult.map(item => ({
@@ -3163,8 +3135,6 @@ const getAllPosts = async (req, res) => {
       }
       var newestPostAlgorithm_300 = shuffleArray([...newestPostAlgorithm_300_data]);
     }
-
-    const combinedPosts = [...usersOwnPostsNotInView, ...newestPostAlgorithm_300];
 
     const resultPosts = [];
 
@@ -4061,34 +4031,7 @@ const getAllPosts = async (req, res) => {
         })
         .sort({ createdAt: "desc" });
 
-      const newUserTrendingData = await post
-        .find({
-          sub_interest_id: { $in: userOwnSubInterests },
-          is_deleted: false,
-          is_local: false,
-          is_repost: false,
-          user_id: { $nin: blockedUserIds },
-          user_id: { $nin: userWithPrivateAccountIds },
-          impression_count: { $gte: 300 },
-        })
-        .populate({
-          path: "user_id",
-          select:
-            "unique_name full_name post_type profile_url profile_picture full_name is_private_account is_verified",
-        })
-        .populate("interest_id sub_interest_id")
-        .populate({
-          path: "repost_id",
-          populate: {
-            path: "user_id",
-            select:
-              "unique_name full_name post_type profile_url profile_picture full_name is_private_account is_verified",
-          },
-        })
-        .sort({ impression_count: -1 });
-
       const sortedSubinterestCountResult = subinterestCountResult.sort((a, b) => b.count - a.count);
-      const sortedinterestCountResult = interestCountResult.sort((a, b) => b.count - a.count);
 
       const totalCount = subinterestCountResult.reduce((acc, item) => acc + item.count, 0);
       const percentageData = subinterestCountResult.map(item => ({
@@ -4492,12 +4435,7 @@ const getAllPosts = async (req, res) => {
             return array;
           }
           var newestPostAlgorithm_300 = shuffleArray([...newestPostAlgorithm_300_data]);
-
-
         }
-
-
-        const combinedPosts = [...usersOwnPostsNotInView, ...newestPostAlgorithm_300];
 
         const resultPosts = [];
 

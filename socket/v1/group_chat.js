@@ -573,7 +573,7 @@ module.exports = {
     ) {
       const filter = { group_id: group_room_id, is_read_by: { $ne: user_id } };
       const update = { $push: { is_read_by: user_id } }
-      const result = await group_chat.updateMany(filter, update);
+      await group_chat.updateMany(filter, update);
     }
 
     let result = { is_read: true };

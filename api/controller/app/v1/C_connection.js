@@ -32,10 +32,6 @@ const connectionList = async (req, res) => {
       return errorRes(res, "This user does not exist");
     }
     var find_data;
-    const following_count = await follower_following.countDocuments({
-      user_id: user_id,
-      is_deleted: false,
-    });
 
     const follower_count_data = await follower_following.find({
       following_id: user_id,
@@ -278,7 +274,6 @@ const connectionSuggestion = async (req, res) => {
       return errorRes(res, "Couldn't found user!");
     }
 
-    const userInterests = find_user.interested || [];
     var following_data_array = [];
 
     const following_data = await follower_following.find({
@@ -391,12 +386,6 @@ const connectionSuggestion = async (req, res) => {
       },
     ]);
 
-    const follow_request_data = await follower_following.find({
-      user_id: user_id,
-      is_deleted: false,
-      is_request: false,
-    });
-
     matchingUsers.forEach((group) => {
       group.users = group.users.sort(() => Math.random() - 0.5);
       group.users = group.users.slice(0, 4);
@@ -422,8 +411,6 @@ const connectionSuggestion = async (req, res) => {
         })
       );
     }
-
-    const interestIds = matchingUsers.map(({ interest_id }) => interest_id);
 
     const interestNames = await subinterest.find({
       _id: { $in: top4SubInterestIds },
@@ -578,8 +565,6 @@ const allInterestuser = async (req, res) => {
         .limit(limit * 1)
         .skip((page - 1) * limit);
 
-      const shuffledUsers = interestedUsers.sort(() => Math.random() - 0.6);
-
       const interestedUsersCount = await users.countDocuments({
         _id: {
           $nin: [
@@ -698,8 +683,6 @@ const allInterestuser = async (req, res) => {
         })
         .limit(limit * 1)
         .skip((page - 1) * limit);
-
-      const shuffledUsers = interestedUsers.sort(() => Math.random() - 0.6);
 
       const interestedUsersCount = await users.countDocuments({
         _id: {

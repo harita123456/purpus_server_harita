@@ -4,9 +4,6 @@ const {
   multiSuccessRes,
 } = require("../../../../utils/common_fun");
 const path = require("path");
-
-const outputPath = path.join(__dirname, "../../../../");
-
 const users = require("../../../../models/M_user");
 const pollvotes = require("../../../../models/M_poll_votes");
 const save_post = require("../../../../models/M_save_post");
@@ -284,7 +281,6 @@ const getAllLocalpost = async (req, res) => {
 
     } = req.body;
 
-    const timeFrameInHours = 24;
     if (miles_distance > 100) {
       return errorRes(res, "You can go only 100 miles");
     }
@@ -1191,7 +1187,6 @@ const getAllLocalpost = async (req, res) => {
       }
     }
 
-    const userCoordinates = find_user.location.coordinates;
     var find_local_post = await post
       .find()
       .where(where_condition)

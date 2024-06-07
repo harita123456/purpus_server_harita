@@ -663,8 +663,6 @@ const groupList = async (req, res) => {
 
     const totalPages = Math.ceil(totalDocuments / limit);
 
-    const randomPage = Math.floor(Math.random() * totalPages) + 1;
-
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -1746,8 +1744,6 @@ const membersList = async (req, res) => {
 
     console.log("existingMember", existingMember)
 
-    const existingMemberIds = existingMember.map((have) => have.user_id);
-
     // console.log("existingMemberIds", existingMemberIds)
 
 
@@ -1792,8 +1788,6 @@ const membersList = async (req, res) => {
       ...userBlockedByOthersIds,
       ...usersBlockingCurrentUserIds,
     ];
-
-    const notificationUserIds = [...existingMemberIds1, ...existingMemberIds2];
 
     if (user_id) {
       let find_following_data = await users

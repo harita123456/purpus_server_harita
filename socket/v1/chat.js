@@ -1371,7 +1371,6 @@ module.exports = {
       sub_interest_id,
       message,
     } = data;
-    const currentDateTime = await dateTime();
 
     var find_user = await post
       .findById(post_id)

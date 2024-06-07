@@ -263,7 +263,6 @@ module.exports = function (io) {
       socket
         .to(newMessage?.receiver_socket_id)
         .emit("chatUserList", receiverChatUserData);
-      const receiverSocketId = newMessage.receiver_socket_id;
       socket
         .to(newMessage?.receiver_socket_id)
         .emit("requesteList", receiverrequestUserData);
@@ -508,7 +507,6 @@ module.exports = function (io) {
       socket
         .to(newMessage?.receiver_socket_id)
         .emit("chatUserList", receiverChatUserData);
-      const receiverSocketId = newMessage.receiver_socket_id;
       socket
         .to(newMessage?.receiver_socket_id)
         .emit("requesteList", receiverrequestUserData);

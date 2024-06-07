@@ -47,7 +47,7 @@ const appVersionCheck = async (req, res) => {
       login_time
     } = req.body;
 
-    const updatedUser = await users.findByIdAndUpdate(
+    await users.findByIdAndUpdate(
       user_id,
       {
         $set: {
