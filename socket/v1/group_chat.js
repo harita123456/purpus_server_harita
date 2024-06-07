@@ -1,19 +1,15 @@
 const group_chat = require("../../models/M_group_chat");
 const users = require("../../models/M_user");
 const user_session = require("../../models/M_user_session");
-const notifications = require("../../models/M_notification");
 const group = require("../../models/M_group");
 const group_members = require("../../models/M_group_members");
 const poll_vote = require("../../models/M_group_poll_votes");
 
 const {
-  notificationSend,
   notiSendMultipleDevice,
 } = require("../../utils/notification_send");
 
 const { dateTime } = require("../../utils/date_time");
-
-const mongoose = require("mongoose");
 
 module.exports = {
   chatGroupList: async (data) => {

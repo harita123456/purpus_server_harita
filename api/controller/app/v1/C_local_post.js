@@ -3,22 +3,14 @@ const {
   errorRes,
   multiSuccessRes,
 } = require("../../../../utils/common_fun");
-const fs = require("fs");
 const path = require("path");
-const { unlink } = require("fs");
 
-const util = require("util");
 const outputPath = path.join(__dirname, "../../../../");
-const { dateTime } = require("../../../../utils/date_time");
 
 const users = require("../../../../models/M_user");
-const interest = require("../../../../models/M_interest");
-const subinterest = require("../../../../models/M_sub_interest");
 const pollvotes = require("../../../../models/M_poll_votes");
-const postReport = require("../../../../models/M_post_report");
 const save_post = require("../../../../models/M_save_post");
 const like_post = require("../../../../models/M_like_post");
-const like_comment = require("../../../../models/M_like_comment");
 const block_user = require("../../../../models/M_block_user");
 const post = require("../../../../models/M_post");
 const follower_following = require("../../../../models/M_follower_following");

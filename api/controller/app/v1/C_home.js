@@ -3,17 +3,12 @@ const {
   errorRes,
   multiSuccessRes,
 } = require("../../../../utils/common_fun");
-const fs = require("fs");
 const path = require("path");
-const { unlink } = require("fs");
 const mongoose = require("mongoose");
-const util = require("util");
 const outputPath = path.join(__dirname, "../../../../");
-const { dateTime } = require("../../../../utils/date_time");
 const post = require("../../../../models/M_post");
 const users = require("../../../../models/M_user");
 const interest = require("../../../../models/M_interest");
-const subinterest = require("../../../../models/M_sub_interest");
 const pollvotes = require("../../../../models/M_poll_votes");
 const save_post = require("../../../../models/M_save_post");
 const block_user = require("../../../../models/M_block_user");

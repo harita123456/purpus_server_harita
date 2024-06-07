@@ -20,7 +20,6 @@ const {
 const users = require("../../models/M_user");
 const chat_room = require("../../models/M_chat_room");
 const group_members = require("../../models/M_group_members");
-const group = require("../../models/M_group");
 
 const {
   chatGroupList,

@@ -5,17 +5,9 @@ const {
   errorRes,
   multiSuccessRes,
 } = require("../../../../utils/common_fun");
-const fs = require("fs");
-const path = require("path");
-const { unlink } = require("fs");
-const { dateTime } = require("../../../../utils/date_time");
 const ObjectId = require("mongodb").ObjectId;
 const mongoose = require("mongoose");
 
-const {
-  notificationSend,
-  notiSendMultipleDevice,
-} = require("../../../../utils/notification_send");
 const users = require("../../../../models/M_user");
 const subinterest = require("../../../../models/M_sub_interest");
 const group_members = require("../../../../models/M_group_members");

@@ -6,13 +6,9 @@ const {
   multiSuccessRes,
 } = require("../../../../utils/common_fun");
 
-const fs = require("fs");
-const path = require("path");
-const { unlink } = require("fs");
 const { dateTime } = require("../../../../utils/date_time");
 const ObjectId = require("mongodb").ObjectId;
 const {
-  notificationSend,
   notiSendMultipleDevice,
 } = require("../../../../utils/notification_send");
 

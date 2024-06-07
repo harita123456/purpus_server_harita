@@ -23,7 +23,6 @@ const { dateTime } = require("../../../../utils/date_time");
 const outputPath = path.join(__dirname, "../../../../");
 
 const {
-  notificationSend,
   notiSendMultipleDevice,
 } = require("../../../../utils/notification_send");
 

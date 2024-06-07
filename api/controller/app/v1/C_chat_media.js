@@ -1,4 +1,3 @@
-const { dateTime } = require("./../../../../utils/date_time");
 const util = require("util");
 const fs = require("fs");
 const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
@@ -10,7 +9,6 @@ ffmpeg.setFfprobePath(ffprobePath);
 const {
   successRes,
   errorRes,
-  multiSuccessRes,
 } = require("../../../../utils/common_fun");
 
 const uploadeMedia = async (req, res) => {
