@@ -1513,33 +1513,39 @@ const selfDelete = async (req, res) => {
     if (find_user.length == 0) {
       console.log("User not found")
     } else {
-      const delete_user_skill = await performQuery(
+      //  delete_user_skill 
+      await performQuery(
         "DELETE FROM user_skill  WHERE user_idfr = ?",
         [find_user[0].id]
       );
 
-      const delete_user_custom_field = await performQuery(
+      //  delete_user_custom_field 
+      await performQuery(
         "DELETE FROM user_custom_field WHERE user_idfr = ?",
         [find_user[0].id]
       );
 
-      const delete_user_education = await performQuery(
+      //  delete_user_education 
+      await performQuery(
         "DELETE FROM user_education WHERE user_idfr = ?",
         [find_user[0].id]
       );
 
 
-      const delete_user_experience = await performQuery(
+      //  delete_user_experience 
+      await performQuery(
         "DELETE FROM user_experience WHERE user_idfr = ?",
         [find_user[0].id]
       );
 
-      const delete_user_social = await performQuery(
+      //  delete_user_social
+      await performQuery(
         "DELETE FROM user_social WHERE user_idfr = ?",
         [find_user[0].id]
       );
 
-      const delete_user_address = await performQuery(
+      //  delete_user_address 
+      await performQuery(
         "DELETE FROM user_address WHERE user_idfr = ?",
         [find_user[0].id]
       );
@@ -1565,7 +1571,8 @@ const selfDelete = async (req, res) => {
       });
 
       find_groups?.map(async (data) => {
-        var find_groups = await group.findOneAndUpdate(
+        // var find_groups = 
+        await group.findOneAndUpdate(
           {
             _id: data?._id,
             is_deleted: false,
@@ -1579,7 +1586,8 @@ const selfDelete = async (req, res) => {
             new: true,
           }
         );
-        var delete_member = await group_members.updateMany(
+        // delete_member 
+        await group_members.updateMany(
           {
             group_id: data?._id,
             is_deleted: false,
@@ -1594,13 +1602,15 @@ const selfDelete = async (req, res) => {
           }
         );
 
-        var delete_notifiaction = await notifications.updateMany(
+        //  delete_notifiaction
+        await notifications.updateMany(
           { group_id: data?._id },
           { $set: { is_deleted: true } }
         );
       });
 
-      var delete_member = await group_members.updateMany(
+      // delete_member 
+      await group_members.updateMany(
         {
           user_id: user_id,
           is_deleted: false,
@@ -1615,7 +1625,8 @@ const selfDelete = async (req, res) => {
         }
       );
 
-      var delete_report = await reportSchema.updateMany(
+      // delete_report 
+      await reportSchema.updateMany(
         { user_id: user_id, is_deleted: false },
         { $set: { is_deleted: true } },
         {
@@ -1623,7 +1634,8 @@ const selfDelete = async (req, res) => {
         }
       );
 
-      var delete_post_report = await post_report.updateMany(
+      // var delete_post_report
+      await post_report.updateMany(
         { user_id: user_id, is_deleted: false },
         { $set: { is_deleted: true } },
         {
@@ -1631,7 +1643,8 @@ const selfDelete = async (req, res) => {
         }
       );
 
-      var delete_support = await supportSchema.updateMany(
+      // var delete_support
+      await supportSchema.updateMany(
         { user_id: user_id, is_deleted: false },
         { $set: { is_deleted: true } },
         {
@@ -1660,7 +1673,8 @@ const selfDelete = async (req, res) => {
         { new: true }
       );
 
-      var update_vrified_status = await accountVerification.findOneAndUpdate(
+      // update_vrified_status
+      await accountVerification.findOneAndUpdate(
         { user_id: user_id, verified_status: "pending" },
         { $set: { is_deleted: true } },
         {
@@ -1677,14 +1691,16 @@ const selfDelete = async (req, res) => {
             new: true,
           }
         );
-        var delete_savepost = await save_post.updateMany(
+        // delete_savepost 
+        await save_post.updateMany(
           { post_id: data?._id, is_deleted: false },
           { $set: { is_deleted: true } },
           {
             new: true,
           }
         );
-        var delete_likepost = await like_post.updateMany(
+        //  delete_likepost 
+        await like_post.updateMany(
           { post_id: data?._id, is_deleted: false },
           { $set: { is_deleted: true } },
           {
@@ -1693,7 +1709,8 @@ const selfDelete = async (req, res) => {
         );
       });
 
-      var delete_post = await post.updateMany(
+      //  delete_post 
+      await post.updateMany(
         { user_id: user_id, is_deleted: false },
         { $set: { is_deleted: true } },
         {
@@ -1701,7 +1718,8 @@ const selfDelete = async (req, res) => {
         }
       );
 
-      var delete_follow_following = await follower_following.updateMany(
+      //  delete_follow_following 
+      await follower_following.updateMany(
         {
           $or: [{ user_id: user_id }, { following_id: user_id }],
         },
@@ -1715,7 +1733,8 @@ const selfDelete = async (req, res) => {
         }
       );
 
-      var delete_chat_rooms = await chat_room.updateMany(
+      //  delete_chat_rooms 
+      await chat_room.updateMany(
         {
           $or: [{ user_id: user_id }, { other_user_id: user_id }],
         },
@@ -1738,11 +1757,13 @@ const selfDelete = async (req, res) => {
       if (find_eduaction) {
         find_eduaction.map(async (value) => {
 
-          var remove_eduaction = await users.updateOne(
+          // var remove_eduaction 
+          await users.updateOne(
             { _id: user_id },
             { $pull: { education: new ObjectId(value._id) } }
           );
-          var delete_eduaction = await eduaction.findByIdAndDelete({
+          // var delete_eduaction
+          await eduaction.findByIdAndDelete({
             _id: new ObjectId(value._id),
           });
         })
@@ -1762,11 +1783,13 @@ const selfDelete = async (req, res) => {
             _id: value._id,
           });
 
-          var delete_remove_experince = await experienceSchema.findByIdAndDelete({
+          //  delete_remove_experince
+          await experienceSchema.findByIdAndDelete({
             _id: value._id,
           });
 
-          var remove_experince = await users.updateOne(
+          //  remove_experince
+          await users.updateOne(
             { _id: user_id },
             { $pull: { experience: value?._id } }
           );
@@ -1800,10 +1823,12 @@ const selfDelete = async (req, res) => {
 
       if (find_customfield) {
         find_customfield.map(async (value) => {
-          var delete_customfield = await custom_field.findByIdAndDelete({
+          // delete_customfield 
+          await custom_field.findByIdAndDelete({
             _id: new ObjectId(value._id),
           });
-          var remove_customfield = await users.updateOne(
+          // var remove_customfield
+          await users.updateOne(
             { _id: user_id },
             { $pull: { custom_field: new ObjectId(value._id) } }
           );
