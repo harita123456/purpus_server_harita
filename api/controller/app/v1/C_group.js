@@ -82,7 +82,7 @@ const createGroup = async (req, res) => {
       group_image: image_name,
     });
 
-    var group_members_create = await group_members.create({
+    await group_members.create({
       user_id: user_id,
       group_id: group_create._id,
       is_admin: true,
@@ -241,8 +241,6 @@ const editGroup = async (req, res) => {
 
 const groupDetails = async (req, res) => {
   try {
-    var user_id = req.user._id;
-
     var { group_id } = req.body;
 
     var group_details = await group
@@ -295,7 +293,7 @@ const groupDetails = async (req, res) => {
 //   try {
 //     var user_id = req.user._id;
 
-//     var { other_user_id, group_type, page = 1, limit = 80 } = req.body;
+//     var { other_user_id, page = 1, limit = 80 } = req.body;
 
 //     const userBlockedByOthers = await block_user.find({
 //       user_id: user_id,
@@ -893,7 +891,7 @@ const joinGroup = async (req, res) => {
       is_deleted: false,
     });
 
-    var delete_notifiaction = await notifications.deleteMany({
+    await notifications.deleteMany({
       noti_for: "group_invite",
       group_id: group_id,
       receiver_id: user_id,
@@ -918,7 +916,6 @@ const requestToJoinGroup = async (req, res) => {
   try {
     var user_id = req.user._id;
     var login_user_name = req.user.full_name;
-    var login_user_profile_picture = req.user.profile_picture;
 
     var { group_id } = req.body;
 
@@ -1002,9 +999,6 @@ const acceptDeclineJoinRequest = async (req, res) => {
   try {
     var user_id = req.user._id;
     var login_user_name = req.user.full_name;
-    var login_user_profile_picture = req.user.profile_picture
-      ? process.env.BASE_URL + req.user.profile_picture
-      : req.user.profile_url;
 
     var { notification_id, notification_status } = req.body;
 
@@ -1075,7 +1069,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
             });
           }
         }
-        var noti_update = await notifications.findByIdAndUpdate(
+        await notifications.findByIdAndUpdate(
           notification_id,
           {
             $set: {
@@ -1093,7 +1087,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
           group_id: noti_data.group_id,
         });
 
-        var delete_notifiaction = await notifications.deleteMany({
+        await notifications.deleteMany({
           noti_for: "group_join_request_decline",
           group_id: noti_data.group_id,
           receiver_id: group_details.user_id,
@@ -1101,7 +1095,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
 
         var res_msg = "Request accepted successfully";
       } else {
-        var delete_notifiaction = await notifications.deleteMany({
+        await notifications.deleteMany({
           noti_for: "group_join_request_decline",
           group_id: noti_data.group_id,
           receiver_id: noti_data.sender_id,
@@ -1159,13 +1153,13 @@ const acceptDeclineJoinRequest = async (req, res) => {
           }
         }
 
-        var noti_update = await notifications.findByIdAndUpdate(
+        await notifications.findByIdAndUpdate(
           notification_id,
           { $set: { is_accepted: false } },
           { new: true }
         );
 
-        var result = await notifications.findOneAndDelete({
+        await notifications.findOneAndDelete({
           _id: notification_id,
         });
 
@@ -1223,7 +1217,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
             });
           }
         }
-        var noti_update = await notifications.findByIdAndUpdate(
+        await notifications.findByIdAndUpdate(
           notification_id,
           {
             $set: {
@@ -1241,7 +1235,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
           group_id: noti_data.group_id,
         });
 
-        var delete_notifiaction = await notifications.deleteMany({
+        await notifications.deleteMany({
           noti_for: "group_join_request_decline",
           group_id: noti_data.group_id,
           receiver_id: group_details.user_id,
@@ -1249,7 +1243,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
 
         var res_msg = "Request accepted successfully";
       } else {
-        var delete_notifiaction = await notifications.deleteMany({
+        await notifications.deleteMany({
           noti_for: "group_join_request_decline",
           group_id: noti_data.group_id,
           receiver_id: noti_data.sender_id,
@@ -1306,13 +1300,13 @@ const acceptDeclineJoinRequest = async (req, res) => {
           }
         }
 
-        var noti_update = await notifications.findByIdAndUpdate(
+        await notifications.findByIdAndUpdate(
           notification_id,
           { $set: { is_accepted: false } },
           { new: true }
         );
 
-        var result = await notifications.findOneAndDelete({
+        await notifications.findOneAndDelete({
           _id: notification_id,
         });
 
@@ -1361,13 +1355,13 @@ const leaveGroup = async (req, res) => {
       group_id: group_id,
     });
 
-    var delete_notification_first = await notifications.deleteMany({
+    await notifications.deleteMany({
       group_id: group_id,
       receiver_id: user_id,
       noti_for: { $in: ["group_join_request", "group_invite", "group_join_request_accept", "group_join_request_decline"] },
     })
 
-    var delete_notification_secound = await notifications.deleteMany({
+    await notifications.deleteMany({
       group_id: group_id,
       sender_id: user_id,
       noti_for: { $in: ["group_join_request", "group_invite", "group_join_request_accept", "group_join_request_decline"] },
@@ -1398,16 +1392,16 @@ const deleteGroup = async (req, res) => {
       return errorRes(res, "You are not authorised user for delete this group");
     }
 
-    var group_delete = await group.findByIdAndUpdate(group_id, {
+    await group.findByIdAndUpdate(group_id, {
       $set: { is_deleted: true },
     });
 
-    var find_group = await group_members.updateMany(
+    await group_members.updateMany(
       { group_id: group_id },
       { $set: { is_deleted: true } }
     );
 
-    var delete_notifiaction = await notifications.updateMany(
+    await notifications.updateMany(
       { group_id: group_id },
       { $set: { is_deleted: true } },
       { new: true }
@@ -2579,7 +2573,7 @@ const shareUserlist = async (req, res) => {
 const groupListcheck = async (req, res) => {
   try {
     var user_id = req.user._id;
-    var { other_user_id, group_type, page = 1, limit = 80 } = req.body;
+    var { other_user_id, page = 1, limit = 80 } = req.body;
     console.log("user_id", user_id)
     console.log("req.body", other_user_id)
 
