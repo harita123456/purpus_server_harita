@@ -3124,8 +3124,7 @@ const getAllPosts = async (req, res) => {
 
     const total_data_userPostTrending_300_to_1000 = await post.countDocuments({
       sub_interest_id: { $in: subInterestIds },
-      user_id: { $nin: blockedUserIds },
-      user_id: { $nin: userWithPrivateAccountIds },
+      user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
       is_deleted: false,
       is_block: false,
       is_local: false,
@@ -3138,8 +3137,7 @@ const getAllPosts = async (req, res) => {
 
     const total_data_userPostTrending_more_than_1000 = await post.countDocuments({
       sub_interest_id: { $in: subInterestIds },
-      user_id: { $nin: blockedUserIds },
-      user_id: { $nin: userWithPrivateAccountIds },
+      user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
       is_deleted: false,
       is_block: false,
       is_local: false,
@@ -3173,8 +3171,7 @@ const getAllPosts = async (req, res) => {
         {
           $match: {
             sub_interest_id: { $in: subInterestIds },
-            user_id: { $nin: blockedUserIds },
-            user_id: { $nin: userWithPrivateAccountIds },
+            user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
             is_deleted: false,
             is_block: false,
             is_local: false,
@@ -3314,8 +3311,7 @@ const getAllPosts = async (req, res) => {
         {
           $match: {
             // sub_interest_id: { $in: subInterestIds },
-            user_id: { $nin: blockedUserIds },
-            user_id: { $nin: userWithPrivateAccountIds },
+            user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
             is_deleted: false,
             is_block: false,
             is_local: false,
@@ -3500,8 +3496,7 @@ const getAllPosts = async (req, res) => {
         {
           $match: {
             // sub_interest_id: { $in: subInterestIds },
-            user_id: { $nin: blockedUserIds },
-            user_id: { $nin: userWithPrivateAccountIds },
+            user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
             is_deleted: false,
             is_block: false,
             is_local: false,
@@ -3664,8 +3659,7 @@ const getAllPosts = async (req, res) => {
         {
           $match: {
             sub_interest_id: { $in: subInterestIds },
-            user_id: { $nin: blockedUserIds },
-            user_id: { $nin: userWithPrivateAccountIds },
+            user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
             is_deleted: false,
             is_block: false,
             is_local: false,
@@ -4396,8 +4390,7 @@ const getAllPosts = async (req, res) => {
 
         const total_data_userPostTrending_300_to_1000 = await post.countDocuments({
           sub_interest_id: { $in: subInterestIds },
-          user_id: { $nin: blockedUserIds },
-          user_id: { $nin: userWithPrivateAccountIds },
+          user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
           is_deleted: false,
           is_block: false,
           is_local: false,
@@ -4410,8 +4403,7 @@ const getAllPosts = async (req, res) => {
 
         const total_data_userPostTrending_more_than_1000 = await post.countDocuments({
           sub_interest_id: { $in: subInterestIds },
-          user_id: { $nin: blockedUserIds },
-          user_id: { $nin: userWithPrivateAccountIds },
+          user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
           is_deleted: false,
           is_block: false,
           is_local: false,
@@ -4445,8 +4437,7 @@ const getAllPosts = async (req, res) => {
               $match: {
                 interest_id: new mongoose.Types.ObjectId(selected_id),
                 sub_interest_id: { $in: subInterestIds },
-                user_id: { $nin: blockedUserIds },
-                user_id: { $nin: userWithPrivateAccountIds },
+                user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
                 is_deleted: false,
                 is_block: false,
                 is_local: false,
@@ -4588,8 +4579,7 @@ const getAllPosts = async (req, res) => {
               $match: {
                 interest_id: new mongoose.Types.ObjectId(selected_id),
                 // sub_interest_id: { $in: subInterestIds },
-                user_id: { $nin: blockedUserIds },
-                user_id: { $nin: userWithPrivateAccountIds },
+                user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
                 is_deleted: false,
                 is_block: false,
                 is_local: false,
@@ -4767,8 +4757,7 @@ const getAllPosts = async (req, res) => {
               $match: {
                 interest_id: new mongoose.Types.ObjectId(selected_id),
                 // sub_interest_id: { $in: subInterestIds },
-                user_id: { $nin: blockedUserIds },
-                user_id: { $nin: userWithPrivateAccountIds },
+                user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
                 is_deleted: false,
                 is_block: false,
                 is_local: false,
@@ -4928,8 +4917,7 @@ const getAllPosts = async (req, res) => {
         const find_userPostTrending_300_to_1000 = await post.find({
           interest_id: new mongoose.Types.ObjectId(selected_id),
           sub_interest_id: { $in: subInterestIds },
-          user_id: { $nin: blockedUserIds },
-          user_id: { $nin: userWithPrivateAccountIds },
+          user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
           is_deleted: false,
           is_block: false,
           is_local: false,
@@ -4946,8 +4934,7 @@ const getAllPosts = async (req, res) => {
         const find_userPostTrending_more_than_1000 = await post.find({
           interest_id: new mongoose.Types.ObjectId(selected_id),
           sub_interest_id: { $in: subInterestIds },
-          user_id: { $nin: blockedUserIds },
-          user_id: { $nin: userWithPrivateAccountIds },
+          user_id: { $nin: blockedUserIds, $nin: userWithPrivateAccountIds },
           is_deleted: false,
           is_block: false,
           is_local: false,
