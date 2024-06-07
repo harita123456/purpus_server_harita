@@ -6675,7 +6675,7 @@ const getsubInteresttesting = async (req, res) => {
 
       var value;
 
-      if (data != null && data?._id == process.env.OFF_TOPIC_ID) {
+      if (data != null && data._id == process.env.OFF_TOPIC_ID) {
         value = {
           ...data,
           sub_interest_data: [],
