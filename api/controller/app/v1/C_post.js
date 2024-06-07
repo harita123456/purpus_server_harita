@@ -29,7 +29,6 @@ const user_interactions = require("../../../../models/M_user_interactions");
 const user_impressions = require("../../../../models/M_user_impression");
 
 const {
-  notificationSend,
   notiSendMultipleDevice,
 } = require("../../../../utils/notification_send");
 const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
@@ -417,7 +416,6 @@ const editPost = async (req, res) => {
     if (post_type == "media") {
       var check_media = util.isArray(post_media);
 
-      var inserData;
       if (check_media == false) {
         var postmedia_array = [];
         postmedia_array.push(post_media);
@@ -611,11 +609,10 @@ const getAllPosts = async (req, res) => {
     }
     var userPosts = await post
       .find({
-        user_id,
         is_deleted: false,
         is_block: false,
         is_local: false,
-        user_id: { $nin: blockedUserIds },
+        user_id: { $eq: user_id, $nin: blockedUserIds },
       })
       .populate({
         path: "user_id",
@@ -628,8 +625,7 @@ const getAllPosts = async (req, res) => {
       .skip((page - 1) * limit);
 
     var userPostsCount = await post.countDocuments({
-      user_id: user_id,
-      user_id: { $nin: blockedUserIds },
+      user_id: { $eq: user_id, $nin: blockedUserIds },
       is_block: false,
       is_local: false,
       is_deleted: false,
@@ -816,7 +812,7 @@ const deletePost = async (req, res) => {
   try {
     var { post_id } = req.body;
 
-    var find_post = await post
+    const find_post = await post
       .findById({ _id: post_id })
       .where({ is_deleted: false, is_block: false });
 
@@ -1055,67 +1051,65 @@ const likePost = async (req, res) => {
           find_post &&
           user_id.toString() !== find_post.user_id.toString()
         ) {
-          if (find_post) {
-            const currentDateTime = await dateTime();
-            let noti_msg = login_user_name + " liked your post";
-            var media;
-            if (find_post.post_type == "media") {
-              if (find_post.post_media[0]?.file_type == "image") {
-                media =
-                  process.env.BASE_URL + find_post.post_media[0].file_name;
-              }
-              if (find_post.post_media[0]?.file_type == "video") {
-                media =
-                  process.env.BASE_URL + find_post.post_media[0].thumb_name;
-              }
+          const currentDateTime = await dateTime();
+          let noti_msg = login_user_name + " liked your post";
+          var media;
+          if (find_post.post_type == "media") {
+            if (find_post.post_media[0]?.file_type == "image") {
+              media =
+                process.env.BASE_URL + find_post.post_media[0].file_name;
             }
-
-            let noti_title = "Post liked";
-            let noti_for = "like_post";
-            let noti_image = login_user_profile_picture;
-            let notiData = {
-              noti_image,
-              noti_msg,
-              noti_title,
-              noti_for,
-              media: media,
-              id: find_post._id,
-            };
-
-            await notifications.create({
-              noti_title,
-              noti_msg: "liked your post",
-              noti_for,
-              sender_id: user_id,
-              receiver_id: find_post?.user_id,
-              post_id: find_post?._id,
-              noti_date: currentDateTime,
-              created_at: currentDateTime,
-              updated_at: currentDateTime,
-            });
-
-            var find_token = await user_session.find({
-              user_id: find_post?.user_id,
-              is_deleted: false,
-            });
-
-            var device_token_array = [];
-            for (var value of find_token) {
-              var device_token = value.device_token;
-              device_token_array.push(device_token);
+            if (find_post.post_media[0]?.file_type == "video") {
+              media =
+                process.env.BASE_URL + find_post.post_media[0].thumb_name;
             }
+          }
 
-            if (device_token_array.length > 0) {
-              notiData = { ...notiData, device_token: device_token_array };
-              var noti_send = await notiSendMultipleDevice(notiData);
+          let noti_title = "Post liked";
+          let noti_for = "like_post";
+          let noti_image = login_user_profile_picture;
+          let notiData = {
+            noti_image,
+            noti_msg,
+            noti_title,
+            noti_for,
+            media: media,
+            id: find_post._id,
+          };
 
-              if (noti_send.status == 200) {
-                await users.findByIdAndUpdate(find_post?.user_id, {
-                  $inc: {
-                    noti_badge: 1,
-                  },
-                });
-              }
+          await notifications.create({
+            noti_title,
+            noti_msg: "liked your post",
+            noti_for,
+            sender_id: user_id,
+            receiver_id: find_post?.user_id,
+            post_id: find_post?._id,
+            noti_date: currentDateTime,
+            created_at: currentDateTime,
+            updated_at: currentDateTime,
+          });
+
+          var find_token = await user_session.find({
+            user_id: find_post?.user_id,
+            is_deleted: false,
+          });
+
+          var device_token_array = [];
+          for (var value of find_token) {
+            var device_token = value.device_token;
+            device_token_array.push(device_token);
+          }
+
+          if (device_token_array.length > 0) {
+            notiData = { ...notiData, device_token: device_token_array };
+            var noti_send = await notiSendMultipleDevice(notiData);
+
+            if (noti_send.status == 200) {
+              await users.findByIdAndUpdate(find_post?.user_id, {
+                $inc: {
+                  noti_badge: 1,
+                },
+              });
             }
           }
         }
@@ -1981,67 +1975,65 @@ const addComment = async (req, res) => {
           find_post &&
           user_id.toString() !== find_post.user_id.toString()
         ) {
-          if (find_post) {
-            const currentDateTime = await dateTime();
-            let noti_msg = login_user_name + " commented: " + content;
-            var media;
-            if (find_post.post_type == "media") {
-              if (find_post.post_media[0]?.file_type == "image") {
-                media =
-                  process.env.BASE_URL + find_post.post_media[0].file_name;
-              }
-              if (find_post.post_media[0]?.file_type == "video") {
-                media =
-                  process.env.BASE_URL + find_post.post_media[0].thumb_name;
-              }
+          const currentDateTime = await dateTime();
+          let noti_msg = login_user_name + " commented: " + content;
+          var media;
+          if (find_post.post_type == "media") {
+            if (find_post.post_media[0]?.file_type == "image") {
+              media =
+                process.env.BASE_URL + find_post.post_media[0].file_name;
             }
-
-            let noti_title = "Post comment";
-            let noti_for = "post_comment";
-            let noti_image = login_user_profile_picture;
-            let notiData = {
-              noti_image,
-              noti_msg,
-              noti_title,
-              noti_for,
-              media: media,
-              id: find_post._id,
-            };
-
-            await notifications.create({
-              noti_title,
-              noti_msg: "commented: " + content,
-              noti_for,
-              sender_id: user_id,
-              receiver_id: find_post?.user_id,
-              post_id: find_post?._id,
-              noti_date: currentDateTime,
-              created_at: currentDateTime,
-              updated_at: currentDateTime,
-            });
-
-            var find_token = await user_session.find({
-              user_id: find_post?.user_id,
-              is_deleted: false,
-            });
-
-            var device_token_array = [];
-            for (var value of find_token) {
-              var device_token = value.device_token;
-              device_token_array.push(device_token);
+            if (find_post.post_media[0]?.file_type == "video") {
+              media =
+                process.env.BASE_URL + find_post.post_media[0].thumb_name;
             }
+          }
 
-            if (device_token_array.length > 0) {
-              notiData = { ...notiData, device_token: device_token_array };
-              var noti_send = await notiSendMultipleDevice(notiData);
+          let noti_title = "Post comment";
+          let noti_for = "post_comment";
+          let noti_image = login_user_profile_picture;
+          let notiData = {
+            noti_image,
+            noti_msg,
+            noti_title,
+            noti_for,
+            media: media,
+            id: find_post._id,
+          };
 
-              if (noti_send.status == 200) {
-                await users.findByIdAndUpdate(find_post?.user_id, {
-                  $inc: {
-                    noti_badge: 1,
-                  },
-                });
-              }
+          await notifications.create({
+            noti_title,
+            noti_msg: "commented: " + content,
+            noti_for,
+            sender_id: user_id,
+            receiver_id: find_post?.user_id,
+            post_id: find_post?._id,
+            noti_date: currentDateTime,
+            created_at: currentDateTime,
+            updated_at: currentDateTime,
+          });
+
+          var find_token = await user_session.find({
+            user_id: find_post?.user_id,
+            is_deleted: false,
+          });
+
+          var device_token_array = [];
+          for (var value of find_token) {
+            var device_token = value.device_token;
+            device_token_array.push(device_token);
+          }
+
+          if (device_token_array.length > 0) {
+            notiData = { ...notiData, device_token: device_token_array };
+            var noti_send = await notiSendMultipleDevice(notiData);
+
+            if (noti_send.status == 200) {
+              await users.findByIdAndUpdate(find_post?.user_id, {
+                $inc: {
+                  noti_badge: 1,
+                },
+              });
             }
           }
         }
@@ -3721,55 +3713,53 @@ const likeComment = async (req, res) => {
           find_comment &&
           user_id.toString() !== find_comment.user_id.toString()
         ) {
-          if (find_comment) {
-            const currentDateTime = await dateTime();
-            let noti_msg = login_user_name + " liked your comment";
+          const currentDateTime = await dateTime();
+          let noti_msg = login_user_name + " liked your comment";
 
-            let noti_title = "Comment like";
-            let noti_for = "like_comment";
-            let noti_image = login_user_profile_picture;
-            let notiData = {
-              noti_image,
-              noti_msg,
-              noti_title,
-              noti_for,
-              id: find_comment._id,
-            };
+          let noti_title = "Comment like";
+          let noti_for = "like_comment";
+          let noti_image = login_user_profile_picture;
+          let notiData = {
+            noti_image,
+            noti_msg,
+            noti_title,
+            noti_for,
+            id: find_comment._id,
+          };
 
-            await notifications.create({
-              noti_title,
-              noti_msg: "liked your comment",
-              noti_for,
-              sender_id: user_id,
-              receiver_id: find_comment?.user_id,
-              comment_id: find_comment?.comment_id,
-              noti_date: currentDateTime,
-              created_at: currentDateTime,
-              updated_at: currentDateTime,
-            });
+          await notifications.create({
+            noti_title,
+            noti_msg: "liked your comment",
+            noti_for,
+            sender_id: user_id,
+            receiver_id: find_comment?.user_id,
+            comment_id: find_comment?.comment_id,
+            noti_date: currentDateTime,
+            created_at: currentDateTime,
+            updated_at: currentDateTime,
+          });
 
-            var find_token = await user_session.find({
-              user_id: find_comment?.user_id,
-              is_deleted: false,
-            });
+          var find_token = await user_session.find({
+            user_id: find_comment?.user_id,
+            is_deleted: false,
+          });
 
-            var device_token_array = [];
-            for (var value of find_token) {
-              var device_token = value.device_token;
-              device_token_array.push(device_token);
-            }
+          var device_token_array = [];
+          for (var value of find_token) {
+            var device_token = value.device_token;
+            device_token_array.push(device_token);
+          }
 
-            if (device_token_array.length > 0) {
-              notiData = { ...notiData, device_token: device_token_array };
-              var noti_send = await notiSendMultipleDevice(notiData);
+          if (device_token_array.length > 0) {
+            notiData = { ...notiData, device_token: device_token_array };
+            var noti_send = await notiSendMultipleDevice(notiData);
 
-              if (noti_send.status == 200) {
-                await users.findByIdAndUpdate(find_comment?.user_id, {
-                  $inc: {
-                    noti_badge: 1,
-                  },
-                });
-              }
+            if (noti_send.status == 200) {
+              await users.findByIdAndUpdate(find_comment?.user_id, {
+                $inc: {
+                  noti_badge: 1,
+                },
+              });
             }
           }
         }
