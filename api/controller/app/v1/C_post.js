@@ -489,7 +489,7 @@ const editPost = async (req, res) => {
               });
             });
 
-            var updated_image = await post.findByIdAndUpdate(
+            await post.findByIdAndUpdate(
               { _id: post_id },
               { $push: { post_media: file_data } },
               { new: true }
@@ -517,7 +517,7 @@ const editPost = async (req, res) => {
               });
             });
 
-            var updated_image = await post.findByIdAndUpdate(
+            await post.findByIdAndUpdate(
               { _id: post_id },
               { $push: { post_media: file_data } },
               { new: true }
@@ -829,7 +829,7 @@ const deletePost = async (req, res) => {
       return errorRes(res, "Couldn't find post");
     }
     if (find_post?.repost_id) {
-      var dec_post_data = await post.findByIdAndUpdate(
+      await post.findByIdAndUpdate(
         { _id: find_post?.repost_id },
         { $inc: { repost_count: -1 } },
         { new: true }
@@ -1049,7 +1049,7 @@ const likePost = async (req, res) => {
           $inc: { like_count: 1 },
         });
 
-        var delete_notifiaction = await notifications.deleteMany({
+        await notifications.deleteMany({
           post_id: find_post?._id,
           noti_for: "like_post",
           receiver_id: find_post?.user_id,
@@ -1747,7 +1747,7 @@ const createRepost = async (req, res) => {
       is_deleted: false,
     });
 
-    var delete_notifiaction = await notifications.deleteMany({
+    await notifications.deleteMany({
       noti_for: "repost",
       receiver_id: original_user?.user_id,
     })
@@ -1972,7 +1972,7 @@ const addComment = async (req, res) => {
         });
       }
 
-      var delete_notifiaction = await notifications.deleteMany({
+      await notifications.deleteMany({
         post_id: post_id,
         noti_for: "post_comment"
       })
@@ -2151,7 +2151,7 @@ const addComment = async (req, res) => {
         if (user_id.toString() == savedComment.mention_user_id.toString()
           && user_id.toString() !== find_post.user_id.toString()) {
 
-          var delete_notifiaction = await notifications.deleteMany({
+          await notifications.deleteMany({
             post_id: find_post?._id,
             noti_for: "post_comment",
             receiver_id: find_post?.user_id,
@@ -2223,7 +2223,7 @@ const addComment = async (req, res) => {
         if (user_id.toString() !== savedComment.mention_user_id.toString()
           && user_id.toString() == find_post.user_id.toString()) {
 
-          var delete_notifiaction = await notifications.deleteMany({
+          await notifications.deleteMany({
             post_id: find_post?._id,
             noti_for: "post_comment",
             receiver_id: savedComment?.mention_user_id,
@@ -2298,7 +2298,7 @@ const addComment = async (req, res) => {
 
           if (savedComment.mention_user_id.toString() == find_post.user_id.toString()) {
 
-            var delete_notifiaction = await notifications.deleteMany({
+            await notifications.deleteMany({
               post_id: find_post?._id,
               noti_for: "post_comment",
               receiver_id: savedComment?.mention_user_id,
@@ -2371,7 +2371,7 @@ const addComment = async (req, res) => {
             const send_noti_reply = "send_noti_reply";
 
             if (send_noti_comment) {
-              var delete_notifiaction = await notifications.deleteMany({
+              await notifications.deleteMany({
                 post_id: find_post?._id,
                 noti_for: "post_comment",
                 receiver_id: find_post?.user_id,
@@ -2441,7 +2441,7 @@ const addComment = async (req, res) => {
             }
 
             if (send_noti_reply) {
-              var delete_notifiaction = await notifications.deleteMany({
+              await notifications.deleteMany({
                 post_id: find_post?._id,
                 noti_for: "post_comment",
                 receiver_id: savedComment?.mention_user_id,
@@ -3726,7 +3726,7 @@ const likeComment = async (req, res) => {
           $inc: { like_count: 1 },
         });
 
-        var delete_notifiaction = await notifications.deleteMany({
+        await notifications.deleteMany({
           noti_for: "like_comment",
           receiver_id: find_comment?.user_id,
         })
@@ -4646,7 +4646,7 @@ const undoRepost = async (req, res) => {
         is_deleted: false
       });
 
-    var dec_post_data = await post.findByIdAndUpdate(
+    await post.findByIdAndUpdate(
       { _id: repost_id },
       { $inc: { repost_count: -1 } },
       { new: true }
