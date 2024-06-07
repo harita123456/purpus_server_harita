@@ -661,8 +661,6 @@ const groupList = async (req, res) => {
 
     const totalDocuments = await group.countDocuments(whereCond);
 
-    const totalPages = Math.ceil(totalDocuments / limit);
-
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -1760,13 +1758,6 @@ const membersList = async (req, res) => {
       noti_for: "group_join_request",
       is_deleted: false,
     });
-
-    const existingMemberIds1 = existingMemberInvite.map(
-      (have) => have.receiver_id
-    );
-    const existingMemberIds2 = existingMemberRequest.map(
-      (have) => have.sender_id
-    );
 
     const userBlockedByOthers = await block_user.find({
       user_id: user_id,

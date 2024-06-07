@@ -3,7 +3,6 @@ const {
   errorRes,
   multiSuccessRes,
 } = require("../../../../utils/common_fun");
-const path = require("path");
 const users = require("../../../../models/M_user");
 const pollvotes = require("../../../../models/M_poll_votes");
 const save_post = require("../../../../models/M_save_post");

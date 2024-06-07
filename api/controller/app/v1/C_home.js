@@ -3,7 +3,6 @@ const {
   errorRes,
   multiSuccessRes,
 } = require("../../../../utils/common_fun");
-const path = require("path");
 const mongoose = require("mongoose");
 const post = require("../../../../models/M_post");
 const users = require("../../../../models/M_user");
@@ -2501,8 +2500,6 @@ const getAllPosts = async (req, res) => {
       is_request: true,
     });
 
-    const userOwnSubInterests = queryObject.sub_interest_id;
-
     const following_user_Ids = user_following_data.map((data) => data.following_id);
 
     const userWithPrivateAccountIds = userWithPrivateAccount.map((private) => private._id);
@@ -2534,33 +2531,6 @@ const getAllPosts = async (req, res) => {
           sub_interest_id: "$_id",
           count: 1,
           _id: 0,
-        },
-      },
-    ]);
-
-    const interestCountResult = await user_interactions.aggregate([
-      {
-        $match: {
-          user_id: new mongoose.Types.ObjectId(user_id),
-          interest_id: { $ne: null },
-          sub_interest_id: null,
-        },
-      },
-      {
-        $group: {
-          _id: {
-            interest_id: "$interest_id",
-            sub_interest_id: { $ifNull: ["$sub_interest_id", "null"] },
-          },
-          count: { $sum: 1 },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          interest_id: "$_id.interest_id",
-          sub_interest_id: "$_id.sub_interest_id",
-          count: 1,
         },
       },
     ]);
@@ -3942,8 +3912,6 @@ const getAllPosts = async (req, res) => {
         is_request: true,
       });
 
-      const userOwnSubInterests = queryObject.interest_id;
-
       const following_user_Ids = user_following_data.map((data) => data.following_id);
 
       const userWithPrivateAccountIds = userWithPrivateAccount.map((private) => private._id);
@@ -3972,33 +3940,6 @@ const getAllPosts = async (req, res) => {
             sub_interest_id: "$_id",
             count: 1,
             _id: 0,
-          },
-        },
-      ]);
-
-      const interestCountResult = await user_interactions.aggregate([
-        {
-          $match: {
-            user_id: new mongoose.Types.ObjectId(user_id),
-            interest_id: { $ne: null },
-            sub_interest_id: null,
-          },
-        },
-        {
-          $group: {
-            _id: {
-              interest_id: "$interest_id",
-              sub_interest_id: { $ifNull: ["$sub_interest_id", "null"] },
-            },
-            count: { $sum: 1 },
-          },
-        },
-        {
-          $project: {
-            _id: 0,
-            interest_id: "$_id.interest_id",
-            sub_interest_id: "$_id.sub_interest_id",
-            count: 1,
           },
         },
       ]);
