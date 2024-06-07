@@ -1801,13 +1801,27 @@ const selfDelete = async (req, res) => {
           if (find_image) {
             for (var value of find_image.media) {
               if (value.file_type != "url") {
-                if (`${outputPath}/public/${value?.file_name}`) {
+                // if (`${outputPath}/public/${value?.file_name}`) {
+                //   unlink(`${outputPath}/public/${value?.file_name}`, (err) => {
+                //     if (err) console.log(err);
+                //   });
+                // }
+
+                const filePath = `${outputPath}/public/${value?.file_name}`;
+
+                if (fs.existsSync(filePath)) {
                   unlink(`${outputPath}/public/${value?.file_name}`, (err) => {
                     if (err) console.log(err);
                   });
                 }
                 if (value?.file_type == "video") {
-                  if (`${outputPath}/public/${value?.thumb_name}`) {
+                  // if (`${outputPath}/public/${value?.thumb_name}`) {
+                  //   unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
+                  //     if (err) console.log(err);
+                  //   });
+                  // }
+                  const thumbPath = `${outputPath}/public/${value?.thumb_name}`;
+                  if (fs.existsSync(thumbPath)) {
                     unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
                       if (err) console.log(err);
                     });
@@ -2189,79 +2203,75 @@ const editProfile = async (req, res) => {
     };
 
     //Update data in mysql
-    if (updated_data) {
 
-      const nameParts = updated_data.full_name.split(" ");
-      // let firstName, middleName, lastName;
-      var firstname = nameParts[0];
-      // var middlename = nameParts[0];
-      // var lastname = nameParts[0];
+    const nameParts = updated_data.full_name.split(" ");
+    // let firstName, middleName, lastName;
+    var firstname = nameParts[0];
+    // var middlename = nameParts[0];
+    // var lastname = nameParts[0];
+    const sql =
+      "UPDATE user SET first_name = ?, profile_picture = ? , gender = ? ,disability=? ,relation_status=? ,dob =? WHERE identifier = ?";
+
+    const values = [
+      first_name = firstname,
+      profile_picture = updated_data?.profile_picture ? updated_data?.profile_picture : updated_data?.profile_url,
+      gender = updated_data?.demographics?.gender,
+      disability = updated_data?.demographics?.disability,
+      relation_status = updated_data?.demographics?.marriage_status,
+      dob = updated_data?.dob,
+      identifier = updated_data._id.toString(),
+
+    ];
+    const results = await performQuery(sql, values);
+
+
+    var sqlfind = "select * from user WHERE identifier = ?";
+    const val = [identifier = updated_data._id.toString()];
+
+    const finduserData = await performQuery(sqlfind, val);
+
+
+    if (results.affectedRows === 0) {
+      console.log("User not found.");
+    } else {
       const sql =
-        "UPDATE user SET first_name = ?, profile_picture = ? , gender = ? ,disability=? ,relation_status=? ,dob =? WHERE identifier = ?";
-
-      const values = [
-        first_name = firstname,
-        profile_picture = updated_data?.profile_picture ? updated_data?.profile_picture : updated_data?.profile_url,
-        gender = updated_data?.demographics?.gender,
-        disability = updated_data?.demographics?.disability,
-        relation_status = updated_data?.demographics?.marriage_status,
-        dob = updated_data?.dob,
-        identifier = updated_data._id.toString(),
-
-      ];
-      const results = await performQuery(sql, values);
-
-
-      var sqlfind = "select * from user WHERE identifier = ?";
-      const val = [identifier = updated_data._id.toString()];
-
-      const finduserData = await performQuery(sqlfind, val);
-
-
-      if (results.affectedRows === 0) {
-        console.log("User not found.");
-      } else {
-        const sql =
-          "select * from user_address  WHERE identifier = ?";
-        const values = [identifier = updated_data._id.toString()];
-        const resultsData = await performQuery(sql, values);
-        if (resultsData.length === 0) {
-          var zipcode = updated_data?.demographics?.zipcode
-          if (zipcode) {
-            const data = [
-              identifier = updated_data._id.toString(),
-              user_idfr = finduserData[0].id,
-              zipcode = zipcode,
-            ];
-            const insertdata = await performQuery(
-              "INSERT INTO user_address(identifier, user_idfr, zipcode) values(?,?,?)",
-              data
-            );
-            if (insertdata.affectedRows === 0) {
-              console.log("User not found.");
-            }
-            else {
-              console.log("Insert address data successfully.");
-            }
-          }
-        } else {
-          var zipcode = updated_data?.demographics?.zipcode
+        "select * from user_address  WHERE identifier = ?";
+      const values = [identifier = updated_data._id.toString()];
+      const resultsData = await performQuery(sql, values);
+      if (resultsData.length === 0) {
+        var zipcode = updated_data?.demographics?.zipcode
+        if (zipcode) {
           const data = [
-            zipcode,
             identifier = updated_data._id.toString(),
+            user_idfr = finduserData[0].id,
+            zipcode = zipcode,
           ];
-          // const updatedata 
-          await performQuery(
-            "UPDATE user_address SET zipcode = ? WHERE identifier = ?",
+          const insertdata = await performQuery(
+            "INSERT INTO user_address(identifier, user_idfr, zipcode) values(?,?,?)",
             data
           );
+          if (insertdata.affectedRows === 0) {
+            console.log("User not found.");
+          }
+          else {
+            console.log("Insert address data successfully.");
+          }
         }
+      } else {
+        var zipcode = updated_data?.demographics?.zipcode
+        const data = [
+          zipcode,
+          identifier = updated_data._id.toString(),
+        ];
+        // const updatedata 
+        await performQuery(
+          "UPDATE user_address SET zipcode = ? WHERE identifier = ?",
+          data
+        );
       }
-
-
-
-
     }
+
+
     //-----------------
 
     if (updated_data?.profile_picture) {
@@ -5258,54 +5268,54 @@ const addEduaction = async (req, res) => {
       return errorRes(res, `Account is not found`);
     }
 
-    if (insert_data) {
-      var create_eduaction = await eduaction.create(insert_data);
-      const sql = "SELECT * from user WHERE identifier  = ?";
-      const values = [user_data?._id.toString()];
-      const results = await performQuery(sql, values);
 
-      if (results.affectedRows === 0) {
-        console.log("Couldn't found user.");
+    var create_eduaction = await eduaction.create(insert_data);
+    const sql = "SELECT * from user WHERE identifier  = ?";
+    const values = [user_data?._id.toString()];
+    const results = await performQuery(sql, values);
+
+    if (results.affectedRows === 0) {
+      console.log("Couldn't found user.");
+    } else {
+      const data = [
+        identifier = create_eduaction?._id.toString(),
+        user_idfr = results[0].id,
+        degree_obtained = create_eduaction?.degree,
+        field_of_study = create_eduaction?.field_of_Study,
+        institution_attended = create_eduaction?.school,
+        start_date = create_eduaction?.start_date,
+        end_date = create_eduaction?.end_date,
+        description = create_eduaction?.description,
+        activities_societies = create_eduaction?.activities_and_societies,
+        grade = create_eduaction?.grade
+      ];
+
+      const insertdata = await performQuery(
+        "INSERT INTO user_education (identifier, user_idfr, degree_obtained ,field_of_study ,institution_attended ,start_date ,end_date ,description ,activities_societies ,grade ) values(?,?,?,?,?,?,?,?,?,?)",
+        data
+      );
+      if (insertdata.affectedRows === 0) {
+        console.log("User not found.");
       } else {
-        const data = [
-          identifier = create_eduaction?._id.toString(),
-          user_idfr = results[0].id,
-          degree_obtained = create_eduaction?.degree,
-          field_of_study = create_eduaction?.field_of_Study,
-          institution_attended = create_eduaction?.school,
-          start_date = create_eduaction?.start_date,
-          end_date = create_eduaction?.end_date,
-          description = create_eduaction?.description,
-          activities_societies = create_eduaction?.activities_and_societies,
-          grade = create_eduaction?.grade
-        ];
-
-        const insertdata = await performQuery(
-          "INSERT INTO user_education (identifier, user_idfr, degree_obtained ,field_of_study ,institution_attended ,start_date ,end_date ,description ,activities_societies ,grade ) values(?,?,?,?,?,?,?,?,?,?)",
-          data
-        );
-        if (insertdata.affectedRows === 0) {
-          console.log("User not found.");
-        } else {
-          console.log(" Education data add successfully.");
-        }
-      }
-      if (create_eduaction) {
-        var update_user = await users.findByIdAndUpdate(
-          { _id: user_id },
-          { $push: { education: create_eduaction?._id } },
-          { new: true }
-        );
-      }
-
-      if (update_user) {
-        return successRes(
-          res,
-          `Eduaction added successfully`,
-          create_eduaction
-        );
+        console.log(" Education data add successfully.");
       }
     }
+    if (create_eduaction) {
+      var update_user = await users.findByIdAndUpdate(
+        { _id: user_id },
+        { $push: { education: create_eduaction?._id } },
+        { new: true }
+      );
+    }
+
+    if (update_user) {
+      return successRes(
+        res,
+        `Eduaction added successfully`,
+        create_eduaction
+      );
+    }
+
   } catch (error) {
     console.log("Error : ", error);
     return errorRes(res, "Internal server error");
@@ -6229,13 +6239,27 @@ const deleteExperince = async (req, res) => {
     if (find_image) {
       for (var value of find_image.media) {
         if (value.file_type != "url") {
-          if (`${outputPath}/public/${value?.file_name}`) {
+
+          const filePath = `${outputPath}/public/${value?.file_name}`;
+
+          if (fs.existsSync(filePath)) {
             unlink(`${outputPath}/public/${value?.file_name}`, (err) => {
               if (err) console.log(err);
             });
           }
+          // if (`${outputPath}/public/${value?.file_name}`) {
+          //   unlink(`${outputPath}/public/${value?.file_name}`, (err) => {
+          //     if (err) console.log(err);
+          //   });
+          // }
           if (value?.file_type != null && value?.file_type == "video") {
-            if (`${outputPath}/public/${value?.thumb_name}`) {
+            const thumbPath = `${outputPath}/public/${value?.thumb_name}`;
+            // if (`${outputPath}/public/${value?.thumb_name}`) {
+            //   unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
+            //     if (err) console.log(err);
+            //   });
+            // }
+            if (fs.existsSync(thumbPath)) {
               unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
                 if (err) console.log(err);
               });
@@ -6344,50 +6368,50 @@ const addCustomfield = async (req, res) => {
       return errorRes(res, `Account is not found`);
     }
 
-    if (insert_data) {
-      var create_customfield = await custom_field.create(insert_data);
 
-      const sql = "SELECT * from user WHERE identifier  = ?";
-      const values = [user_data?._id.toString()];
-      const results = await performQuery(sql, values);
+    var create_customfield = await custom_field.create(insert_data);
 
-      if (results.affectedRows === 0) {
-        console.log("Couldn't found user.");
+    const sql = "SELECT * from user WHERE identifier  = ?";
+    const values = [user_data?._id.toString()];
+    const results = await performQuery(sql, values);
+
+    if (results.affectedRows === 0) {
+      console.log("Couldn't found user.");
+    } else {
+      //identifier : custom field id
+      const data = [
+        identifier = create_customfield?._id.toString(),
+        user_idfr = results[0].id,
+        title = create_customfield?.title,
+        description = create_customfield?.description
+      ];
+      const insertdata = await performQuery(
+        "INSERT INTO user_custom_field (identifier, user_idfr, title ,description ) values(?,?,?,?)",
+        data
+      );
+      if (insertdata.affectedRows === 0) {
+        console.log("User not found.");
       } else {
-        //identifier : custom field id
-        const data = [
-          identifier = create_customfield?._id.toString(),
-          user_idfr = results[0].id,
-          title = create_customfield?.title,
-          description = create_customfield?.description
-        ];
-        const insertdata = await performQuery(
-          "INSERT INTO user_custom_field (identifier, user_idfr, title ,description ) values(?,?,?,?)",
-          data
-        );
-        if (insertdata.affectedRows === 0) {
-          console.log("User not found.");
-        } else {
-          console.log(" User_custom_field data add successfully.");
-        }
-      }
-
-      if (create_customfield) {
-        var update_user = await users.findByIdAndUpdate(
-          { _id: user_id },
-          { $push: { custom_field: create_customfield?._id } },
-          { new: true }
-        );
-      }
-
-      if (update_user) {
-        return successRes(
-          res,
-          `Custom field added successfully`,
-          create_customfield
-        );
+        console.log(" User_custom_field data add successfully.");
       }
     }
+
+    if (create_customfield) {
+      var update_user = await users.findByIdAndUpdate(
+        { _id: user_id },
+        { $push: { custom_field: create_customfield?._id } },
+        { new: true }
+      );
+    }
+
+    if (update_user) {
+      return successRes(
+        res,
+        `Custom field added successfully`,
+        create_customfield
+      );
+    }
+
   } catch (error) {
     console.log("Error : ", error);
     return errorRes(res, "Internal server error");
