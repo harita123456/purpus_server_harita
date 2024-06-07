@@ -1237,10 +1237,17 @@ const deactiveAccount = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var { device_token } = req.body;
@@ -1458,10 +1465,18 @@ const getsubInterest = async (req, res) => {
 const changeFollowername = async (req, res) => {
   try {
     var { follower_name } = req.body;
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var find_data = await users.findById({ _id: user_id }).where({
       is_block: false,
@@ -1496,10 +1511,17 @@ const changeFollowername = async (req, res) => {
 
 const selfDelete = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var find_data = await users.findById({ _id: user_id }).where({
       is_block: false,
@@ -2032,14 +2054,24 @@ const editProfile = async (req, res) => {
             var twitter_link = social_media_link?.twitter
             var instagram_link = social_media_link?.instagram
 
+            // const data = [
+            //   identifier = find_user?._id.toString(),
+            //   user_idfr = results[0].id,
+            //   linkedin_link = linkedin_link,
+            //   facebook_link = facebook_link,
+            //   twitter_link = twitter_link,
+            //   instagram_link = instagram_link,
+            // ];
+
             const data = [
               identifier = find_user?._id.toString(),
               user_idfr = results[0].id,
-              linkedin_link = linkedin_link,
-              facebook_link = facebook_link,
-              twitter_link = twitter_link,
-              instagram_link = instagram_link,
+              linkedin_link,
+              facebook_link,
+              twitter_link,
+              instagram_link,
             ];
+
 
             const insertdata = await performQuery(
               "INSERT INTO user_social(identifier, user_idfr, linkedin_link ,facebook_link,twitter_link,instagram_link ) values(?,?,?,?,?,?)",
@@ -2068,10 +2100,10 @@ const editProfile = async (req, res) => {
             await performQuery(
               "UPDATE user_social SET linkedin_link = ?, facebook_link = ?, twitter_link = ?, instagram_link = ? WHERE id = ?",
               [
-                linkedin_link = linkedin_link_data,
-                facebook_link = facebook_link_data,
-                twitter_link = twitter_link_data,
-                instagram_link = instagram_link_data,
+                linkedin_link_data,
+                facebook_link_data,
+                twitter_link_data,
+                instagram_link_data,
                 find_data[0].id
               ]
             );
@@ -2258,7 +2290,7 @@ const editProfile = async (req, res) => {
           }
         }
       } else {
-        var zipcode = updated_data?.demographics?.zipcode
+        let zipcode = updated_data?.demographics?.zipcode
         const data = [
           zipcode,
           identifier = updated_data._id.toString(),
@@ -2289,12 +2321,18 @@ const editProfile = async (req, res) => {
 
 const createReportforproblem = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
 
+    if (!req.body.user_id) {
+      user_id = req.user._id;
+    } else {
+      user_id = req.body.user_id;
+    }
     var { feedback } = req.body;
     var { feedback_photo } = req.files;
 
@@ -2382,10 +2420,17 @@ const createReportforproblem = async (req, res) => {
 
 const reporttoUser = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { report_user_id, reason_report } = req.body;
 
@@ -2418,10 +2463,17 @@ const reporttoUser = async (req, res) => {
 
 const createSupport = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { title, message } = req.body;
 
@@ -2453,10 +2505,18 @@ const createSupport = async (req, res) => {
 
 const accountVerifications = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var {
       legal_name,
@@ -2543,10 +2603,17 @@ const accountVerifications = async (req, res) => {
 
 const getverifiedUserDetails = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     if (user_id) {
       var find_data = await accountVerification
@@ -2576,12 +2643,18 @@ const getverifiedUserDetails = async (req, res) => {
 
 const getUserdetails = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
 
+    if (!req.body.user_id) {
+      user_id = req.user._id;
+    } else {
+      user_id = req.body.user_id;
+    }
     var login_user = req.user._id;
     var other_user = req.body.user_id;
     var { language } = req.body;
@@ -3197,10 +3270,17 @@ const block_list = async (req, res) => {
 
 const notificationList = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var { filter_type, page = 1, limit = 10 } = req.body;
@@ -4504,12 +4584,18 @@ const searchGroups = async (req, res) => {
 
 const privateAccount = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
 
+    if (!req.body.user_id) {
+      user_id = req.user._id;
+    } else {
+      user_id = req.body.user_id;
+    }
     var { private_status } = req.body;
     if (user_id) {
       var user_details = await users
@@ -4585,10 +4671,17 @@ const privateAccount = async (req, res) => {
 
 const getUserInterests = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var find_user = await users.findById(user_id).where({ is_deleted: false });
@@ -4639,10 +4732,17 @@ const getUserInterests = async (req, res) => {
 
 const editUserInterests = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var { interested } = req.body;
@@ -4731,10 +4831,17 @@ const termsandConditions = async (req, res) => {
 
 const directMessageSetting = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { social_platform_data } = req.body;
 
@@ -4771,12 +4878,18 @@ const directMessageSetting = async (req, res) => {
 
 const deleteVerificationRequest = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
 
+    var user_id;
+    if (!req.body.user_id) {
+      user_id = req.user._id;
+    } else {
+      user_id = req.body.user_id;
+    }
     var find_user = await users.findById({ _id: user_id }).where({
       is_block: false,
       is_deleted: false,
@@ -5041,10 +5154,18 @@ const changeToken = async (req, res) => {
 
 const getUserinfo = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var find_user = await users
@@ -5224,12 +5345,18 @@ const uplodelinkedinMedia = async (req, res) => {
 
 const addEduaction = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+  var user_id;
 
+    if (!req.body.user_id) {
+      user_id = req.user._id;
+    } else {
+      user_id = req.body.user_id;
+    }
     var {
       school,
       degree,
@@ -5324,12 +5451,18 @@ const addEduaction = async (req, res) => {
 
 const editEduaction = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
 
+    if (!req.body.user_id) {
+      user_id = req.user._id;
+    } else {
+      user_id = req.body.user_id;
+    }
     var {
       education_id,
       school,
@@ -5417,10 +5550,17 @@ const editEduaction = async (req, res) => {
 
 const deleteEduaction = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var { education_id } = req.body;
@@ -5479,10 +5619,17 @@ const deleteEduaction = async (req, res) => {
 
 const eduactionList = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     if (user_id) {
       let find_eduaction = await eduaction
@@ -5510,12 +5657,18 @@ const eduactionList = async (req, res) => {
 
 const addExperience = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
 
+    if (!req.body.user_id) {
+      user_id = req.user._id;
+    } else {
+      user_id = req.body.user_id;
+    }
     var {
       title,
       emp_type,
@@ -5819,12 +5972,18 @@ const addExperience = async (req, res) => {
 
 const editExperince = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
 
+    if (!req.body.user_id) {
+      user_id = req.user._id;
+    } else {
+      user_id = req.body.user_id;
+    }
     var {
       experince_id,
       title,
@@ -6195,12 +6354,18 @@ const editExperince = async (req, res) => {
 
 const deleteExperince = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
 
+    if (!req.body.user_id) {
+      user_id = req.user._id;
+    } else {
+      user_id = req.body.user_id;
+    }
     var { experince_id } = req.body;
 
     console.log("req.body", req.body);
@@ -6302,10 +6467,17 @@ const deleteExperince = async (req, res) => {
 
 const experinceList = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     if (user_id) {
       let find_experience = await experienceSchema
@@ -6345,10 +6517,17 @@ const experinceList = async (req, res) => {
 
 const addCustomfield = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var { title, description } = req.body;
@@ -6420,10 +6599,17 @@ const addCustomfield = async (req, res) => {
 
 const editCustomfield = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var { customfield_id, title, description } = req.body;
@@ -6482,12 +6668,18 @@ const editCustomfield = async (req, res) => {
 
 const deleteCustomfield = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
 
+    if (!req.body.user_id) {
+      user_id = req.user._id;
+    } else {
+      user_id = req.body.user_id;
+    }
     var { customfield_id } = req.body;
 
     console.log("req.body", req.body);
@@ -6545,10 +6737,17 @@ const deleteCustomfield = async (req, res) => {
 
 const customfieldList = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     if (user_id) {
       let find_customfield = await custom_field
@@ -6574,12 +6773,18 @@ const customfieldList = async (req, res) => {
 
 const linkedinpersonalInfo = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    var user_id;
 
+    if (!req.body.user_id) {
+      user_id = req.user._id;
+    } else {
+      user_id = req.body.user_id;
+    }
     var find_user = await users
       .findById({ _id: user_id })
       .where({
