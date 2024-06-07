@@ -966,10 +966,11 @@ const signIn = async (req, res) => {
 
     if (session) {
 
+
       const sql_session =
         "SELECT * from user_session where identifier = ?  AND session_token= ?";
       const sql_values = [
-        identifier = user_data?._id.toString(),
+        identifier = user_data._id.toString(),
         session_token = device_token
       ];
       const find_results = await performQuery(sql_session, sql_values);
@@ -977,7 +978,7 @@ const signIn = async (req, res) => {
       if (find_results.affectedRow === 0) {
 
         var sqlfind = "SELECT * from user WHERE identifier  = ?";
-        var sqlval = [user_data?._id.toString()]
+        var sqlval = [user_data._id.toString()]
         var find_user_data = await performQuery(sqlfind, sqlval);
 
         const data = [
@@ -6766,7 +6767,7 @@ const mysqlscript = async (req, res) => {
           const data = [
             identifier = value._id.toString(),
             first_name = firstName,
-            profile_picture = value?.profile_picture ? value?.profile_picture : value?.profile_url,
+            profile_picture = value?.profile_picture ? value.profile_picture : value.profile_url,
             dob = value?.dob,
             user_id = value.unique_name,
             last_seen = value.user_last_active_date,

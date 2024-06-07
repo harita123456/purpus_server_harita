@@ -659,11 +659,13 @@ module.exports = function (io) {
         let senderChatUserData = await chatGroupList({
           user_id: user_data._id,
         });
-
-        socket
-          .to(user_data?.socket_id)
-          .emit("chatGroupList", senderChatUserData);
+        if (user_data != null) {
+          socket
+            .to(user_data?.socket_id)
+            .emit("chatGroupList", senderChatUserData);
+        }
       });
+
     });
 
     /*  PAYLOAD --> 
