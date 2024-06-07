@@ -266,8 +266,6 @@ const createPost = async (req, res) => {
         question,
         options: options,
       };
-      if (options) {
-      }
     }
 
     let create_post = await post.create(insert_data);
@@ -961,7 +959,7 @@ const pollLike = async (req, res) => {
 
     const lastOption = options[options.length - 1];
     lastOption.option_percentage = parseFloat((lastOption.option_percentage + roundingDifference).toFixed(2));
-    var update_data = await post.updateOne(
+    await post.updateOne(
       { _id: post_id },
       { $set: { options, store_option_id: option_id } },
       { new: true }
@@ -1029,7 +1027,7 @@ const likePost = async (req, res) => {
             post_id,
           });
 
-          var view_data = await post.findByIdAndUpdate(
+          await post.findByIdAndUpdate(
             post_id,
             {
               $inc: { view_count: 1 },
@@ -2139,10 +2137,6 @@ const addComment = async (req, res) => {
           _id: savedComment.mention_user_id,
           is_deleted: false,
         });
-
-        if (user_id.toString() == savedComment.mention_user_id.toString()
-          && user_id.toString() == find_post.user_id.toString()) {
-        }
 
         if (user_id.toString() == savedComment.mention_user_id.toString()
           && user_id.toString() !== find_post.user_id.toString()) {
@@ -4625,7 +4619,7 @@ const undoRepost = async (req, res) => {
       return errorRes(res, "Could't found post");
     }
 
-    var delete_noti = await notifications.deleteMany
+    await notifications.deleteMany
       ({
         post_id: find_repost?._id,
         is_deleted: false
