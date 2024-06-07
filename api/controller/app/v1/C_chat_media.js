@@ -15,7 +15,7 @@ const {
 
 const uploadeMedia = async (req, res) => {
   try {
-    var { multiple_video, audio_file, multimedia_files } = req.files;
+    var { multimedia_files } = req.files;
     var check_image = util.isArray(multimedia_files);
 
     var inserData;

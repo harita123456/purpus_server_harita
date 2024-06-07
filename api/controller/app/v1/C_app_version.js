@@ -150,7 +150,7 @@ const appVersionCheck = async (req, res) => {
         find_user_interest?.interested.map(async (value) => {
           find_subinterste?.map(async (data) => {
             if (value.toString() == data?._id.toString()) {
-              var create_data = await user_interactions.create(
+              await user_interactions.create(
                 {
                   user_id: user_id,
                   sub_interest_id: value,
@@ -163,7 +163,7 @@ const appVersionCheck = async (req, res) => {
     }
 
     console.log("allIdsArray", JSON.stringify(allIdsArray))
-    var jkl_data = await user_interactions.deleteMany({
+    await user_interactions.deleteMany({
       _id: { $nin: allIdsArray },
       user_id: user_id,
       createdAt: { $lt: new Date(login_time) }

@@ -41,15 +41,12 @@ module.exports = function (io) {
       try {
         var socket_data = socket.id;
 
-
-
         const user = await users.find({ socket_id: socket_data });
-
 
         console.log("user disconnect", user)
 
         var user_id = user[0]._id;
-        var update_screen = await group_members.updateMany(
+        await group_members.updateMany(
           { user_id: user_id, in_screen: true },
           {
             $set: {
@@ -71,7 +68,7 @@ module.exports = function (io) {
 
         findRoom?.map(async (data) => {
           if (user_id.equals(data?.other_user_id?._id)) {
-            var update = await chat_room.findByIdAndUpdate(
+            await chat_room.findByIdAndUpdate(
               {
                 _id: data._id,
               },
@@ -86,7 +83,7 @@ module.exports = function (io) {
           }
 
           if (user_id.equals(data?.user_id?._id)) {
-            var update = await chat_room.findByIdAndUpdate(
+            await chat_room.findByIdAndUpdate(
               {
                 _id: data._id,
               },
@@ -341,7 +338,7 @@ module.exports = function (io) {
         const user = await users.find({ socket_id: socket_data });
 
         if (user) {
-          var update = await users.findByIdAndUpdate(
+          await users.findByIdAndUpdate(
             {
               _id: user[0]._id,
             },

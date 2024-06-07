@@ -369,8 +369,6 @@ module.exports = {
           user_id_array.push(value);
         });
 
-        let noti_title = "New message";
-
         if (device_token_array != "") {
           notiData = { ...notiData, device_token: device_token_array };
           await notiSendMultipleDevice(notiData);
@@ -384,7 +382,7 @@ module.exports = {
   },
 
   getGroupAllMessage: async (data) => {
-    let { group_id, user_id, page = 1, skip = 0, limit = 10 } = data;
+    let { group_id, user_id, skip = 0, limit = 10 } = data;
 
     var findAllMessage = await group_chat
       .find({
@@ -527,7 +525,7 @@ module.exports = {
           update: { $inc: { vote_counter: 1 } },
         },
       };
-      var updatedPost = await group_chat.bulkWrite([
+      await group_chat.bulkWrite([
         optionUpdate,
         counterUpdate,
       ]);
@@ -554,7 +552,7 @@ module.exports = {
         );
       }
 
-      var update_data = await group_chat.updateOne(
+      await group_chat.updateOne(
         { _id: group_chat_id },
         { $set: { options } },
         { new: true }
@@ -567,7 +565,7 @@ module.exports = {
   },
 
   unreadGroupMessage: async (data) => {
-    let { group_room_id, group_chat_id, user_id } = data;
+    let { group_room_id, user_id } = data;
 
     var findMessage = await group_chat.find().where({
       group_id: group_room_id,

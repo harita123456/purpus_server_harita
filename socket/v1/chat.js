@@ -720,7 +720,7 @@ module.exports = {
   },
 
   getAllMessage: async (data) => {
-    let { chat_room_id, user_id, page = 1, skip = 0, limit = 100 } = data;
+    let { chat_room_id, user_id, skip = 0, limit = 100 } = data;
 
     let findAllMessage = await chat
       .find({ chat_room_id: chat_room_id })
@@ -925,7 +925,7 @@ module.exports = {
   unreadMessage: async (data) => {
     let { chat_room_id, user_id } = data;
 
-    let chatUpdate = await chat.updateMany(
+    await chat.updateMany(
       { chat_room_id: chat_room_id, receiver_id: user_id, is_read: false },
       { $set: { is_read: true } },
       { new: true }
@@ -1040,7 +1040,7 @@ module.exports = {
           ...final_result,
           find_unread_message,
         };
-        var chatUpdate = await chat.updateMany(
+        await chat.updateMany(
           {
             chat_room_id: data.chat_room_id,
             receiver_id: data.user_id,
@@ -1075,7 +1075,7 @@ module.exports = {
           find_unread_message,
         };
 
-        var chatUpdate = await chat.updateMany(
+        await chat.updateMany(
           {
             chat_room_id: data.chat_room_id,
             receiver_id: data.user_id,
@@ -1094,7 +1094,7 @@ module.exports = {
   },
 
   requesteList: async (data) => {
-    var { user_id, search } = data;
+    var { user_id } = data;
 
     const userBlockedByOthers = await block_user.find({
       user_id: user_id,
@@ -1393,7 +1393,7 @@ module.exports = {
     });
 
     if (!find_interaction) {
-      var add_impression = await user_interactions.create({
+      await user_interactions.create({
         user_id: sender_id,
         interest_id: interest_id,
         sub_interest_id: sub_interest_id,
@@ -1402,7 +1402,7 @@ module.exports = {
         is_share_post: true,
       });
 
-      var update_interaction = post.findByIdAndUpdate(post_id, {
+      await post.findByIdAndUpdate(post_id, {
         $inc: { interaction_count: 1 },
       });
     }

@@ -29,7 +29,7 @@ const connectionList = async (req, res) => {
       var user_id = req.body.user_id;
     }
 
-    var { search, follower, following, page = 1, limit = 1 } = req.body;
+    var { search, following, page = 1, limit = 1 } = req.body;
 
     var existinguser = await users.findOne().where({
       _id: user_id,
