@@ -52,9 +52,7 @@ const createPost = async (req, res) => {
       title,
       description,
       post_type,
-      question,
       is_local,
-      options,
       location,
       link_url,
       question,
@@ -274,7 +272,7 @@ const createPost = async (req, res) => {
 
     let create_post = await post.create(insert_data);
 
-    var add_interaction = await user_interactions.create({
+    await user_interactions.create({
       user_id: user_id,
       interest_id: interest_id,
       sub_interest_id: sub_interest_id,
@@ -282,7 +280,7 @@ const createPost = async (req, res) => {
       interaction_type: "post",
     })
 
-    var update_interaction = post.findByIdAndUpdate(create_post._id, {
+    await post.findByIdAndUpdate(create_post._id, {
       $inc: { interaction_count: 1 },
     });
 
@@ -319,7 +317,6 @@ const editPost = async (req, res) => {
       title,
       description,
       post_type,
-      options,
       location,
       link_url,
       question,
@@ -377,7 +374,7 @@ const editPost = async (req, res) => {
               });
             }
           }
-          var remove_image = await post.updateOne(
+          await post.updateOne(
             { _id: post_id },
             { $pull: { post_media: { _id: value1 } } }
           );
@@ -554,7 +551,7 @@ const removepostImage = async (req, res) => {
   try {
     var { post_id, post_media_id, file_name } = req.body;
 
-    var remove_image = await post.updateOne(
+    await post.updateOne(
       { _id: post_id },
       { $pull: { post_media: { _id: post_media_id } } }
     );
@@ -778,7 +775,7 @@ const savePost = async (req, res) => {
           post_id,
         });
 
-        var add_interaction = await user_interactions.create({
+        await user_interactions.create({
           user_id: user_id,
           interest_id: interest_id,
           sub_interest_id: sub_interest_id,
@@ -786,7 +783,7 @@ const savePost = async (req, res) => {
           interaction_type: "save",
         })
 
-        var update_interaction = await post.findByIdAndUpdate(post_id, {
+        await post.findByIdAndUpdate(post_id, {
           $inc: { interaction_count: 1 },
         });
         return successRes(res, "Post saved successfully");
@@ -796,14 +793,14 @@ const savePost = async (req, res) => {
     if (is_saved === false || is_saved === "false") {
       if (existingSave) {
         await save_post.deleteOne({ _id: existingSave._id });
-        var remove_impression = await user_interactions.deleteOne({
+        await user_interactions.deleteOne({
           user_id: user_id,
           interest_id: interest_id,
           sub_interest_id: sub_interest_id,
           post_id: post_id,
           interaction_type: "save",
         })
-        var update_interaction = post.findByIdAndUpdate(post_id, {
+        await post.findByIdAndUpdate(post_id, {
           $inc: { interaction_count: -1 },
         });
         return successRes(res, "Post unsaved successfully");
@@ -837,7 +834,7 @@ const deletePost = async (req, res) => {
     }
 
     if (find_post) {
-      var find_repost = await post.updateMany(
+      await post.updateMany(
         {
           $and: [
             { repost_id: find_post._id },
@@ -915,7 +912,7 @@ const pollLike = async (req, res) => {
         post_id,
       });
 
-      var view_data = await post.findByIdAndUpdate(
+      await post.findByIdAndUpdate(
         post_id,
         {
           $inc: { view_count: 1 },
@@ -938,7 +935,7 @@ const pollLike = async (req, res) => {
           update: { $inc: { vote_counter: 1 } },
         },
       };
-      var updatedPost = await post.bulkWrite([optionUpdate, counterUpdate]);
+      await post.bulkWrite([optionUpdate, counterUpdate]);
       await pollvotes.create({
         user_id,
         option_id,
@@ -1124,7 +1121,7 @@ const likePost = async (req, res) => {
             }
           }
         }
-        var add_interaction = await user_interactions.create({
+        await user_interactions.create({
           user_id: user_id,
           interest_id: interest_id,
           sub_interest_id: sub_interest_id,
@@ -1132,7 +1129,7 @@ const likePost = async (req, res) => {
           interaction_type: "like",
         })
 
-        var update_interaction = await post.findByIdAndUpdate(post_id, {
+        await post.findByIdAndUpdate(post_id, {
           $inc: { interaction_count: 1 },
         });
 
@@ -1144,21 +1141,21 @@ const likePost = async (req, res) => {
       if (existingLike) {
         await like_post.deleteOne({ _id: existingLike._id });
 
-        var find_post = await notifications.findOneAndDelete({
+        await notifications.findOneAndDelete({
           user_id: user_id,
           post_id: post_id,
         });
 
         await post.findByIdAndUpdate(post_id, { $inc: { like_count: -1 } });
 
-        var remove_interaction = await user_interactions.deleteOne({
+        await user_interactions.deleteOne({
           user_id: user_id,
           interest_id: interest_id,
           sub_interest_id: sub_interest_id,
           post_id: post_id,
           interaction_type: "like",
         })
-        var update_interaction = await post.findByIdAndUpdate(post_id, {
+        await post.findByIdAndUpdate(post_id, {
           $inc: { interaction_count: -1 },
         });
 
@@ -1630,7 +1627,6 @@ const createRepost = async (req, res) => {
       post_type,
       location,
       description,
-      is_repost,
       is_local,
       interest_id,
       sub_interest_id
@@ -1722,7 +1718,7 @@ const createRepost = async (req, res) => {
       }
     }
 
-    var previous_post = await post.findOneAndUpdate(
+    await post.findOneAndUpdate(
       { _id: repost_id },
       { $inc: { repost_count: 1 } },
       { new: true }
@@ -1730,7 +1726,7 @@ const createRepost = async (req, res) => {
 
     var create_post = await post.create(insert_data);
 
-    var add_interaction = await user_interactions.create({
+    await user_interactions.create({
       user_id: user_id,
       interest_id: interest_id,
       sub_interest_id: sub_interest_id,
@@ -1738,7 +1734,7 @@ const createRepost = async (req, res) => {
       interaction_type: "repost",
     })
 
-    var update_interaction = post.findByIdAndUpdate(repost_id, {
+    await post.findByIdAndUpdate(repost_id, {
       $inc: { interaction_count: 1 },
     });
 
@@ -1844,7 +1840,7 @@ const createPostreport = async (req, res) => {
       }
     }
 
-    var increment_post_count = await post.findByIdAndUpdate(post_id, {
+    await post.findByIdAndUpdate(post_id, {
       $inc: { report_post_count: 1 },
     }, { new: true });
 
@@ -1959,7 +1955,7 @@ const addComment = async (req, res) => {
       })
 
       if (!find_interaction) {
-        var add_interaction = await user_interactions.create({
+        await user_interactions.create({
           user_id: user_id,
           interest_id: interest_id,
           sub_interest_id: sub_interest_id,
@@ -1967,7 +1963,7 @@ const addComment = async (req, res) => {
           interaction_type: "comment",
           is_comment: true,
         })
-        var update_interaction = post.findByIdAndUpdate(post_id, {
+        await post.findByIdAndUpdate(post_id, {
           $inc: { interaction_count: 1 },
         });
       }
@@ -2118,7 +2114,7 @@ const addComment = async (req, res) => {
       })
 
       if (!find_interaction) {
-        var add_interaction = await user_interactions.create({
+        await user_interactions.create({
           user_id: user_id,
           interest_id: interest_id,
           sub_interest_id: sub_interest_id,
@@ -2126,7 +2122,7 @@ const addComment = async (req, res) => {
           interaction_type: "comment",
           is_comment: true,
         })
-        var update_interaction = post.findByIdAndUpdate(post_id, {
+        await post.findByIdAndUpdate(post_id, {
           $inc: { interaction_count: 1 },
         });
       }
@@ -2139,7 +2135,7 @@ const addComment = async (req, res) => {
           $inc: { comment_reply_count: 1 },
         });
 
-        var find_comment_user = await users.findOne().where({
+        await users.findOne().where({
           _id: savedComment.mention_user_id,
           is_deleted: false,
         });
@@ -2780,11 +2776,6 @@ const editComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
     var { comment_id, is_sub_comment } = req.body;
 
     var existingComment = await comment_post.findOne().where({
@@ -3851,7 +3842,7 @@ const postView = async (req, res) => {
         post_id,
       });
 
-      var view_data = await post.findByIdAndUpdate(
+      await post.findByIdAndUpdate(
         post_id,
         {
           $inc: { view_count: 1 },
@@ -3859,7 +3850,7 @@ const postView = async (req, res) => {
         { new: true }
       );
 
-      var add_interaction = await user_interactions.create({
+      await user_interactions.create({
         user_id: user_id,
         interest_id: interest_id,
         sub_interest_id: sub_interest_id,
@@ -3867,7 +3858,7 @@ const postView = async (req, res) => {
         interaction_type: "view",
       })
 
-      var update_interaction = await post.findByIdAndUpdate(post_id, {
+      await post.findByIdAndUpdate(post_id, {
         $inc: { interaction_count: 1 },
       });
 
@@ -4239,12 +4230,6 @@ const commentReport = async (req, res) => {
 
 const getUserPostlist = async (req, res) => {
   try {
-    if (!req.body.user_id) {
-      var user_id = req.user._id;
-    } else {
-      var user_id = req.body.user_id;
-    }
-
     var login_user_id = req.user._id;
 
     var other_user_id = req.body.user_id;
@@ -4659,7 +4644,7 @@ const undoRepost = async (req, res) => {
       is_deleted: false,
     })
 
-    var remove_impression = await user_interactions.deleteOne({
+    await user_interactions.deleteOne({
       user_id: user_id,
       interest_id: interest_id,
       sub_interest_id: sub_interest_id,
@@ -4712,7 +4697,7 @@ const create_impressions = async (req, res) => {
         post_id
       })
 
-    var view_data = await post.findByIdAndUpdate(post_id, { $inc: { impression_count: 1 }, });
+    await post.findByIdAndUpdate(post_id, { $inc: { impression_count: 1 }, });
 
     if (create_data) {
       return successRes(
