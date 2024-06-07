@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 const viewPostSchema = new mongoose.Schema(
   {
     user_id: {
