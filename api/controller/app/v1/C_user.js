@@ -2270,9 +2270,7 @@ const editProfile = async (req, res) => {
     }
 
 
-    if (updated_data) {
-      return successRes(res, "Your account updated successfully", updated_data);
-    }
+    return successRes(res, "Your account updated successfully", updated_data);
   } catch (error) {
     console.log("Error : ", error);
     return errorRes(res, "Internal server error");
@@ -2311,7 +2309,7 @@ const createReportforproblem = async (req, res) => {
         var feedback_array = feedback_photo;
       }
 
-      if (feedback_photo) {
+      if (feedback_photo.length > 0) {
         var multiplefeedback_media_array = [];
         for (var value of feedback_array) {
           let file_extension = value.originalFilename
@@ -3431,7 +3429,7 @@ const searchPage = async (req, res) => {
         users: [],
         posts: [],
       };
-      if (!search || search.length < 2) {
+      if (search.length < 2) {
         return successRes(
           res,
           "Please enter at least two characters for the search",
@@ -5195,7 +5193,13 @@ const uplodelinkedinMedia = async (req, res) => {
         }
       });
     }
-    if (multiplelinkedin_media_array) {
+    if (multiplelinkedin_media_array.length > 0) {
+      return successRes(
+        res,
+        `linkedin post media`,
+        multiplelinkedin_media_array
+      );
+    } else {
       return successRes(
         res,
         `linkedin post media`,
@@ -5393,9 +5397,7 @@ const editEduaction = async (req, res) => {
       );
     }
     if (update_user) {
-      if (update_user) {
-        return successRes(res, `Eduaction updated successfully`, update_user);
-      }
+      return successRes(res, `Eduaction updated successfully`, update_user);
     }
   } catch (error) {
     console.log("Error : ", error);
@@ -5710,96 +5712,94 @@ const addExperience = async (req, res) => {
       return errorRes(res, `Account is not found`);
     }
 
-    if (insert_data) {
-      var create_experience = await experienceSchema.create(insert_data);
+    var create_experience = await experienceSchema.create(insert_data);
 
 
-      if (create_experience) {
-        const sql = "SELECT * from user WHERE identifier  = ?";
-        const values = [user_data?._id.toString()];
-        const results = await performQuery(sql, values);
+    if (create_experience) {
+      const sql = "SELECT * from user WHERE identifier  = ?";
+      const values = [user_data?._id.toString()];
+      const results = await performQuery(sql, values);
 
-        console.log("results", results)
+      console.log("results", results)
 
-        if (results.length == 0) {
-          console.log("Couldn't found user.");
+      if (results.length == 0) {
+        console.log("Couldn't found user.");
+      } else {
+
+        console.log("results+++++++++++", results)
+        const data = [
+          identifier = create_experience?._id.toString(),
+          user_idfr = results[0].id,
+          job_title = create_experience?.title,
+          employee_type = create_experience?.emp_type,
+          company_name = create_experience?.company_name,
+          company_address = create_experience?.address,
+          industry = create_experience?.industry,
+          start_date = create_experience?.start_date,
+          end_date = create_experience?.end_date,
+          job_description = create_experience?.description,
+        ];
+        const insertdata = await performQuery(
+          "INSERT INTO user_experience (identifier, user_idfr, job_title,employee_type, company_name, company_address, industry, start_date, end_date, job_description) values(?,?,?,?,?,?,?,?,?,?)",
+          data
+        );
+
+        console.log({ insertdata });
+        if (insertdata.affectedRows === 0) {
+          console.log("User not found.");
         } else {
+          create_experience?.media.map(async (value) => {
+            if (value?.file_type == "image" || value?.file_type == "document" || value?.file_type == "video" || value?.file_type == "url") {
+              const data1 = [
+                identifier = value?._id.toString(),
+                user_experience_idfr = insertdata.insertId,
+                media_url = value?.file_name,
+                media_size = value?.file_size,
+                media_type = value?.file_type,
+              ];
 
-          console.log("results+++++++++++", results)
-          const data = [
-            identifier = create_experience?._id.toString(),
-            user_idfr = results[0].id,
-            job_title = create_experience?.title,
-            employee_type = create_experience?.emp_type,
-            company_name = create_experience?.company_name,
-            company_address = create_experience?.address,
-            industry = create_experience?.industry,
-            start_date = create_experience?.start_date,
-            end_date = create_experience?.end_date,
-            job_description = create_experience?.description,
-          ];
-          const insertdata = await performQuery(
-            "INSERT INTO user_experience (identifier, user_idfr, job_title,employee_type, company_name, company_address, industry, start_date, end_date, job_description) values(?,?,?,?,?,?,?,?,?,?)",
-            data
-          );
+              const insertdata1 = await performQuery(
+                "INSERT INTO user_experience_media (identifier, user_experience_idfr, media_url, media_size, media_type) values(?,?,?,?,?)",
+                data1
+              );
 
-          console.log({ insertdata });
-          if (insertdata.affectedRows === 0) {
-            console.log("User not found.");
-          } else {
-            create_experience?.media.map(async (value) => {
-              if (value?.file_type == "image" || value?.file_type == "document" || value?.file_type == "video" || value?.file_type == "url") {
-                const data1 = [
-                  identifier = value?._id.toString(),
-                  user_experience_idfr = insertdata.insertId,
-                  media_url = value?.file_name,
-                  media_size = value?.file_size,
-                  media_type = value?.file_type,
-                ];
-
-                const insertdata1 = await performQuery(
-                  "INSERT INTO user_experience_media (identifier, user_experience_idfr, media_url, media_size, media_type) values(?,?,?,?,?)",
-                  data1
-                );
-
-                if (insertdata1.affectedRows === 0) {
-                  console.log("User experience not found.");
-                } else {
-                  console.log("User experience media data add successfully.");
-                }
+              if (insertdata1.affectedRows === 0) {
+                console.log("User experience not found.");
+              } else {
+                console.log("User experience media data add successfully.");
               }
+            }
 
-            });
-            console.log("User experience data add successfully.");
-          }
+          });
+          console.log("User experience data add successfully.");
         }
       }
+    }
 
-      create_experience?.media.map((value) => {
-        if (value?.file_type == "image" || value?.file_type == "document") {
-          value.file_name = process.env.BASE_URL + value.file_name;
-        }
-        if (value?.file_type == "video") {
-          value.file_name = process.env.BASE_URL + value.file_name;
-          value.thumb_name = process.env.BASE_URL + value.thumb_name;
-        }
-      });
-
-      if (create_experience) {
-        var update_user = await users.findByIdAndUpdate(
-          { _id: user_id },
-          { $push: { experience: create_experience?._id } },
-          { new: true }
-        );
+    create_experience?.media.map((value) => {
+      if (value?.file_type == "image" || value?.file_type == "document") {
+        value.file_name = process.env.BASE_URL + value.file_name;
       }
-
-      if (update_user) {
-        return successRes(
-          res,
-          `Experience and skill added successfully`,
-          create_experience
-        );
+      if (value?.file_type == "video") {
+        value.file_name = process.env.BASE_URL + value.file_name;
+        value.thumb_name = process.env.BASE_URL + value.thumb_name;
       }
+    });
+
+    if (create_experience) {
+      var update_user = await users.findByIdAndUpdate(
+        { _id: user_id },
+        { $push: { experience: create_experience?._id } },
+        { new: true }
+      );
+    }
+
+    if (update_user) {
+      return successRes(
+        res,
+        `Experience and skill added successfully`,
+        create_experience
+      );
     }
   } catch (error) {
     console.log("Error : ", error);
