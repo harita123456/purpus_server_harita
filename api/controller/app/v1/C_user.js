@@ -19,7 +19,7 @@ const block_user = require("../../../../models/M_block_user");
 const notifications = require("../../../../models/M_notification");
 const group = require("../../../../models/M_group");
 const group_members = require("../../../../models/M_group_members");
-const faq = require("../../../../models/M_faq");
+// const faq = require("../../../../models/M_faq");
 const pollvotes = require("../../../../models/M_poll_votes");
 const chat_room = require("../../../../models/M_chat_room");
 const reportSchema = require("../../../../models/M_report");
@@ -41,22 +41,22 @@ const fs = require("fs");
 const path = require("path");
 const { unlink } = require("fs");
 const outputPath = path.join(__dirname, "../../../../");
-const multer = require("multer");
+
 const {
   securePassword,
   comparePassword,
 } = require("../../../../utils/secure_pwd");
-const {
-  notificationSend,
-  notiSendMultipleDevice,
-} = require("../../../../utils/notification_send");
+// const {
+//   notificationSend,
+//   notiSendMultipleDevice,
+// } = require("../../../../utils/notification_send");
 
 const { ObjectId } = require("mongodb");
 const { dateTime } = require("../../../../utils/date_time");
 
 const Chance = require("chance");
 const chance = new Chance();
-const { v4: uuidv4 } = require("uuid");
+// const { v4: uuidv4 } = require("uuid");
 //mysql
 const { pool } = require("../../../../config/database");
 
@@ -2033,16 +2033,16 @@ const editProfile = async (req, res) => {
               console.log("Insert social data successfully.");
             }
           } else {
-            var linkedin_link = social_media_link?.linkedin;
-            var facebook_link = social_media_link?.facebook
-            var twitter_link = social_media_link?.twitter
-            var instagram_link = social_media_link?.instagram
+            var linkedin_link_data = social_media_link?.linkedin;
+            var facebook_link_data = social_media_link?.facebook
+            var twitter_link_data = social_media_link?.twitter
+            var instagram_link_data = social_media_link?.instagram
 
             const data = [
-              linkedin_link,
-              facebook_link,
-              twitter_link,
-              instagram_link,
+              linkedin_link = linkedin_link_data,
+              facebook_link = facebook_link_data,
+              twitter_link = twitter_link_data,
+              instagram_link = instagram_link_data,
               find_data[0].id
             ];
 
@@ -6817,18 +6817,18 @@ const mysqlscript = async (req, res) => {
               );
 
             }
-            var linkedin_link = value?.social_media_link?.linkedin
-            var facebook_link = value?.social_media_link?.facebook
-            var twitter_link = value?.social_media_link?.twitter
-            var instagram_link = value?.social_media_link?.instagram
+            var linkedin_link_data = value?.social_media_link?.linkedin
+            var facebook_link_data = value?.social_media_link?.facebook
+            var twitter_link_data = value?.social_media_link?.twitter
+            var instagram_link_data = value?.social_media_link?.instagram
 
             const social_data = [
               identifier = value?._id.toString(),
               user_idfr = insertdata?.insertId,
-              linkedin_link = linkedin_link,
-              facebook_link = facebook_link,
-              twitter_link = twitter_link,
-              instagram_link = instagram_link,
+              linkedin_link = linkedin_link_data,
+              facebook_link = facebook_link_data,
+              twitter_link = twitter_link_data,
+              instagram_link = instagram_link_data,
             ];
 
             await performQuery(
