@@ -24,8 +24,6 @@ const groupDetailsDto = joi.object().keys({
 });
 
 const groupListDto = joi.object().keys({
-  page: joi.string().allow(),
-  limit: joi.string().allow(),
   other_user_id: joi.string().allow().label("Other user id"),
   group_type: joi
     .string()

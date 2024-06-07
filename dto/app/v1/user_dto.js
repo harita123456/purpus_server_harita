@@ -31,7 +31,6 @@ const userSigninDto = joi.object().keys({
   user_type: joi.string().required().valid("user", "admin").label("User type"),
   email_address: joi.string().allow().label("Email or User name"),
   password: joi.string().min(6).allow().label("Password"),
-  location: joi.string().allow().label("Location"),
   interested: joi.string().allow().label("Interested"),
   device_type: joi
     .string()
