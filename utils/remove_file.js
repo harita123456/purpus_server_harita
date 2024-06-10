@@ -1,20 +1,27 @@
 const fs = require("fs");
 const { errorRes } = require("./common_fun");
 
-const removeFile = (data) => {
+const removeFile = (data, res) => { // Add 'res' parameter
   try {
-    const filepath = "./uploads/" + data;
-
     if (Array.isArray(data)) {
-      data.map((images) => {
-        const filepath = "./uploads/" + images;
-        fs.unlink(filepath, function (error) {
-          if (error) return error;
+      data.forEach((image) => {
+        const filepath = "./uploads/" + image;
+        fs.unlink(filepath, (error) => {
+          if (error) {
+            console.error(`Failed to delete file: ${filepath}`, error);
+          } else {
+            console.log(`Successfully deleted file: ${filepath}`);
+          }
         });
       });
     } else {
-      fs.unlink(filepath, function (error) {
-        if (error) return error;
+      const filepath = "./uploads/" + data;
+      fs.unlink(filepath, (error) => {
+        if (error) {
+          console.error(`Failed to delete file: ${filepath}`, error);
+        } else {
+          console.log(`Successfully deleted file: ${filepath}`);
+        }
       });
     }
   } catch (error) {
