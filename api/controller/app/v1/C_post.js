@@ -305,9 +305,7 @@ const createPost = async (req, res) => {
       }
     });
 
-    if (create_post) {
-      return successRes(res, "Post created successfully ", create_post);
-    }
+    return successRes(res, "Post created successfully ", create_post);
   } catch (error) {
     console.log("Error : ", error);
     return
@@ -1834,7 +1832,7 @@ const createRepost = async (req, res) => {
         noti_for,
         sender_id: user_id,
         receiver_id: original_user?.user_id,
-        post_id: create_post?._id,
+        post_id: create_post._id,
         noti_date: currentDateTime,
         created_at: currentDateTime,
         updated_at: currentDateTime,
@@ -2207,7 +2205,7 @@ const addComment = async (req, res) => {
           && user_id.toString() !== find_post.user_id.toString()) {
 
           await notifications.deleteMany({
-            post_id: find_post?._id,
+            post_id: find_post._id,
             noti_for: "post_comment",
             receiver_id: find_post?.user_id,
           })
@@ -2279,7 +2277,7 @@ const addComment = async (req, res) => {
           && user_id.toString() == find_post.user_id.toString()) {
 
           await notifications.deleteMany({
-            post_id: find_post?._id,
+            post_id: find_post._id,
             noti_for: "post_comment",
             receiver_id: savedComment?.mention_user_id,
           })
