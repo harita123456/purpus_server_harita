@@ -729,7 +729,7 @@ const signIn = async (req, res) => {
       location,
       mobile_number,
       country_code,
-      unique_name,
+
     } = req.body;
     console.log("mobile_number", req.body);
 
@@ -2303,14 +2303,25 @@ const editProfile = async (req, res) => {
     const sql =
       "UPDATE user SET first_name = ?, profile_picture = ? , gender = ? ,disability=? ,relation_status=? ,dob =? WHERE identifier = ?";
 
+    // const values = [
+    //   first_name = firstname,
+    //   profile_picture = updated_data.profile_picture ? updated_data?.profile_picture : updated_data?.profile_url,
+    //   gender = updated_data?.demographics?.gender,
+    //   disability = updated_data?.demographics?.disability,
+    //   relation_status = updated_data?.demographics?.marriage_status,
+    //   dob = updated_data?.dob,
+    //   identifier = updated_data._id.toString(),
+
+    // ];
+
     const values = [
-      first_name = firstname,
-      profile_picture = updated_data.profile_picture ? updated_data?.profile_picture : updated_data?.profile_url,
-      gender = updated_data?.demographics?.gender,
-      disability = updated_data?.demographics?.disability,
-      relation_status = updated_data?.demographics?.marriage_status,
-      dob = updated_data?.dob,
-      identifier = updated_data._id.toString(),
+      firstname,
+      updated_data.profile_picture ? updated_data?.profile_picture : updated_data?.profile_url,
+      updated_data?.demographics?.gender,
+      updated_data?.demographics?.disability,
+      updated_data?.demographics?.marriage_status,
+      updated_data?.dob,
+      updated_data._id.toString(),
 
     ];
     const results = await performQuery(sql, values);
@@ -2332,10 +2343,16 @@ const editProfile = async (req, res) => {
       if (resultsData.length === 0) {
         var zipcode = updated_data?.demographics?.zipcode
         if (zipcode) {
+          // const data = [
+          //   identifier = updated_data._id.toString(),
+          //   user_idfr = finduserData[0].id,
+          //   zipcode = zipcode,
+          // ];
+
           const data = [
-            identifier = updated_data._id.toString(),
-            user_idfr = finduserData[0].id,
-            zipcode = zipcode,
+            updated_data._id.toString(),
+            finduserData[0].id,
+            zipcode,
           ];
           const insertdata = await performQuery(
             "INSERT INTO user_address(identifier, user_idfr, zipcode) values(?,?,?)",
@@ -6999,7 +7016,7 @@ const getsubInteresttesting = async (req, res) => {
           })
           .sort({ createdAt: 1 });
         var value;
-        if (data?._id == process.env.OFF_TOPIC_ID) {
+        if (data._id == process.env.OFF_TOPIC_ID) {
           value = {
             ...data._doc,
             sub_interest_data: [],
@@ -7120,17 +7137,30 @@ const mysqlscript = async (req, res) => {
           // var middleName = nameParts[0];
           // var lastName = nameParts[0];
 
+          // const data = [
+          //   identifier = value._id.toString(),
+          //   first_name = firstName,
+          //   profile_picture = value.profile_picture ? value.profile_picture : value.profile_url,
+          //   dob = value?.dob,
+          //   user_id = value.unique_name,
+          //   last_seen = value.user_last_active_date,
+          //   is_online = value.is_online,
+          //   disability = value?.demographics?.disability,
+          //   gender = value?.demographics?.gender,
+          //   relation_status = value?.demographics?.marriage_status
+          // ];
+
           const data = [
-            identifier = value._id.toString(),
-            first_name = firstName,
-            profile_picture = value.profile_picture ? value.profile_picture : value.profile_url,
-            dob = value?.dob,
-            user_id = value.unique_name,
+            value._id.toString(),
+            firstName,
+            value.profile_picture ? value.profile_picture : value.profile_url,
+            value?.dob,
+            value.unique_name,
             last_seen = value.user_last_active_date,
-            is_online = value.is_online,
-            disability = value?.demographics?.disability,
+            value.is_online,
+            value?.demographics?.disability,
             gender = value?.demographics?.gender,
-            relation_status = value?.demographics?.marriage_status
+            value?.demographics?.marriage_status
           ];
 
           const insertdata = await performQuery(
@@ -7140,10 +7170,15 @@ const mysqlscript = async (req, res) => {
 
           if (insertdata) {
             if (value?.demographics?.zipcode != null && value?.demographics?.zipcode != '') {
+              // const addressdata = [
+              //   identifier = value._id.toString(),
+              //   user_idfr = insertdata?.insertId,
+              //   zipcode = value?.demographics?.zipcode,
+              // ]
               const addressdata = [
-                identifier = value._id.toString(),
-                user_idfr = insertdata?.insertId,
-                zipcode = value?.demographics?.zipcode,
+                value._id.toString(),
+                insertdata?.insertId,
+                value?.demographics?.zipcode,
               ]
               await performQuery(
                 "INSERT INTO user_address(identifier, user_idfr, zipcode) values(?,?,?)",
@@ -7156,13 +7191,22 @@ const mysqlscript = async (req, res) => {
             // var twitter_link_data = value?.social_media_link?.twitter
             // var instagram_link_data = value?.social_media_link?.instagram
 
+            // const social_data = [
+            //   identifier = value._id.toString(),
+            //   user_idfr = insertdata?.insertId,
+            //   linkedin_link = value?.social_media_link?.linkedin,
+            //   facebook_link = value?.social_media_link?.facebook,
+            //   twitter_link = value?.social_media_link?.twitter,
+            //   instagram_link = value?.social_media_link?.instagram,
+            // ];
+
             const social_data = [
-              identifier = value._id.toString(),
-              user_idfr = insertdata?.insertId,
-              linkedin_link = value?.social_media_link?.linkedin,
-              facebook_link = value?.social_media_link?.facebook,
-              twitter_link = value?.social_media_link?.twitter,
-              instagram_link = value?.social_media_link?.instagram,
+              value._id.toString(),
+              insertdata?.insertId,
+              value?.social_media_link?.linkedin,
+              value?.social_media_link?.facebook,
+              value?.social_media_link?.twitter,
+              value?.social_media_link?.instagram,
             ];
 
             await performQuery(
@@ -7202,13 +7246,23 @@ const mysqlscript = async (req, res) => {
 
               find_session?.map(async (val) => {
 
+                // const data = [
+                //   identifier = val.user_id.toString(),
+                //   user_idfr = insertdata?.insertId,
+                //   login_timestamp = val.createdAt,
+                //   session_token = val.device_token,
+                //   device_info = val.device_type,
+                //   logout_timestamp = val.logout_time
+                // ]
+
+
                 const data = [
-                  identifier = val.user_id.toString(),
-                  user_idfr = insertdata?.insertId,
-                  login_timestamp = val.createdAt,
-                  session_token = val.device_token,
-                  device_info = val.device_type,
-                  logout_timestamp = val.logout_time
+                  val.user_id.toString(),
+                  insertdata?.insertId,
+                  val.createdAt,
+                  val.device_token,
+                  val.device_type,
+                  val.logout_time
                 ]
                 await performQuery(
                   "INSERT INTO user_session(identifier, user_idfr, login_timestamp ,session_token,device_info ,logout_timestamp) values(?,?,?,?,?,?)",
@@ -7251,19 +7305,30 @@ const mysqlscript = async (req, res) => {
               find_user_experience.map(async (val) => {
 
 
+                // const data = [
+                //   identifier = val?._id.toString(),
+                //   user_idfr = insertdata?.insertId,
+                //   job_title = val?.title,
+                //   employee_type = val?.emp_type,
+                //   company_name = val?.company_name,
+                //   company_address = val?.address,
+                //   industry = val?.industry,
+                //   start_date = val?.start_date,
+                //   end_date = val?.end_date,
+                //   job_description = val?.description,
+                // ];
                 const data = [
-                  identifier = val?._id.toString(),
-                  user_idfr = insertdata?.insertId,
-                  job_title = val?.title,
-                  employee_type = val?.emp_type,
-                  company_name = val?.company_name,
-                  company_address = val?.address,
-                  industry = val?.industry,
-                  start_date = val?.start_date,
-                  end_date = val?.end_date,
-                  job_description = val?.description,
+                  val?._id.toString(),
+                  insertdata?.insertId,
+                  val?.title,
+                  val?.emp_type,
+                  val?.company_name,
+                  val?.address,
+                  val?.industry,
+                  val?.start_date,
+                  val?.end_date,
+                  val?.description,
                 ];
-
                 const insertingdata = await performQuery(
                   "INSERT INTO user_experience (identifier, user_idfr, job_title,employee_type, company_name, company_address, industry, start_date, end_date, job_description) values(?,?,?,?,?,?,?,?,?,?)",
                   data
@@ -7278,12 +7343,20 @@ const mysqlscript = async (req, res) => {
                   if (val?.media.length > 0) {
                     val?.media.map(async (valuedata) => {
                       if (valuedata?.file_type == "image" || valuedata?.file_type == "document" || valuedata?.file_type == "video" || valuedata?.file_type == "url") {
+                        // const data1 = [
+                        //   identifier = valuedata?._id.toString(),
+                        //   user_experience_idfr = insertingdata.insertId,
+                        //   media_url = valuedata?.file_name,
+                        //   media_size = valuedata?.file_size,
+                        //   media_type = valuedata?.file_type,
+                        // ];
+
                         const data1 = [
-                          identifier = valuedata?._id.toString(),
-                          user_experience_idfr = insertingdata.insertId,
-                          media_url = valuedata?.file_name,
-                          media_size = valuedata?.file_size,
-                          media_type = valuedata?.file_type,
+                          valuedata?._id.toString(),
+                          insertingdata.insertId,
+                          valuedata?.file_name,
+                          valuedata?.file_size,
+                          valuedata?.file_type,
                         ];
 
                         const insertdata1 = await performQuery(
@@ -7314,17 +7387,30 @@ const mysqlscript = async (req, res) => {
 
             if (find_eduaction) {
               find_eduaction?.map(async (val) => {
+                // const data = [
+                //   identifier = val?._id.toString(),
+                //   user_idfr = insertdata?.insertId,
+                //   degree_obtained = val?.degree,
+                //   field_of_study = val?.field_of_Study,
+                //   institution_attended = val?.school,
+                //   start_date = val?.start_date,
+                //   end_date = val?.end_date,
+                //   description = val?.description,
+                //   activities_societies = val?.activities_and_societies,
+                //   grade = val?.grade
+                // ];
+
                 const data = [
-                  identifier = val?._id.toString(),
-                  user_idfr = insertdata?.insertId,
-                  degree_obtained = val?.degree,
-                  field_of_study = val?.field_of_Study,
-                  institution_attended = val?.school,
-                  start_date = val?.start_date,
-                  end_date = val?.end_date,
-                  description = val?.description,
-                  activities_societies = val?.activities_and_societies,
-                  grade = val?.grade
+                  val?._id.toString(),
+                  insertdata?.insertId,
+                  val?.degree,
+                  val?.field_of_Study,
+                  val?.school,
+                  val?.start_date,
+                  val?.end_date,
+                  val?.description,
+                  val?.activities_and_societies,
+                  val?.grade
                 ];
 
                 const inserteducation = await performQuery(
