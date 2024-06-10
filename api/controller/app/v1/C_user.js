@@ -7210,9 +7210,9 @@ const mysqlscript = async (req, res) => {
               //   zipcode = value?.demographics?.zipcode,
               // ]
               const addressdata = [
-                value._id.toString(),
-                insertdata?.insertId,
-                value?.demographics?.zipcode,
+                value._id.toString() ?? null,
+                insertdata?.insertId ?? null,
+                value?.demographics?.zipcode ?? null,
               ]
               await performQuery(
                 "INSERT INTO user_address(identifier, user_idfr, zipcode) values(?,?,?)",
