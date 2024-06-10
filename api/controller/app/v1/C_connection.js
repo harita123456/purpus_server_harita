@@ -56,9 +56,19 @@ const connectionList = async (req, res) => {
       store_ids.push(data.following_id);
     });
 
+    // var store_connection_data = [];
+    // store_ids.map((value) => {
+    //   follower_count_data.map((data) => {
+    //     if (value.equals(data.user_id)) {
+    //       store_connection_data.push(data.user_id);
+    //     }
+    //   });
+    // });
+
     var store_connection_data = [];
-    store_ids.map((value) => {
-      follower_count_data.map((data) => {
+
+    store_ids.forEach((value) => {
+      follower_count_data.forEach((data) => {
         if (value.equals(data.user_id)) {
           store_connection_data.push(data.user_id);
         }
@@ -229,9 +239,18 @@ const connectionCount = async (req, res) => {
       store_ids.push(data.following_id);
     });
 
+    // var store_connection_data = [];
+    // store_ids.map((value) => {
+    //   follower_count_data.map((data) => {
+    //     if (value.equals(data.user_id)) {
+    //       store_connection_data.push(data.user_id);
+    //     }
+    //   });
+    // });
     var store_connection_data = [];
-    store_ids.map((value) => {
-      follower_count_data.map((data) => {
+
+    store_ids.forEach((value) => {
+      follower_count_data.forEach((data) => {
         if (value.equals(data.user_id)) {
           store_connection_data.push(data.user_id);
         }

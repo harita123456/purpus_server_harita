@@ -335,7 +335,7 @@ module.exports = function (io) {
 
         const user = await users.find({ socket_id: socket_data });
 
-        if (user) {
+        if (user != null) {
           await users.findByIdAndUpdate(
             {
               _id: user[0]._id,
