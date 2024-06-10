@@ -584,7 +584,7 @@ const getAllLocalpost = async (req, res) => {
             }
           });
         });
-        var find_local_post_count = await post
+        var find_local_post_count_trending = await post
           .find()
           .where(where_condition)
           .count();
@@ -593,7 +593,7 @@ const getAllLocalpost = async (req, res) => {
             res,
             "Local post retrieved successfully",
             find_local_post,
-            find_local_post_count
+            find_local_post_count_trending
           );
         } else {
           return successRes(res, "No posts found for this user", []);
@@ -767,7 +767,7 @@ const getAllLocalpost = async (req, res) => {
           }
         });
       });
-      var find_local_post_count = await post
+      var find_local_post_count_all = await post
         .find()
         .where(where_condition)
         .count();
@@ -776,7 +776,7 @@ const getAllLocalpost = async (req, res) => {
           res,
           "Local post retrieved successfully",
           find_local_post,
-          find_local_post_count
+          find_local_post_count_all
         );
       } else {
         return successRes(res, "No posts found for this user", []);
@@ -974,7 +974,7 @@ const getAllLocalpost = async (req, res) => {
           }
         });
       });
-      var find_local_post_count = await post
+      var find_local_post_count_newest = await post
         .find()
         .where(where_condition)
         .count();
@@ -984,7 +984,7 @@ const getAllLocalpost = async (req, res) => {
           res,
           "Local post retrieved successfully",
           find_local_post,
-          find_local_post_count
+          find_local_post_count_newest
         );
       }
       else {
@@ -1180,7 +1180,7 @@ const getAllLocalpost = async (req, res) => {
           }
         });
       });
-      var find_local_post_count = await post
+      var find_local_post_count_top = await post
         .find()
         .where(where_condition)
         .count();
@@ -1191,7 +1191,7 @@ const getAllLocalpost = async (req, res) => {
           res,
           "Local post retrieved successfully",
           find_local_post,
-          find_local_post_count
+          find_local_post_count_top
         );
       } else {
         return successRes(res, "No posts found for this user", []);
@@ -1384,7 +1384,7 @@ const getAllLocalpost = async (req, res) => {
         }
       });
     });
-    var find_local_post_count = await post
+    var find_local_post_count_normal = await post
       .find()
       .where(where_condition)
       .count();
@@ -1394,7 +1394,7 @@ const getAllLocalpost = async (req, res) => {
         res,
         "Local post retrieved successfully",
         find_local_post,
-        find_local_post_count
+        find_local_post_count_normal
       );
     } else {
       return successRes(res, "No posts found for this user", []);
