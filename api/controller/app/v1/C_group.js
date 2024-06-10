@@ -1039,8 +1039,8 @@ const acceptDeclineJoinRequest = async (req, res) => {
         });
 
         var device_token_array = [];
-        for (var data of find_token) {
-          var device_token = data.device_token;
+        for (var datas of find_token) {
+          var device_token = datas.device_token;
           device_token_array.push(device_token);
         }
 
@@ -1122,8 +1122,8 @@ const acceptDeclineJoinRequest = async (req, res) => {
         });
 
         var device_token_array = [];
-        for (var value of find_token) {
-          var device_token = value.device_token;
+        for (var values of find_token) {
+          var device_token = values.device_token;
           device_token_array.push(device_token);
         }
 
@@ -1269,8 +1269,8 @@ const acceptDeclineJoinRequest = async (req, res) => {
         });
 
         var device_token_array = [];
-        for (var value of find_token) {
-          var device_token = value.device_token;
+        for (var val of find_token) {
+          var device_token = val.device_token;
           device_token_array.push(device_token);
         }
 
