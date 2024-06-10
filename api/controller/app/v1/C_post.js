@@ -1241,7 +1241,7 @@ const getAllSavedPosts = async (req, res) => {
         });
         var store_option_id = isPolled?.option_id;
 
-        const is_repost_you_status = await post?.findOne({
+        const is_repost_you_status = await post.findOne({
           user_id: user_id,
           repost_id: data._id,
           is_deleted: false,
@@ -1306,7 +1306,7 @@ const getAllSavedPosts = async (req, res) => {
           });
 
           var store_option_id_update = repostIsPolled?.option_id;
-          const is_repost_you_status = await post?.findOne({
+          const is_repost_you_status = await post.findOne({
             user_id: user_id,
             repost_id: data?.repost_id?._id,
             is_deleted: false,
@@ -1463,7 +1463,7 @@ const getAllLikedPosts = async (req, res) => {
         });
         var store_option_id = isPolled?.option_id;
 
-        const is_repost_you_status = await post?.findOne({
+        const is_repost_you_status = await post.findOne({
           user_id: user_id,
           repost_id: data._id,
           is_deleted: false,
@@ -1525,7 +1525,7 @@ const getAllLikedPosts = async (req, res) => {
           });
 
           var store_option_id_update = repostIsPolled?.option_id;
-          const is_repost_you_status = await post?.findOne({
+          const is_repost_you_status = await post.findOne({
             user_id: user_id,
             repost_id: data?.repost_id?._id,
             is_deleted: false,
@@ -4017,7 +4017,7 @@ const getPostdetails = async (req, res) => {
               });
               var store_option_id = repostIsPolled?.option_id;
 
-              const is_repost_you_status = await post?.findOne({
+              const is_repost_you_status = await post.findOne({
                 user_id: login_user_id,
                 repost_id: data?.repost_id?._id,
                 is_deleted: false
@@ -4066,7 +4066,7 @@ const getPostdetails = async (req, res) => {
           post_id: find_post._id,
         });
 
-        const is_repost_you_status = await post?.findOne({
+        const is_repost_you_status = await post.findOne({
           user_id: login_user_id,
           repost_id: find_post?._id,
           is_deleted: false,
@@ -4513,7 +4513,7 @@ const getUserPostlist = async (req, res) => {
             });
             var store_option_id = repostIsPolled?.option_id;
 
-            const is_repost_you_status = await post?.findOne({
+            const is_repost_you_status = await post.findOne({
               user_id: login_user_id,
               repost_id: data?.repost_id?._id,
               is_deleted: false
