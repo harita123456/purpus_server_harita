@@ -545,7 +545,7 @@ module.exports = {
 
     if (get_receiver_user) {
       let name = "";
-      var img = "";
+      let img = "";
       if (get_sender_user != null) {
         name = get_sender_user.full_name;
         if (get_sender_user.profile_picture) {

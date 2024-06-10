@@ -2427,7 +2427,7 @@ const addComment = async (req, res) => {
 
               const currentDateTime = await dateTime();
               let noti_msg = login_user_name + " commented: " + content;
-              var media;
+              let media;
               if (find_post.post_type == "media") {
                 if (find_post.post_media[0]?.file_type == "image") {
                   media =
@@ -2648,7 +2648,7 @@ const editComment = async (req, res) => {
     }
     var {
       comment_id,
-  
+
       post_id,
       content,
       parent_comment_id,
@@ -4123,7 +4123,7 @@ const getPostdetails = async (req, res) => {
                 user_id: login_user_id,
                 post_id: data.repost_id._id,
               });
-              var store_option_id = repostIsPolled?.option_id;
+              var store_option_ids = repostIsPolled?.option_id;
 
               const is_repost_you_status = await post.findOne({
                 user_id: login_user_id,
@@ -4146,7 +4146,7 @@ const getPostdetails = async (req, res) => {
                 is_like: !!repostIsLiked,
                 is_save: !!repostIsSaved,
                 is_poll_response: !!repostIsPolled,
-                store_option_id: store_option_id,
+                store_option_id: store_option_ids,
                 is_repost_you: !!is_repost_you_status,
                 is_view_impression: !!is_view_impression,
                 is_view_Post: !!is_view_Post,
@@ -4560,7 +4560,7 @@ const getUserPostlist = async (req, res) => {
             user_id: login_user_id,
             post_id: data._id,
           });
-          var store_option_id = isPolled?.option_id;
+          var store_option_ids = isPolled?.option_id;
 
           const is_view_impression = await user_impressions.findOne({
             user_id: login_user_id,
@@ -4606,7 +4606,7 @@ const getUserPostlist = async (req, res) => {
             is_like: !!isLiked,
             is_save: !!isSaved,
             is_poll_response: !!isPolled,
-            store_option_id: store_option_id,
+            store_option_id: store_option_ids,
             is_repost_you: !!is_repost_you_status,
             is_view_impression: !!is_view_impression,
             is_view_Post: !!is_view_Post,
