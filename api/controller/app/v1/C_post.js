@@ -2415,13 +2415,12 @@ const addComment = async (req, res) => {
 
               if (noti_send.status == 200) {
 
-                if (savedComment && savedComment.mention_user_id) {
-                  await users.findByIdAndUpdate(savedComment?.mention_user_id, {
-                    $inc: {
-                      noti_badge: 1,
-                    },
-                  });
-                }
+
+                await users.findByIdAndUpdate(savedComment?.mention_user_id, {
+                  $inc: {
+                    noti_badge: 1,
+                  },
+                });
               }
             }
           } else {
