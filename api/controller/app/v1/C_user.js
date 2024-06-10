@@ -2257,7 +2257,7 @@ const editProfile = async (req, res) => {
                   const datas = [
                     data._id.toString(),
                     MySQLuser[0].id,
-                    data?.skill_name,
+                    data.skill_name,
                     5,
                   ];
                   await performQuery(

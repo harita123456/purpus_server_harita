@@ -213,10 +213,14 @@ const appVersionCheck = async (req, res) => {
         }
 
         if (app_platform) {
+
+          let device_type;
           if (app_platform == "ios") {
-            var device_type = "ios";
+            // var device_type = "ios";
+            device_type = "ios";
           } else {
-            var device_type = "android";
+            // var device_type = "android";
+            device_type = "android";
           }
           update_data = { ...update_data, device_type: device_type };
         }

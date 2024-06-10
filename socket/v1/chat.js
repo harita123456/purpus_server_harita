@@ -211,6 +211,8 @@ module.exports = {
           is_read: false,
         });
 
+
+        let last_message_time;
         if (findLastMsg) {
           if (findLastMsg.message_type == "text") {
             var last_message = findLastMsg.message;
@@ -220,16 +222,20 @@ module.exports = {
           if (findLastMsg.message_type == "post") {
             var last_message = "post";
           }
-          var last_message_time = findLastMsg.message_time;
+          // var last_message_time = findLastMsg.message_time;
+          last_message_time = findLastMsg.message_time;
         } else {
           var last_message = null;
-          var last_message_time = null;
+          // var last_message_time = null;
+          last_message_time = null;
         }
-
+        let other_user;
         if (value.user_id == user_id) {
-          var other_user = value.other_user_id;
+          // var other_user = value.other_user_id;
+          other_user = value.other_user_id;
         } else {
-          var other_user = value.user_id;
+          // var other_user = value.user_id;
+          other_user = value.user_id;
         }
 
         let findOtherUser = await users
@@ -1154,16 +1160,23 @@ module.exports = {
           is_read: false,
         });
 
+        let last_message_time;
         if (findLastMsg) {
+
+          let last_message;
           if (findLastMsg.message_type == "text") {
-            var last_message = findLastMsg.message;
+            // var last_message = findLastMsg.message;
+            last_message = findLastMsg.message;
           } else {
-            var last_message = "media";
+            // var last_message = "media";
+            // var last_message = "media";
           }
-          var last_message_time = findLastMsg.message_time;
+          // var last_message_time = findLastMsg.message_time;
+          last_message_time = findLastMsg.message_time;
         } else {
           var last_message = null;
-          var last_message_time = null;
+          // var last_message_time = null;
+          last_message_time = null;
         }
 
         if (value.user_id == user_id) {
