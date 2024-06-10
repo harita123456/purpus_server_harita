@@ -274,6 +274,7 @@ module.exports = {
 
         if (get_sender_user != null) {
           name = get_sender_user.full_name;
+          
           if (get_sender_user.profile_picture) {
             img = process.env.BASE_URL + get_sender_user.profile_picture;
           } else {

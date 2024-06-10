@@ -1268,14 +1268,14 @@ const acceptDeclineJoinRequest = async (req, res) => {
           is_deleted: false,
         });
 
-        var device_token_array = [];
+        var device_token_arrays = [];
         for (var val of find_token) {
           var device_token = val.device_token;
-          device_token_array.push(device_token);
+          device_token_arrays.push(device_token);
         }
 
-        if (device_token_array.length > 0) {
-          notiData = { ...notiData, device_token: device_token_array };
+        if (device_token_arrays.length > 0) {
+          notiData = { ...notiData, device_token: device_token_arrays };
           var noti_send = await notiSendMultipleDevice(notiData);
           if (noti_send.status == 200) {
             await users.findByIdAndUpdate(noti_data.sender_id, {

@@ -7186,15 +7186,15 @@ const mysqlscript = async (req, res) => {
 
           const data = [
             value._id.toString(),
-            firstName,
-            value.profile_picture ? value.profile_picture : value.profile_url,
-            value?.dob,
-            value.unique_name,
-            last_seen = value.user_last_active_date,
-            value.is_online,
-            value?.demographics?.disability,
-            gender = value?.demographics?.gender,
-            value?.demographics?.marriage_status
+            firstName ?? null,
+            value.profile_picture ? value.profile_picture : value.profile_url ?? null,
+            value?.dob ?? null,
+            value.unique_name ?? null,
+            last_seen = value.user_last_active_date ?? null,
+            value.is_online ?? null,
+            value?.demographics?.disability ?? null,
+            gender = value?.demographics?.gender ?? null,
+            value?.demographics?.marriage_status ?? null
           ];
 
           const insertdata = await performQuery(
