@@ -202,14 +202,14 @@ const followUser = async (req, res) => {
         is_deleted: false,
       });
 
-      var device_token_array = [];
+      var device_token_array_follow_user = [];
       for (var value of find_token_follow_request) {
-        var device_token = value.device_token;
-        device_token_array.push(device_token);
+        var device_token_follow_user = value.device_token;
+        device_token_array_follow_user.push(device_token_follow_user);
       }
 
-      if (device_token_array.length > 0) {
-        notiData = { ...notiData, device_token: device_token_array };
+      if (device_token_array_follow_user.length > 0) {
+        notiData = { ...notiData, device_token: device_token_array_follow_user };
         var noti_send_follow_request = await notiSendMultipleDevice(notiData);
         if (noti_send_follow_request.status == 200) {
           await users.findByIdAndUpdate(following_id, {
@@ -438,7 +438,7 @@ const acceptfollowrequest = async (req, res) => {
 
         return successRes(res, `request accepted successfully`, noti_update);
       } else {
-        var noti_update = await notifications.findByIdAndUpdate(
+        var noti_update_else = await notifications.findByIdAndUpdate(
           { _id: noti_id, is_deleted: false, is_accepted: null },
           { $set: { is_accepted: false } },
           { new: true }
@@ -446,8 +446,8 @@ const acceptfollowrequest = async (req, res) => {
 
         await follower_following.findOneAndDelete(
           {
-            user_id: noti_update.sender_id,
-            following_id: noti_update.receiver_id,
+            user_id: noti_update_else.sender_id,
+            following_id: noti_update_else.receiver_id,
           },
           {
             $set: {
@@ -457,7 +457,7 @@ const acceptfollowrequest = async (req, res) => {
           { new: true }
         );
 
-        return successRes(res, `request decline successfully`, noti_update);
+        return successRes(res, `request decline successfully`, noti_update_else);
       }
     }
   } catch (error) {
