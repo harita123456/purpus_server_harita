@@ -436,11 +436,18 @@ const editPost = async (req, res) => {
     if (post_type == "media") {
       var check_media = util.isArray(post_media);
 
+      // if (check_media == false) {
+      //   var postmedia_array = [];
+      //   postmedia_array.push(post_media);
+      // } else {
+      //   var postmedia_array = post_media;
+      // }
+      let postmedia_array;
       if (check_media == false) {
-        var postmedia_array = [];
+        postmedia_array = [];
         postmedia_array.push(post_media);
       } else {
-        var postmedia_array = post_media;
+        postmedia_array = post_media;
       }
 
       if (postmedia_array[0] != undefined) {
@@ -2397,8 +2404,8 @@ const addComment = async (req, res) => {
             });
 
             var device_token_array = [];
-            for (var value of find_token) {
-              var device_token = value.device_token;
+            for (var val of find_token) {
+              var device_token = val.device_token;
               device_token_array.push(device_token);
             }
 
@@ -2469,8 +2476,8 @@ const addComment = async (req, res) => {
               });
 
               var device_token_array = [];
-              for (var value of find_token) {
-                var device_token = value.device_token;
+              for (var data of find_token) {
+                var device_token = data.device_token;
                 device_token_array.push(device_token);
               }
 
@@ -2540,8 +2547,8 @@ const addComment = async (req, res) => {
               });
 
               var device_token_array = [];
-              for (var value of find_token) {
-                var device_token = value.device_token;
+              for (var values of find_token) {
+                var device_token = values.device_token;
                 device_token_array.push(device_token);
               }
 

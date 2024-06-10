@@ -75,13 +75,10 @@ module.exports = {
           });
 
           if (findLastMsg) {
-            let last_message
             if (findLastMsg.message_type == "text") {
-              last_message = findLastMsg.message;
-              // var last_message = findLastMsg.message;
+              var last_message = findLastMsg.message;
             } else {
-              last_message = "media";
-              // var last_message = "media";
+              var last_message = "media";
             }
             var last_message_time = findLastMsg.message_time;
           } else {
