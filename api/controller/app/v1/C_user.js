@@ -599,16 +599,30 @@ const signup = async (req, res) => {
     // var middleName = nameParts[0];
     // var lastName = nameParts[0];
     // profile_picture = create_user?.profile_picture ? create_user?.profile_picture : create_user?.profile_url,
+
+
+    // const data = [
+    //   identifier = create_user._id.toString(),
+    //   first_name = firstName,
+    //   profile_picture = (user_data?.profile_picture != null && user_data.profile_picture !== '')
+    //     ? user_data.profile_picture
+    //     : (user_data?.profile_url != null && user_data.profile_url !== '')
+    //       ? user_data.profile_url
+    //       : null,
+    //   dob = create_user.dob,
+    //   user_id = create_user.unique_name,
+    // ];
+
     const data = [
-      identifier = create_user._id.toString(),
-      first_name = firstName,
-      profile_picture = (user_data?.profile_picture != null && user_data.profile_picture !== '')
+      create_user._id.toString(),
+      firstName,
+      (user_data?.profile_picture != null && user_data.profile_picture !== '')
         ? user_data.profile_picture
         : (user_data?.profile_url != null && user_data.profile_url !== '')
           ? user_data.profile_url
           : null,
-      dob = create_user.dob,
-      user_id = create_user.unique_name,
+      create_user.dob,
+      create_user.unique_name,
     ];
 
     const insertdata = await performQuery(
@@ -660,14 +674,22 @@ const signup = async (req, res) => {
       var find_user_data = await performQuery(sqlfind, sqlval);
 
       if (find_user_data) {
-        const data = [
-          identifier = create_user._id.toString(),
-          user_idfr = find_user_data[0].id,
-          login_timestamp = session.createdAt,
-          session_token = session.device_token,
-          device_info = session.device_type,
-        ];
+        // const data = [
+        //   identifier = create_user._id.toString(),
+        //   user_idfr = find_user_data[0].id,
+        //   login_timestamp = session.createdAt,
+        //   session_token = session.device_token,
+        //   device_info = session.device_type,
+        // ];
 
+
+        const data = [
+          create_user._id.toString(),
+          find_user_data[0].id,
+          session.createdAt,
+          session.device_token,
+          session.device_type,
+        ];
         const insertdata = await performQuery(
           "INSERT INTO user_session(identifier, user_idfr, login_timestamp ,session_token,device_info) values(?,?,?,?,?)",
           data
@@ -770,7 +792,7 @@ const signIn = async (req, res) => {
         // };
 
 
-        user_data = {
+        var user_data = {
           ...update_user._doc,
           token: token,
         };
@@ -946,14 +968,24 @@ const signIn = async (req, res) => {
     //   identifier = user_data?._id.toString(),
     // ];
 
+    // const values = [
+    //   first_name = firstName,
+    //   profile_picture = (user_data?.profile_picture != null && user_data.profile_picture !== '')
+    //     ? user_data.profile_picture
+    //     : (user_data?.profile_url != null && user_data.profile_url !== '')
+    //       ? user_data.profile_url
+    //       : null,
+    //   identifier = user_data._id.toString(),
+    // ];
+
     const values = [
-      first_name = firstName,
-      profile_picture = (user_data?.profile_picture != null && user_data.profile_picture !== '')
+      firstName,
+      (user_data?.profile_picture != null && user_data.profile_picture !== '')
         ? user_data.profile_picture
         : (user_data?.profile_url != null && user_data.profile_url !== '')
           ? user_data.profile_url
           : null,
-      identifier = user_data._id.toString(),
+      user_data._id.toString(),
     ];
     const results = await performQuery(sql, values);
 
@@ -999,13 +1031,22 @@ const signIn = async (req, res) => {
         var sqlval = [user_data._id.toString()]
         var find_user_data = await performQuery(sqlfind, sqlval);
 
+        // const data = [
+        //   identifier = user_data._id.toString(),
+        //   user_idfr = find_user_data[0].id,
+        //   login_timestamp = session.createdAt,
+        //   session_token = session.device_token,
+        //   device_info = session.device_type,
+        // ];
+
         const data = [
-          identifier = user_data._id.toString(),
-          user_idfr = find_user_data[0].id,
-          login_timestamp = session.createdAt,
-          session_token = session.device_token,
-          device_info = session.device_type,
+          user_data._id.toString(),
+          find_user_data[0].id,
+          session.createdAt,
+          session.device_token,
+          session.device_type,
         ];
+
 
         // const insertdata 
         await performQuery(
@@ -1016,12 +1057,20 @@ const signIn = async (req, res) => {
 
         const sql_update =
           "UPDATE user_session SET login_timestamp = ?, session_token = ?, device_info = ?   WHERE identifier  = ? AND session_token =?";
+        // const values_update = [
+        //   login_timestamp = new Date(),
+        //   session_token = session.device_token,
+        //   device_info = session.device_type,
+        //   identifier = user_data._id.toString(),
+        //   session_token = session.device_token,
+        // ];
+
         const values_update = [
-          login_timestamp = new Date(),
-          session_token = session.device_token,
-          device_info = session.device_type,
-          identifier = user_data._id.toString(),
-          session_token = session.device_token,
+          new Date(),
+          session.device_token,
+          session.device_type,
+          user_data._id.toString(),
+          session.device_token,
         ];
         const results = await performQuery(sql_update, values_update);
         if (results) {
@@ -5414,19 +5463,31 @@ const addEduaction = async (req, res) => {
     if (results.affectedRows === 0) {
       console.log("Couldn't found user.");
     } else {
-      const data = [
-        identifier = create_eduaction?._id.toString(),
-        user_idfr = results[0].id,
-        degree_obtained = create_eduaction?.degree,
-        field_of_study = create_eduaction?.field_of_Study,
-        institution_attended = create_eduaction?.school,
-        start_date = create_eduaction?.start_date,
-        end_date = create_eduaction?.end_date,
-        description = create_eduaction?.description,
-        activities_societies = create_eduaction?.activities_and_societies,
-        grade = create_eduaction?.grade
-      ];
+      // const data = [
+      //   identifier = create_eduaction?._id.toString(),
+      //   user_idfr = results[0].id,
+      //   degree_obtained = create_eduaction?.degree,
+      //   field_of_study = create_eduaction?.field_of_Study,
+      //   institution_attended = create_eduaction?.school,
+      //   start_date = create_eduaction?.start_date,
+      //   end_date = create_eduaction?.end_date,
+      //   description = create_eduaction?.description,
+      //   activities_societies = create_eduaction?.activities_and_societies,
+      //   grade = create_eduaction?.grade
+      // ];
 
+      const data = [
+        create_eduaction?._id.toString(),
+        results[0].id,
+        create_eduaction?.degree,
+        create_eduaction?.field_of_Study,
+        create_eduaction?.school,
+        create_eduaction?.start_date,
+        create_eduaction?.end_date,
+        create_eduaction?.description,
+        create_eduaction?.activities_and_societies,
+        create_eduaction?.grade
+      ];
       const insertdata = await performQuery(
         "INSERT INTO user_education (identifier, user_idfr, degree_obtained ,field_of_study ,institution_attended ,start_date ,end_date ,description ,activities_societies ,grade ) values(?,?,?,?,?,?,?,?,?,?)",
         data
@@ -5532,15 +5593,27 @@ const editEduaction = async (req, res) => {
 
 
     if (update_user) {
+      // const data = [
+      //   degree_obtained = update_user?.degree,
+      //   field_of_study = update_user?.field_of_Study,
+      //   institution_attended = update_user?.school,
+      //   start_date = update_user?.start_date,
+      //   end_date = update_user?.end_date,
+      //   description = update_user?.description,
+      //   activities_societies = update_user?.activities_and_societies,
+      //   grade = update_user?.grade,
+      //   update_user._id.toString(),
+      // ];
+
       const data = [
-        degree_obtained = update_user?.degree,
-        field_of_study = update_user?.field_of_Study,
-        institution_attended = update_user?.school,
-        start_date = update_user?.start_date,
-        end_date = update_user?.end_date,
-        description = update_user?.description,
-        activities_societies = update_user?.activities_and_societies,
-        grade = update_user?.grade,
+        update_user?.degree,
+        update_user?.field_of_Study,
+        update_user?.school,
+        update_user?.start_date,
+        update_user?.end_date,
+        update_user?.description,
+        update_user?.activities_and_societies,
+        update_user?.grade,
         update_user._id.toString(),
       ];
 
@@ -5900,17 +5973,30 @@ const addExperience = async (req, res) => {
       } else {
 
         console.log("results+++++++++++", results)
+        // const data = [
+        //   identifier = create_experience?._id.toString(),
+        //   user_idfr = results[0].id,
+        //   job_title = create_experience?.title,
+        //   employee_type = create_experience?.emp_type,
+        //   company_name = create_experience?.company_name,
+        //   company_address = create_experience?.address,
+        //   industry = create_experience?.industry,
+        //   start_date = create_experience?.start_date,
+        //   end_date = create_experience?.end_date,
+        //   job_description = create_experience?.description,
+        // ];
+
         const data = [
-          identifier = create_experience?._id.toString(),
-          user_idfr = results[0].id,
-          job_title = create_experience?.title,
-          employee_type = create_experience?.emp_type,
-          company_name = create_experience?.company_name,
-          company_address = create_experience?.address,
-          industry = create_experience?.industry,
-          start_date = create_experience?.start_date,
-          end_date = create_experience?.end_date,
-          job_description = create_experience?.description,
+          create_experience?._id.toString(),
+          results[0].id,
+          create_experience?.title,
+          create_experience?.emp_type,
+          create_experience?.company_name,
+          create_experience?.address,
+          create_experience?.industry,
+          create_experience?.start_date,
+          create_experience?.end_date,
+          create_experience?.description,
         ];
         const insertdata = await performQuery(
           "INSERT INTO user_experience (identifier, user_idfr, job_title,employee_type, company_name, company_address, industry, start_date, end_date, job_description) values(?,?,?,?,?,?,?,?,?,?)",
@@ -6148,7 +6234,7 @@ const editExperince = async (req, res) => {
               if (err) throw err;
             });
           });
-          var updated_image = await experienceSchema.findByIdAndUpdate(
+          await experienceSchema.findByIdAndUpdate(
             { _id: experince_id },
             { $push: { media: file_data } },
             { new: true }
@@ -6287,12 +6373,20 @@ const editExperince = async (req, res) => {
                 const results = await performQuery(sql, values);
 
                 if (results.length > 0) {
+                  // const data1 = [
+                  //   media_url = value?.file_name,
+                  //   media_size = value?.file_size,
+                  //   media_type = value?.file_type,
+                  //   identifier = value?._id.toString(),
+                  // ];
+
                   const data1 = [
-                    media_url = value?.file_name,
-                    media_size = value?.file_size,
-                    media_type = value?.file_type,
-                    identifier = value?._id.toString(),
+                    value?.file_name,
+                    value?.file_size,
+                    value?.file_type,
+                    value?._id.toString(),
                   ];
+
 
                   const updatedata1 = await performQuery(
                     "UPDATE user_experience_media SET media_url = ?, media_size = ?, media_type = ? WHERE identifier = ?",
@@ -6309,13 +6403,22 @@ const editExperince = async (req, res) => {
                   const values = [update_experince_data?._id.toString()];
                   const results = await performQuery(sql, values);
 
+                  // const data1 = [
+                  //   identifier = value._id.toString(),
+                  //   user_experience_idfr = results[0].id,
+                  //   media_url = value?.file_name,
+                  //   media_size = value?.file_size,
+                  //   media_type = value?.file_type,
+                  // ];
+
                   const data1 = [
-                    identifier = value._id.toString(),
-                    user_experience_idfr = results[0].id,
-                    media_url = value?.file_name,
-                    media_size = value?.file_size,
-                    media_type = value?.file_type,
+                    value._id.toString(),
+                    results[0].id,
+                    value?.file_name,
+                    value?.file_size,
+                    value?.file_type,
                   ];
+
 
                   const insertdata1 = await performQuery(
                     "INSERT INTO user_experience_media (identifier, user_experience_idfr, media_url, media_size, media_type) values(?,?,?,?,?)",
@@ -6568,11 +6671,18 @@ const addCustomfield = async (req, res) => {
       console.log("Couldn't found user.");
     } else {
       //identifier : custom field id
+      // const data = [
+      //   identifier = create_customfield?._id.toString(),
+      //   user_idfr = results[0].id,
+      //   title = create_customfield?.title,
+      //   description = create_customfield?.description
+      // ];
+
       const data = [
-        identifier = create_customfield?._id.toString(),
-        user_idfr = results[0].id,
-        title = create_customfield?.title,
-        description = create_customfield?.description
+        create_customfield?._id.toString(),
+        results[0].id,
+        create_customfield?.title,
+        create_customfield?.description
       ];
       const insertdata = await performQuery(
         "INSERT INTO user_custom_field (identifier, user_idfr, title ,description ) values(?,?,?,?)",
@@ -7007,9 +7117,8 @@ const mysqlscript = async (req, res) => {
 
           const nameParts = value.full_name.split(' ');
           var firstName = nameParts[0];
-          var middleName = nameParts[0];
-          var lastName = nameParts[0];
-          console.log("firstName", firstName)
+          // var middleName = nameParts[0];
+          // var lastName = nameParts[0];
 
           const data = [
             identifier = value._id.toString(),
