@@ -366,7 +366,7 @@ const getAllLocalpost = async (req, res) => {
           $gte: new Date(Date.now() - timeFrameInHours * 60 * 60 * 1000),
         },
       };
-      var find_local_post = await post
+      var find_local_post_trending = await post
         .find()
         .where(where_condition)
         .populate({
@@ -387,7 +387,7 @@ const getAllLocalpost = async (req, res) => {
         .skip((page - 1) * limit)
         .sort({ like_count: -1, comment_count: -1 });
 
-      if (find_local_post.length <= 0) {
+      if (find_local_post_trending.length <= 0) {
         const timeFrameInHours = 1000;
         where_condition = {
           ...where_condition,
@@ -395,7 +395,7 @@ const getAllLocalpost = async (req, res) => {
             $gte: new Date(Date.now() - timeFrameInHours * 60 * 60 * 1000),
           },
         };
-        var find_local_post = await post
+        var find_local_post_trending = await post
           .find()
           .where(where_condition)
           .populate({
@@ -416,8 +416,8 @@ const getAllLocalpost = async (req, res) => {
           .skip((page - 1) * limit)
           .sort({ like_count: -1, comment_count: -1 });
 
-        find_local_post = await Promise.all(
-          find_local_post.map(async (data) => {
+        find_local_post_trending = await Promise.all(
+          find_local_post_trending.map(async (data) => {
             const isLiked = await like_post.findOne({
               user_id: user_id,
               post_id: data._id,
@@ -555,7 +555,7 @@ const getAllLocalpost = async (req, res) => {
           })
         );
 
-        find_local_post.forEach(async (post) => {
+        find_local_post_trending.forEach(async (post) => {
           if (post?.user_id?.profile_picture) {
             post.user_id.profile_picture =
               process.env.BASE_URL + post.user_id.profile_picture;
@@ -588,19 +588,19 @@ const getAllLocalpost = async (req, res) => {
           .find()
           .where(where_condition)
           .count();
-        if (find_local_post.length > 0) {
+        if (find_local_post_trending.length > 0) {
           return multiSuccessRes(
             res,
             "Local post retrieved successfully",
-            find_local_post,
+            find_local_post_trending,
             find_local_post_count_trending
           );
         } else {
           return successRes(res, "No posts found for this user", []);
         }
       }
-      find_local_post = await Promise.all(
-        find_local_post.map(async (data) => {
+      find_local_post_trending = await Promise.all(
+        find_local_post_trending.map(async (data) => {
           const isLiked = await like_post.findOne({
             user_id: user_id,
             post_id: data._id,
@@ -738,7 +738,7 @@ const getAllLocalpost = async (req, res) => {
         })
       );
 
-      find_local_post.forEach(async (post) => {
+      find_local_post_trending.forEach(async (post) => {
         if (post?.user_id?.profile_picture) {
           post.user_id.profile_picture =
             process.env.BASE_URL + post.user_id.profile_picture;
@@ -771,11 +771,11 @@ const getAllLocalpost = async (req, res) => {
         .find()
         .where(where_condition)
         .count();
-      if (find_local_post.length > 0) {
+      if (find_local_post_trending.length > 0) {
         return multiSuccessRes(
           res,
           "Local post retrieved successfully",
-          find_local_post,
+          find_local_post_trending,
           find_local_post_count_all
         );
       } else {
@@ -784,7 +784,7 @@ const getAllLocalpost = async (req, res) => {
     }
 
     if (newest == true || newest == "true") {
-      var find_local_post = await post
+      var find_local_post_newest = await post
         .find()
         .where(where_condition)
         .populate({
@@ -805,8 +805,8 @@ const getAllLocalpost = async (req, res) => {
         .skip((page - 1) * limit)
         .sort({ createdAt: -1 });
 
-      find_local_post = await Promise.all(
-        find_local_post.map(async (data) => {
+      find_local_post_newest = await Promise.all(
+        find_local_post_newest.map(async (data) => {
           const isLiked = await like_post.findOne({
             user_id: user_id,
             post_id: data._id,
@@ -945,7 +945,7 @@ const getAllLocalpost = async (req, res) => {
         })
       );
 
-      find_local_post.forEach(async (post) => {
+      find_local_post_newest.forEach(async (post) => {
         if (post?.user_id?.profile_picture) {
           post.user_id.profile_picture =
             process.env.BASE_URL + post.user_id.profile_picture;
@@ -979,11 +979,11 @@ const getAllLocalpost = async (req, res) => {
         .where(where_condition)
         .count();
 
-      if (find_local_post.length > 0) {
+      if (find_local_post_newest.length > 0) {
         return multiSuccessRes(
           res,
           "Local post retrieved successfully",
-          find_local_post,
+          find_local_post_newest,
           find_local_post_count_newest
         );
       }
@@ -993,7 +993,7 @@ const getAllLocalpost = async (req, res) => {
     }
 
     if (top == true || top == "true") {
-      var find_local_post = await post
+      var find_local_post_top = await post
         .find()
         .where(where_condition)
         .populate({
@@ -1014,8 +1014,8 @@ const getAllLocalpost = async (req, res) => {
         .skip((page - 1) * limit)
         .sort({ like_count: -1 });
 
-      find_local_post = await Promise.all(
-        find_local_post.map(async (data) => {
+      find_local_post_top = await Promise.all(
+        find_local_post_top.map(async (data) => {
           const isLiked = await like_post.findOne({
             user_id: user_id,
             post_id: data._id,
@@ -1151,7 +1151,7 @@ const getAllLocalpost = async (req, res) => {
           return updatedPost;
         })
       );
-      find_local_post.forEach(async (post) => {
+      find_local_post_top.forEach(async (post) => {
         if (post?.user_id?.profile_picture) {
           post.user_id.profile_picture =
             process.env.BASE_URL + post.user_id.profile_picture;
@@ -1185,12 +1185,12 @@ const getAllLocalpost = async (req, res) => {
         .where(where_condition)
         .count();
 
-      if (find_local_post.length > 0) {
+      if (find_local_post_top.length > 0) {
 
         return multiSuccessRes(
           res,
           "Local post retrieved successfully",
-          find_local_post,
+          find_local_post_top,
           find_local_post_count_top
         );
       } else {
@@ -1198,7 +1198,7 @@ const getAllLocalpost = async (req, res) => {
       }
     }
 
-    var find_local_post = await post
+    var find_local_post_normal = await post
       .find()
       .where(where_condition)
       .populate({
@@ -1219,8 +1219,8 @@ const getAllLocalpost = async (req, res) => {
       .skip((page - 1) * limit)
       .sort({ createdAt: -1 });
 
-    find_local_post = await Promise.all(
-      find_local_post.map(async (data) => {
+    find_local_post_normal = await Promise.all(
+      find_local_post_normal.map(async (data) => {
         const isLiked = await like_post.findOne({
           user_id: user_id,
           post_id: data._id,
@@ -1355,7 +1355,7 @@ const getAllLocalpost = async (req, res) => {
         return updatedPost;
       })
     );
-    find_local_post.forEach(async (post) => {
+    find_local_post_normal.forEach(async (post) => {
       if (post?.user_id?.profile_picture) {
         post.user_id.profile_picture =
           process.env.BASE_URL + post.user_id.profile_picture;
@@ -1389,11 +1389,11 @@ const getAllLocalpost = async (req, res) => {
       .where(where_condition)
       .count();
 
-    if (find_local_post.length > 0) {
+    if (find_local_post_normal.length > 0) {
       return multiSuccessRes(
         res,
         "Local post retrieved successfully",
-        find_local_post,
+        find_local_post_normal,
         find_local_post_count_normal
       );
     } else {
