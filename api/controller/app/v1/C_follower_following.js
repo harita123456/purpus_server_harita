@@ -99,13 +99,13 @@ const followUser = async (req, res) => {
           updated_at: currentDateTime,
         });
 
-        var find_token = await user_session.find({
+        var find_token_follow_request_data = await user_session.find({
           user_id: following_id,
           is_deleted: false,
         });
 
         var device_token_array = [];
-        for (var value of find_token) {
+        for (var value of find_token_follow_request_data) {
           var device_token = value.device_token;
           device_token_array.push(device_token);
         }
@@ -197,13 +197,13 @@ const followUser = async (req, res) => {
         updated_at: currentDateTime,
       });
 
-      var find_token = await user_session.find({
+      var find_token_follow_request = await user_session.find({
         user_id: find_following_data._id,
         is_deleted: false,
       });
 
       var device_token_array = [];
-      for (var value of find_token) {
+      for (var value of find_token_follow_request) {
         var device_token = value.device_token;
         device_token_array.push(device_token);
       }
@@ -408,13 +408,13 @@ const acceptfollowrequest = async (req, res) => {
             updated_at: currentDateTime,
           });
 
-          var find_token = await user_session.find({
+          var find_token_update_follower = await user_session.find({
             user_id: noti_data.sender_id,
             is_deleted: false,
           });
 
           var device_token_array = [];
-          for (var value of find_token) {
+          for (var value of find_token_update_follower) {
             var device_token = value.device_token;
             device_token_array.push(device_token);
           }
