@@ -947,7 +947,7 @@ const signIn = async (req, res) => {
         : (user_data?.profile_url != null && user_data.profile_url !== '')
           ? user_data.profile_url
           : null,
-      identifier = user_data?._id.toString(),
+      identifier = user_data._id.toString(),
     ];
     const results = await performQuery(sql, values);
 
@@ -1025,7 +1025,7 @@ const signIn = async (req, res) => {
 
     }
 
-    if (user_data?.profile_picture) {
+    if (user_data.profile_picture != null) {
       user_data.profile_picture =
         process.env.BASE_URL + user_data.profile_picture;
     }
@@ -1922,6 +1922,10 @@ const editProfile = async (req, res) => {
 
     let find_user = await users.findById(user_id).where({ is_deleted: false });
 
+    if (!find_user) {
+      return errorRes(res, "Couldn't found user");
+    }
+
     var skills_details_array = [];
 
 
@@ -2015,7 +2019,7 @@ const editProfile = async (req, res) => {
     }
 
     const sqldata = "SELECT * from user WHERE identifier  = ?";
-    const valuesdata = [find_user?._id.toString()];
+    const valuesdata = [find_user._id.toString()];
     const MySQLuser = await performQuery(sqldata, valuesdata);
     var skill_array = [];
 
@@ -2064,7 +2068,7 @@ const editProfile = async (req, res) => {
             // ];
 
             const data = [
-              identifier = find_user?._id.toString(),
+              identifier = find_user._id.toString(),
               user_idfr = results[0].id,
               linkedin_link,
               facebook_link,
@@ -5086,8 +5090,8 @@ const title_descriptions = async (req, res) => {
       is_fake_post_updated: false,
     });
 
-    if (find_posts_data) {
-      find_posts_data?.map((data) => {
+    if (find_posts_data.length > 0) {
+      find_posts_data.map((data) => {
         posts_ids.push(data?._id);
       });
     }
@@ -6408,7 +6412,7 @@ const deleteExperince = async (req, res) => {
           const filePath = `${outputPath}/public/${value?.file_name}`;
 
           if (fs.existsSync(filePath)) {
-            unlink(`${outputPath}/public/${value?.file_name}`, (err) => {
+            unlink(`${outputPath}/public/${value.file_name}`, (err) => {
               if (err) console.log(err);
             });
           }
@@ -6417,7 +6421,7 @@ const deleteExperince = async (req, res) => {
           //     if (err) console.log(err);
           //   });
           // }
-          if (value?.file_type != null && value?.file_type == "video") {
+          if (value.file_type != null && value?.file_type == "video") {
             const thumbPath = `${outputPath}/public/${value?.thumb_name}`;
             // if (`${outputPath}/public/${value?.thumb_name}`) {
             //   unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
@@ -6425,7 +6429,7 @@ const deleteExperince = async (req, res) => {
             //   });
             // }
             if (fs.existsSync(thumbPath)) {
-              unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
+              unlink(`${outputPath}/public/${value.thumb_name}`, (err) => {
                 if (err) console.log(err);
               });
             }
@@ -7022,7 +7026,7 @@ const mysqlscript = async (req, res) => {
           if (insertdata) {
             if (value?.demographics?.zipcode != null && value?.demographics?.zipcode != '') {
               const addressdata = [
-                identifier = value?._id.toString(),
+                identifier = value._id.toString(),
                 user_idfr = insertdata?.insertId,
                 zipcode = value?.demographics?.zipcode,
               ]
@@ -7052,7 +7056,7 @@ const mysqlscript = async (req, res) => {
             );
 
 
-            if (value?.skills_details != null && value?.skills_details.length > 0) {
+            if (value?.skills_details != null && value.skills_details.length > 0) {
               value?.skills_details.map(async (val) => {
                 if (val?._id) {
                   const datas = [
@@ -7189,7 +7193,7 @@ const mysqlscript = async (req, res) => {
 
 
             var find_eduaction = await eduaction.find({
-              user_id: value?._id,
+              user_id: value._id,
               is_deleted: false,
             })
 
