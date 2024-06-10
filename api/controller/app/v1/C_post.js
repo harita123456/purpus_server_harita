@@ -39,10 +39,16 @@ ffmpeg.setFfprobePath(ffprobePath);
 
 const createPost = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var {
       repost_id,
@@ -310,10 +316,16 @@ const createPost = async (req, res) => {
 
 const editPost = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var {
       post_id,
@@ -573,10 +585,16 @@ const removepostImage = async (req, res) => {
 
 const getAllPosts = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { page = 1, limit = 10 } = req.body;
 
@@ -737,10 +755,16 @@ const getAllPosts = async (req, res) => {
 
 const savePost = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { post_id, is_saved, interest_id, sub_interest_id } = req.body;
 
@@ -866,10 +890,16 @@ const deletePost = async (req, res) => {
 
 const pollLike = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     const { option_id, post_id } = req.body;
 
@@ -980,10 +1010,16 @@ const pollLike = async (req, res) => {
 
 const likePost = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var login_user_name = req.user.full_name;
@@ -1170,10 +1206,16 @@ const likePost = async (req, res) => {
 
 const getAllSavedPosts = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { page = 1, limit = 10, language } = req.body;
 
@@ -1390,10 +1432,16 @@ const getAllSavedPosts = async (req, res) => {
 
 const getAllLikedPosts = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { page = 1, limit = 10, language } = req.body;
 
@@ -1610,10 +1658,16 @@ const getAllLikedPosts = async (req, res) => {
 
 const createRepost = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var login_user_name = req.user.full_name;
@@ -1862,19 +1916,23 @@ const createPostreport = async (req, res) => {
 
 const addComment = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
-
     var login_user_name = req.user.full_name;
     var login_user_profile_picture = req.user.profile_picture
       ? process.env.BASE_URL + req.user.profile_picture
       : req.user.profile_url;
 
     var {
-      user_id,
       post_id,
       content,
       parent_comment_id,
@@ -2577,14 +2635,20 @@ const addComment = async (req, res) => {
 
 const editComment = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var {
       comment_id,
-      user_id,
+  
       post_id,
       content,
       parent_comment_id,
@@ -2840,10 +2904,16 @@ const deleteComment = async (req, res) => {
 
 const getAllComments = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { page = 1, limit = 10, post_id, filter } = req.body;
 
@@ -3479,10 +3549,16 @@ const getAllComments = async (req, res) => {
 
 const getUserCommentDetails = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { page = 1, limit = 10 } = req.body;
     var find_user = await users.findOne().where({
@@ -3590,10 +3666,16 @@ const getUserCommentDetails = async (req, res) => {
 
 const getAllReplyComments = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { page = 1, limit = 10, post_id, parent_comment_id } = req.body;
 
@@ -3663,10 +3745,16 @@ const getAllReplyComments = async (req, res) => {
 
 const likeComment = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var login_user_name = req.user.full_name;
     var login_user_profile_picture = req.user.profile_picture
@@ -3797,10 +3885,16 @@ const likeComment = async (req, res) => {
 
 const postView = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { post_id, interest_id, sub_interest_id } = req.body;
 
@@ -3866,10 +3960,16 @@ const postView = async (req, res) => {
 
 const getPostdetails = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var login_user_id = req.user._id;
@@ -4164,10 +4264,16 @@ const getPostdetails = async (req, res) => {
 
 const commentReport = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var { comment_id, post_id, reason_comment_report } = req.body;
@@ -4599,10 +4705,16 @@ const getUserPostlist = async (req, res) => {
 
 const undoRepost = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { repost_id, interest_id, sub_interest_id } = req.body;
 
@@ -4659,10 +4771,16 @@ const undoRepost = async (req, res) => {
 const create_impressions = async (req, res) => {
   try {
 
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var { post_id } = req.body;
