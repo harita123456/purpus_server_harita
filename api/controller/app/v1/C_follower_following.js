@@ -112,8 +112,8 @@ const followUser = async (req, res) => {
 
         if (device_token_array.length > 0) {
           notiData = { ...notiData, device_token: device_token_array };
-          var noti_send = await notiSendMultipleDevice(notiData);
-          if (noti_send.status == 200) {
+          var noti_send_follow_request_data = await notiSendMultipleDevice(notiData);
+          if (noti_send_follow_request_data.status == 200) {
             await users.findByIdAndUpdate(following_id, {
               $inc: {
                 noti_badge: 1,
@@ -210,8 +210,8 @@ const followUser = async (req, res) => {
 
       if (device_token_array.length > 0) {
         notiData = { ...notiData, device_token: device_token_array };
-        var noti_send = await notiSendMultipleDevice(notiData);
-        if (noti_send.status == 200) {
+        var noti_send_follow_request = await notiSendMultipleDevice(notiData);
+        if (noti_send_follow_request.status == 200) {
           await users.findByIdAndUpdate(following_id, {
             $inc: {
               noti_badge: 1,
@@ -421,8 +421,8 @@ const acceptfollowrequest = async (req, res) => {
 
           if (device_token_array.length > 0) {
             notiData = { ...notiData, device_token: device_token_array };
-            var noti_send = await notiSendMultipleDevice(notiData);
-            if (noti_send.status == 200) {
+            var noti_send_update_follower = await notiSendMultipleDevice(notiData);
+            if (noti_send_update_follower.status == 200) {
               await users.findByIdAndUpdate(find_sender_data._id, {
                 $inc: {
                   noti_badge: 1,
@@ -430,7 +430,7 @@ const acceptfollowrequest = async (req, res) => {
               });
             }
 
-            if (noti_send.status == 401) {
+            if (noti_send_update_follower.status == 401) {
               return errorRes(res, "Couldn't sent  notification");
             }
           }
