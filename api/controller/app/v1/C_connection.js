@@ -189,9 +189,7 @@ const connectionList = async (req, res) => {
       }
     });
 
-    if (find_data) {
-      return successRes(res, "Connection list get successfully", find_data);
-    }
+    return successRes(res, "Connection list get successfully", find_data);
   } catch (error) {
     console.log(error);
     return errorRes(res, "Internal Server Error!");
@@ -279,9 +277,7 @@ const connectionCount = async (req, res) => {
       group_count: group_count,
     };
 
-    if (data) {
-      return successRes(res, "Connection list count", data);
-    }
+    return successRes(res, "Connection list count", data);
   } catch (error) {
     console.log("error", error);
     return errorRes(res, "Internal Server Error!");
@@ -591,7 +587,7 @@ const allInterestuser = async (req, res) => {
     }
 
     if (includeUserdata?.length > 0) {
-      var interestedUsers = await users
+      let interestedUsers = await users
         .find({
           _id: {
             $nin: [
@@ -710,7 +706,7 @@ const allInterestuser = async (req, res) => {
         );
       }
     } else {
-      var interestedUsers = await users
+      let interestedUsers = await users
         .find({
           _id: {
             $nin: [
