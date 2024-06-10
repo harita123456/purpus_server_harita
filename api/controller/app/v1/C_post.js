@@ -2414,11 +2414,14 @@ const addComment = async (req, res) => {
               var noti_send = await notiSendMultipleDevice(notiData);
 
               if (noti_send.status == 200) {
-                await users.findByIdAndUpdate(savedComment?.mention_user_id, {
-                  $inc: {
-                    noti_badge: 1,
-                  },
-                });
+
+                if (savedComment && savedComment.mention_user_id) {
+                  await users.findByIdAndUpdate(savedComment?.mention_user_id, {
+                    $inc: {
+                      noti_badge: 1,
+                    },
+                  });
+                }
               }
             }
           } else {
