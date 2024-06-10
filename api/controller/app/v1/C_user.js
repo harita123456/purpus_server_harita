@@ -616,7 +616,7 @@ const signup = async (req, res) => {
     const data = [
       create_user._id.toString(),
       firstName,
-      (user_data?.profile_picture != null && user_data.profile_picture !== '')
+      (user_data.profile_picture != null && user_data.profile_picture !== '')
         ? user_data.profile_picture
         : (user_data?.profile_url != null && user_data.profile_url !== '')
           ? user_data.profile_url
@@ -980,7 +980,7 @@ const signIn = async (req, res) => {
 
     const values = [
       firstName,
-      (user_data?.profile_picture != null && user_data.profile_picture !== '')
+      (user_data.profile_picture != null && user_data.profile_picture !== '')
         ? user_data.profile_picture
         : (user_data?.profile_url != null && user_data.profile_url !== '')
           ? user_data.profile_url
@@ -2108,10 +2108,10 @@ const editProfile = async (req, res) => {
           const find_data = await performQuery(checkid, value);
 
           if (find_data.length === 0) {
-            var linkedin_link = social_media_link?.linkedin
-            var facebook_link = social_media_link?.facebook
-            var twitter_link = social_media_link?.twitter
-            var instagram_link = social_media_link?.instagram
+            // var linkedin_link = social_media_link?.linkedin
+            // var facebook_link = social_media_link?.facebook
+            // var twitter_link = social_media_link?.twitter
+            // var instagram_link = social_media_link?.instagram
 
             // const data = [
             //   identifier = find_user?._id.toString(),
@@ -2125,10 +2125,10 @@ const editProfile = async (req, res) => {
             const data = [
               identifier = find_user._id.toString(),
               user_idfr = results[0].id,
-              linkedin_link,
-              facebook_link,
-              twitter_link,
-              instagram_link,
+              social_media_link?.linkedin,
+              social_media_link?.facebook,
+              social_media_link?.twitter,
+              social_media_link?.instagram,
             ];
 
 
@@ -2143,10 +2143,10 @@ const editProfile = async (req, res) => {
               console.log("Insert social data successfully.");
             }
           } else {
-            var linkedin_link_data = social_media_link?.linkedin;
-            var facebook_link_data = social_media_link?.facebook
-            var twitter_link_data = social_media_link?.twitter
-            var instagram_link_data = social_media_link?.instagram
+            // var linkedin_link_data = social_media_link?.linkedin;
+            // var facebook_link_data = social_media_link?.facebook
+            // var twitter_link_data = social_media_link?.twitter
+            // var instagram_link_data = social_media_link?.instagram
 
             // const data = [
             //   linkedin_link = linkedin_link_data,
@@ -2159,10 +2159,10 @@ const editProfile = async (req, res) => {
             await performQuery(
               "UPDATE user_social SET linkedin_link = ?, facebook_link = ?, twitter_link = ?, instagram_link = ? WHERE id = ?",
               [
-                linkedin_link_data,
-                facebook_link_data,
-                twitter_link_data,
-                instagram_link_data,
+                social_media_link?.linkedin,
+                social_media_link?.facebook,
+                social_media_link?.twitter,
+                social_media_link?.instagram,
                 find_data[0].id
               ]
             );
@@ -2248,13 +2248,18 @@ const editProfile = async (req, res) => {
               updated_users?.skills_details?.map(async (data) => {
 
                 if (value.equals(data._id)) {
+                  // const datas = [
+                  //   identifier = data?._id.toString(),
+                  //   user_idfr = MySQLuser[0].id,
+                  //   skill = data?.skill_name,
+                  //   level = 5,
+                  // ];
                   const datas = [
-                    identifier = data?._id.toString(),
-                    user_idfr = MySQLuser[0].id,
-                    skill = data?.skill_name,
-                    level = 5,
+                    data._id.toString(),
+                    MySQLuser[0].id,
+                    data?.skill_name,
+                    5,
                   ];
-
                   await performQuery(
                     "INSERT INTO user_skill(identifier, user_idfr, skill ,level ) values(?,?,?,?)",
                     datas
@@ -2426,11 +2431,19 @@ const createReportforproblem = async (req, res) => {
     if (feedback_photo) {
       var check_media = util.isArray(feedback_photo);
 
+      // if (check_media == false) {
+      //   var feedback_array = [];
+      //   feedback_array.push(feedback_photo);
+      // } else {
+      //   var feedback_array = feedback_photo;
+      // }
+
+      let feedback_array;
       if (check_media == false) {
-        var feedback_array = [];
-        feedback_array.push(feedback_photo);
+        feedback_array = [];
+        feedback_array.push(media);
       } else {
-        var feedback_array = feedback_photo;
+        feedback_array = media;
       }
 
       if (feedback_photo.length > 0) {
@@ -3841,7 +3854,7 @@ const searchPage = async (req, res) => {
             user_id: user_id,
             post_id: postObject._id,
           });
-          var store_option_id = isPolled?.option_id;
+          let store_option_id = isPolled?.option_id;
 
           const is_repost_you_status = await post?.findOne({
             user_id: user_id,
@@ -3889,7 +3902,7 @@ const searchPage = async (req, res) => {
               post_id: updatedPost.repost_id._id,
             });
 
-            var store_option_id = repostIsPolled?.option_id;
+            let store_option_id = repostIsPolled?.option_id;
 
             const is_repost_you_status = await post?.findOne({
               user_id: user_id,
@@ -4405,7 +4418,7 @@ const searchPost = async (req, res) => {
           user_id: user_id,
           post_id: postObject._id,
         });
-        var store_option_id = isPolled?.option_id;
+        let store_option_id = isPolled?.option_id;
 
         const is_repost_you_status = await post?.findOne({
           user_id: user_id,
@@ -4453,7 +4466,7 @@ const searchPost = async (req, res) => {
             post_id: updatedPost.repost_id._id,
           });
 
-          var store_option_id = repostIsPolled?.option_id;
+          let store_option_id = repostIsPolled?.option_id;
 
           const is_repost_you_status = await post?.findOne({
             user_id: user_id,
@@ -5272,11 +5285,18 @@ const uplodelinkedinMedia = async (req, res) => {
 
     var check_media = util.isArray(linkedin_media);
 
+    // if (check_media == false) {
+    //   var linkedin_media_array = [];
+    //   linkedin_media_array.push(linkedin_media);
+    // } else {
+    //   var linkedin_media_array = linkedin_media;
+    // }
+    let linkedin_media_array;
     if (check_media == false) {
-      var linkedin_media_array = [];
-      linkedin_media_array.push(linkedin_media);
+      linkedin_media_array = [];
+      linkedin_media_array.push(media);
     } else {
-      var linkedin_media_array = linkedin_media;
+      linkedin_media_array = media;
     }
     var multiplelinkedin_media_array = [];
     if (linkedin_media_array) {
@@ -5814,11 +5834,18 @@ const addExperience = async (req, res) => {
 
     var check_media = util.isArray(media);
 
+    // if (check_media == false) {
+    //   var linkedin_media_array = [];
+    //   linkedin_media_array.push(media);
+    // } else {
+    //   var linkedin_media_array = media;
+    // }
+    let linkedin_media_array;
     if (check_media == false) {
-      var linkedin_media_array = [];
+      linkedin_media_array = [];
       linkedin_media_array.push(media);
     } else {
-      var linkedin_media_array = media;
+      linkedin_media_array = media;
     }
     var multiplelinkedin_media_array = [];
 
@@ -6186,11 +6213,18 @@ const editExperince = async (req, res) => {
 
     var check_media = util.isArray(media);
 
+    // if (check_media == false) {
+    //   var linkedin_media_array = [];
+    //   linkedin_media_array.push(media);
+    // } else {
+    //   var linkedin_media_array = media;
+    // }
+    let linkedin_media_array;
     if (check_media == false) {
-      var linkedin_media_array = [];
+      linkedin_media_array = [];
       linkedin_media_array.push(media);
     } else {
-      var linkedin_media_array = media;
+      linkedin_media_array = media;
     }
     var multiplelinkedin_media_array = [];
     if (linkedin_media_array[0] != undefined) {
@@ -6345,137 +6379,137 @@ const editExperince = async (req, res) => {
       return errorRes(res, `Account is not found`);
     }
 
-    if (update_data) {
-      var update_experince = await experienceSchema.findByIdAndUpdate(
-        { _id: experince_id },
-        update_data,
-        { new: true }
-      );
+    // if (update_data) {
+    var update_experince = await experienceSchema.findByIdAndUpdate(
+      { _id: experince_id },
+      update_data,
+      { new: true }
+    );
 
-      var update_experince_data = await experienceSchema.findOne({
-        _id: update_experince._id
-      });
-      if (update_experince) {
-        const sql = "SELECT * from user WHERE identifier  = ?";
-        const values = [user_data?._id.toString()];
-        const results = await performQuery(sql, values);
+    var update_experince_data = await experienceSchema.findOne({
+      _id: update_experince._id
+    });
+    if (update_experince) {
+      const sql = "SELECT * from user WHERE identifier  = ?";
+      const values = [user_data?._id.toString()];
+      const results = await performQuery(sql, values);
 
-        if (results.affectedRows === 0) {
-          console.log("Couldn't found user.");
+      if (results.affectedRows === 0) {
+        console.log("Couldn't found user.");
+      } else {
+        const data = [
+          update_experince?.title ?? null,
+          update_experince?.emp_type ?? null,
+          update_experince?.company_name ?? null,
+          update_experince?.address ?? null,
+          update_experince?.industry ?? null,
+          update_experince?.start_date ?? null,
+          update_experince?.end_date ?? null,
+          update_experince?.description ?? null,
+          results[0].id,
+          update_experince._id.toString(),
+        ];
+        const updatedata = await performQuery(
+          "UPDATE user_experience SET job_title = ?, employee_type = ?, company_name = ?, company_address = ?, industry = ?, start_date = ?, end_date = ?, job_description = ? WHERE user_idfr = ? AND identifier = ?",
+          data
+        );
+
+        if (updatedata.affectedRows === 0) {
+          console.log("User not found.");
         } else {
-          const data = [
-            update_experince?.title ?? null,
-            update_experince?.emp_type ?? null,
-            update_experince?.company_name ?? null,
-            update_experince?.address ?? null,
-            update_experince?.industry ?? null,
-            update_experince?.start_date ?? null,
-            update_experince?.end_date ?? null,
-            update_experince?.description ?? null,
-            results[0].id,
-            update_experince._id.toString(),
-          ];
-          const updatedata = await performQuery(
-            "UPDATE user_experience SET job_title = ?, employee_type = ?, company_name = ?, company_address = ?, industry = ?, start_date = ?, end_date = ?, job_description = ? WHERE user_idfr = ? AND identifier = ?",
-            data
-          );
+          update_experince_data?.media.map(async (value) => {
+            if (value?.file_type == "image" || value?.file_type == "document" || value?.file_type == "video" || value?.file_type == "url") {
+              const sql = "SELECT * from user_experience_media WHERE identifier  = ?";
+              const values = [value?._id.toString()];
+              const results = await performQuery(sql, values);
 
-          if (updatedata.affectedRows === 0) {
-            console.log("User not found.");
-          } else {
-            update_experince_data?.media.map(async (value) => {
-              if (value?.file_type == "image" || value?.file_type == "document" || value?.file_type == "video" || value?.file_type == "url") {
-                const sql = "SELECT * from user_experience_media WHERE identifier  = ?";
-                const values = [value?._id.toString()];
+              if (results.length > 0) {
+                // const data1 = [
+                //   media_url = value?.file_name,
+                //   media_size = value?.file_size,
+                //   media_type = value?.file_type,
+                //   identifier = value?._id.toString(),
+                // ];
+
+                const data1 = [
+                  value?.file_name,
+                  value?.file_size,
+                  value?.file_type,
+                  value?._id.toString(),
+                ];
+
+
+                const updatedata1 = await performQuery(
+                  "UPDATE user_experience_media SET media_url = ?, media_size = ?, media_type = ? WHERE identifier = ?",
+                  data1
+                );
+
+                if (updatedata1.affectedRows === 0) {
+                  console.log("User experience not found.");
+                } else {
+                  console.log("User experience media data updatd successfully.");
+                }
+              } else {
+                const sql = "SELECT * from user_experience WHERE identifier = ?";
+                const values = [update_experince_data?._id.toString()];
                 const results = await performQuery(sql, values);
 
-                if (results.length > 0) {
-                  // const data1 = [
-                  //   media_url = value?.file_name,
-                  //   media_size = value?.file_size,
-                  //   media_type = value?.file_type,
-                  //   identifier = value?._id.toString(),
-                  // ];
+                // const data1 = [
+                //   identifier = value._id.toString(),
+                //   user_experience_idfr = results[0].id,
+                //   media_url = value?.file_name,
+                //   media_size = value?.file_size,
+                //   media_type = value?.file_type,
+                // ];
 
-                  const data1 = [
-                    value?.file_name,
-                    value?.file_size,
-                    value?.file_type,
-                    value?._id.toString(),
-                  ];
+                const data1 = [
+                  value._id.toString(),
+                  results[0].id,
+                  value?.file_name,
+                  value?.file_size,
+                  value?.file_type,
+                ];
 
 
-                  const updatedata1 = await performQuery(
-                    "UPDATE user_experience_media SET media_url = ?, media_size = ?, media_type = ? WHERE identifier = ?",
-                    data1
-                  );
+                const insertdata1 = await performQuery(
+                  "INSERT INTO user_experience_media (identifier, user_experience_idfr, media_url, media_size, media_type) values(?,?,?,?,?)",
+                  data1
+                );
 
-                  if (updatedata1.affectedRows === 0) {
-                    console.log("User experience not found.");
-                  } else {
-                    console.log("User experience media data updatd successfully.");
-                  }
+                if (insertdata1.affectedRows === 0) {
+                  console.log("User experience not found.");
                 } else {
-                  const sql = "SELECT * from user_experience WHERE identifier = ?";
-                  const values = [update_experince_data?._id.toString()];
-                  const results = await performQuery(sql, values);
-
-                  // const data1 = [
-                  //   identifier = value._id.toString(),
-                  //   user_experience_idfr = results[0].id,
-                  //   media_url = value?.file_name,
-                  //   media_size = value?.file_size,
-                  //   media_type = value?.file_type,
-                  // ];
-
-                  const data1 = [
-                    value._id.toString(),
-                    results[0].id,
-                    value?.file_name,
-                    value?.file_size,
-                    value?.file_type,
-                  ];
-
-
-                  const insertdata1 = await performQuery(
-                    "INSERT INTO user_experience_media (identifier, user_experience_idfr, media_url, media_size, media_type) values(?,?,?,?,?)",
-                    data1
-                  );
-
-                  if (insertdata1.affectedRows === 0) {
-                    console.log("User experience not found.");
-                  } else {
-                    console.log("User experience media data add successfully.");
-                  }
+                  console.log("User experience media data add successfully.");
                 }
               }
+            }
 
-            });
-            console.log("User experience data updatd successfully.");
-          }
+          });
+          console.log("User experience data updatd successfully.");
         }
-      }
-
-      update_experince?.media.map((value) => {
-        if (value?.file_type == "image" || value?.file_type == "document") {
-          value.file_name = process.env.BASE_URL + value.file_name;
-        }
-        if (value?.file_type == "video") {
-          value.file_name = process.env.BASE_URL + value.file_name;
-          value.thumb_name = process.env.BASE_URL + value.thumb_name;
-        }
-      });
-
-      console.log("update_experince", update_experince);
-
-      if (update_experince) {
-        return successRes(
-          res,
-          `Experience updated successfully`,
-          update_experince
-        );
       }
     }
+
+    update_experince?.media.map((value) => {
+      if (value?.file_type == "image" || value?.file_type == "document") {
+        value.file_name = process.env.BASE_URL + value.file_name;
+      }
+      if (value?.file_type == "video") {
+        value.file_name = process.env.BASE_URL + value.file_name;
+        value.thumb_name = process.env.BASE_URL + value.thumb_name;
+      }
+    });
+
+    console.log("update_experince", update_experince);
+
+    if (update_experince) {
+      return successRes(
+        res,
+        `Experience updated successfully`,
+        update_experince
+      );
+    }
+    // }
   } catch (error) {
     console.log("Error : ", error);
     return errorRes(res, "Internal server error");
