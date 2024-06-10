@@ -1832,7 +1832,7 @@ const selfDelete = async (req, res) => {
                 const filePath = `${outputPath}/public/${value?.file_name}`;
 
                 if (fs.existsSync(filePath)) {
-                  unlink(`${outputPath}/public/${value?.file_name}`, (err) => {
+                  unlink(`${outputPath}/public/${value.file_name}`, (err) => {
                     if (err) console.log(err);
                   });
                 }
@@ -1844,7 +1844,7 @@ const selfDelete = async (req, res) => {
                   // }
                   const thumbPath = `${outputPath}/public/${value?.thumb_name}`;
                   if (fs.existsSync(thumbPath)) {
-                    unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
+                    unlink(`${outputPath}/public/${value.thumb_name}`, (err) => {
                       if (err) console.log(err);
                     });
                   }
@@ -5350,7 +5350,7 @@ const addEduaction = async (req, res) => {
     // } else {
     //   var user_id = req.body.user_id;
     // }
-  var user_id;
+    var user_id;
 
     if (!req.body.user_id) {
       user_id = req.user._id;
