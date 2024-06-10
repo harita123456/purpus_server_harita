@@ -764,7 +764,13 @@ const signIn = async (req, res) => {
           { new: true }
         );
 
-        var user_data = {
+        // var user_data = {
+        //   ...update_user._doc,
+        //   token: token,
+        // };
+
+
+        user_data = {
           ...update_user._doc,
           token: token,
         };
@@ -1363,7 +1369,7 @@ const getsubInterest = async (req, res) => {
         .sort({ createdAt: 1 });
       var final_array = [];
       for (var data of find_interest) {
-        var find_sub_interest = await subinterest
+        let find_sub_interest = await subinterest
           .find()
           .where({
             interest_id: new ObjectId(data._id),
@@ -1372,7 +1378,7 @@ const getsubInterest = async (req, res) => {
           })
           .sort({ createdAt: 1 });
         var value;
-        if (data?._id == process.env.OFF_TOPIC_ID) {
+        if (data._id == process.env.OFF_TOPIC_ID) {
           value = {
             ...data._doc,
             sub_interest_data: [],
@@ -1425,7 +1431,7 @@ const getsubInterest = async (req, res) => {
     var final_array = [];
 
     for (var data of find_interest) {
-      var find_sub_interest = await subinterest
+      let find_sub_interest = await subinterest
         .find({
           interest_id: new ObjectId(data._id),
           is_deleted: false,
@@ -1435,7 +1441,7 @@ const getsubInterest = async (req, res) => {
 
       var value;
 
-      if (data?._id == process.env.OFF_TOPIC_ID) {
+      if (data._id == process.env.OFF_TOPIC_ID) {
         value = {
           ...data,
           sub_interest_data: [],
@@ -2250,7 +2256,7 @@ const editProfile = async (req, res) => {
 
     const values = [
       first_name = firstname,
-      profile_picture = updated_data?.profile_picture ? updated_data?.profile_picture : updated_data?.profile_url,
+      profile_picture = updated_data.profile_picture ? updated_data?.profile_picture : updated_data?.profile_url,
       gender = updated_data?.demographics?.gender,
       disability = updated_data?.demographics?.disability,
       relation_status = updated_data?.demographics?.marriage_status,
@@ -4660,7 +4666,7 @@ const privateAccount = async (req, res) => {
         );
       }
 
-      var updated_data = await users.findByIdAndUpdate(
+      let updated_data = await users.findByIdAndUpdate(
         { _id: user_id },
         { $set: { is_private_account: false } },
         { new: true }
@@ -6946,7 +6952,7 @@ const getsubInteresttesting = async (req, res) => {
 
       var value;
 
-      if (data != null && data._id == process.env.OFF_TOPIC_ID) {
+      if (data._id == process.env.OFF_TOPIC_ID) {
         value = {
           ...data,
           sub_interest_data: [],
@@ -7008,7 +7014,7 @@ const mysqlscript = async (req, res) => {
           const data = [
             identifier = value._id.toString(),
             first_name = firstName,
-            profile_picture = value?.profile_picture ? value.profile_picture : value.profile_url,
+            profile_picture = value.profile_picture ? value.profile_picture : value.profile_url,
             dob = value?.dob,
             user_id = value.unique_name,
             last_seen = value.user_last_active_date,
@@ -7042,7 +7048,7 @@ const mysqlscript = async (req, res) => {
             // var instagram_link_data = value?.social_media_link?.instagram
 
             const social_data = [
-              identifier = value?._id.toString(),
+              identifier = value._id.toString(),
               user_idfr = insertdata?.insertId,
               linkedin_link = value?.social_media_link?.linkedin,
               facebook_link = value?.social_media_link?.facebook,
@@ -7079,7 +7085,7 @@ const mysqlscript = async (req, res) => {
 
 
             var find_session = await user_session.find({
-              user_id: value?._id,
+              user_id: value._id,
               is_deleted: false,
             })
 
@@ -7104,7 +7110,7 @@ const mysqlscript = async (req, res) => {
 
             }
             var find_customfield = await custom_field.find({
-              user_id: value?._id,
+              user_id: value._id,
               is_deleted: false,
             });
 
