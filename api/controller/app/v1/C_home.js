@@ -214,7 +214,7 @@ ffmpeg.setFfprobePath(ffprobePath);
 //           });
 //           var store_option_id = isPolled?.option_id;
 
-//           const is_repost_you_status = await post?.findOne({
+//           const is_repost_you_status = await post.findOne({
 //             user_id: user_id,
 //             repost_id: data._id,
 //             is_deleted: false,
@@ -308,7 +308,7 @@ ffmpeg.setFfprobePath(ffprobePath);
 //           });
 //           var store_option_id = isPolled?.option_id;
 
-//           const is_repost_you_status = await post?.findOne({
+//           const is_repost_you_status = await post.findOne({
 //             user_id: user_id,
 //             repost_id: data._id,
 //             is_deleted: false,
@@ -1017,7 +1017,7 @@ ffmpeg.setFfprobePath(ffprobePath);
 //             });
 //             var store_option_id = isPolled?.option_id;
 
-//             const is_repost_you_status = await post?.findOne({
+//             const is_repost_you_status = await post.findOne({
 //               user_id: user_id,
 //               repost_id: data._id,
 //               is_deleted: false,
@@ -1109,7 +1109,7 @@ ffmpeg.setFfprobePath(ffprobePath);
 //             });
 //             var store_option_id = isPolled?.option_id;
 
-//             const is_repost_you_status = await post?.findOne({
+//             const is_repost_you_status = await post.findOne({
 //               user_id: user_id,
 //               repost_id: data._id,
 //               is_deleted: false,
@@ -2266,7 +2266,7 @@ ffmpeg.setFfprobePath(ffprobePath);
 //             });
 //             var store_option_id = isPolled?.option_id;
 
-//             const is_repost_you_status = await post?.findOne({
+//             const is_repost_you_status = await post.findOne({
 //               user_id: user_id,
 //               repost_id: data._id,
 //               is_deleted: false,
@@ -2368,7 +2368,7 @@ ffmpeg.setFfprobePath(ffprobePath);
 //           });
 //           var store_option_id = isPolled?.option_id;
 
-//           const is_repost_you_status = await post?.findOne({
+//           const is_repost_you_status = await post.findOne({
 //             user_id: user_id,
 //             repost_id: data._id,
 //             is_deleted: false,
@@ -2725,7 +2725,7 @@ const getAllPosts = async (req, res) => {
           });
           var store_option_id = isPolled?.option_id;
 
-          const is_repost_you_status = await post?.findOne({
+          const is_repost_you_status = await post.findOne({
             user_id: user_id,
             repost_id: data._id,
             is_deleted: false,
@@ -2838,7 +2838,7 @@ const getAllPosts = async (req, res) => {
           });
           var store_option_id = isPolled?.option_id;
 
-          const is_repost_you_status = await post?.findOne({
+          const is_repost_you_status = await post.findOne({
             user_id: user_id,
             repost_id: data._id,
             is_deleted: false,
@@ -4000,7 +4000,7 @@ const getAllPosts = async (req, res) => {
             });
             var store_option_id = isPolled?.option_id;
 
-            const is_repost_you_status = await post?.findOne({
+            const is_repost_you_status = await post.findOne({
               user_id: user_id,
               repost_id: data._id,
               is_deleted: false,
@@ -4110,7 +4110,7 @@ const getAllPosts = async (req, res) => {
             });
             var store_option_id = isPolled?.option_id;
 
-            const is_repost_you_status = await post?.findOne({
+            const is_repost_you_status = await post.findOne({
               user_id: user_id,
               repost_id: data._id,
               is_deleted: false,
@@ -5679,7 +5679,7 @@ const getAllPostsBySubInterest = async (req, res) => {
             });
             var store_option_id = isPolled?.option_id;
 
-            const is_repost_you_status = await post?.findOne({
+            const is_repost_you_status = await post.findOne({
               user_id: user_id,
               repost_id: data._id,
               is_deleted: false,
@@ -5800,7 +5800,7 @@ const getAllPostsBySubInterest = async (req, res) => {
           });
           var store_option_id = isPolled?.option_id;
 
-          const is_repost_you_status = await post?.findOne({
+          const is_repost_you_status = await post.findOne({
             user_id: user_id,
             repost_id: data._id,
             is_deleted: false,
