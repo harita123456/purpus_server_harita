@@ -190,7 +190,7 @@ const getAllfollowingpost = async (req, res) => {
             user_id: user_id,
             post_id: data.repost_id._id,
           });
-          var store_option_id = repostIsPolled?.option_id;
+          var store_option_id_is_repost_use = repostIsPolled?.option_id;
 
           const is_repost_you_status = await post.findOne({
             user_id: user_id,
@@ -213,7 +213,7 @@ const getAllfollowingpost = async (req, res) => {
             is_like: !!repostIsLiked,
             is_save: !!repostIsSaved,
             is_poll_response: !!repostIsPolled,
-            store_option_id: store_option_id,
+            store_option_id: store_option_id_is_repost_use,
             is_repost_you: !!is_repost_you_status,
             is_view_impression: !!is_view_impression,
             is_view_Post: !!is_view_Post,
@@ -523,7 +523,7 @@ const getAllLocalpost = async (req, res) => {
                 is_repost: true
               })
 
-              var store_option_id = repostIsPolled?.option_id;
+              var store_option_id_is_repost = repostIsPolled?.option_id;
 
               const postCoordinates = data?.repost_id?.location.coordinates;
               let point1 = {
@@ -544,7 +544,7 @@ const getAllLocalpost = async (req, res) => {
                 is_like: !!repostIsLiked,
                 is_save: !!repostIsSaved,
                 is_poll_response: !!repostIsPolled,
-                store_option_id: store_option_id,
+                store_option_id: store_option_id_is_repost,
                 is_repost_you: !!is_repost_you_status,
                 is_view_impression: !!is_view_impression,
                 is_view_Post: !!is_view_Post,
@@ -705,7 +705,7 @@ const getAllLocalpost = async (req, res) => {
               is_repost: true
             })
 
-            var store_option_id = repostIsPolled?.option_id;
+            var store_option_id_use = repostIsPolled?.option_id;
 
 
             const postCoordinates = data?.repost_id?.location.coordinates;
@@ -727,7 +727,7 @@ const getAllLocalpost = async (req, res) => {
               is_like: !!repostIsLiked,
               is_save: !!repostIsSaved,
               is_poll_response: !!repostIsPolled,
-              store_option_id: store_option_id,
+              store_option_id: store_option_id_use,
               is_repost_you: !!is_repost_you_status,
               is_view_impression: !!is_view_impression,
               is_view_Post: !!is_view_Post,
@@ -914,7 +914,7 @@ const getAllLocalpost = async (req, res) => {
               post_id: data.repost_id._id
             });
 
-            var store_option_id = repostIsPolled?.option_id;
+            var store_option_id_use_repost = repostIsPolled?.option_id;
             const postCoordinates = data?.repost_id?.location.coordinates;
             let point1 = {
               latitude: lat,
@@ -934,7 +934,7 @@ const getAllLocalpost = async (req, res) => {
               is_like: !!repostIsLiked,
               is_save: !!repostIsSaved,
               is_poll_response: !!repostIsPolled,
-              store_option_id: store_option_id,
+              store_option_id: store_option_id_use_repost,
               is_repost_you: !!is_repost_you_status,
               is_view_impression: !!is_view_impression,
               is_view_Post: !!is_view_Post,
@@ -1121,7 +1121,7 @@ const getAllLocalpost = async (req, res) => {
               user_id: user_id,
               post_id: data.repost_id._id
             });
-            var store_option_id = repostIsPolled?.option_id;
+            var store_option_id_repost = repostIsPolled?.option_id;
             const postCoordinates = data?.repost_id?.location.coordinates;
             let point1 = {
               latitude: lat,
@@ -1141,7 +1141,7 @@ const getAllLocalpost = async (req, res) => {
               is_like: !!repostIsLiked,
               is_save: !!repostIsSaved,
               is_poll_response: !!repostIsPolled,
-              store_option_id: store_option_id,
+              store_option_id: store_option_id_repost,
               is_repost_you: !!is_repost_you_status,
               is_view_impression: !!is_view_impression,
               is_view_Post: !!is_view_Post,
@@ -1325,7 +1325,7 @@ const getAllLocalpost = async (req, res) => {
             user_id: user_id,
             post_id: data._id,
           });
-          var store_option_id = repostIsPolled?.option_id;
+          var store_option_id_repost_use = repostIsPolled?.option_id;
           const postCoordinates = data?.repost_id?.location.coordinates;
           let point1 = {
             latitude: lat,
@@ -1345,7 +1345,7 @@ const getAllLocalpost = async (req, res) => {
             is_like: !!repostIsLiked,
             is_save: !!repostIsSaved,
             is_poll_response: !!repostIsPolled,
-            store_option_id: store_option_id,
+            store_option_id: store_option_id_repost_use,
             is_repost_you: !!is_repost_you_status,
             is_view_impression: !!is_view_impression,
             is_view_Post: !!is_view_Post,
