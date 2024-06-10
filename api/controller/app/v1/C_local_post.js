@@ -186,7 +186,7 @@ const getAllfollowingpost = async (req, res) => {
           });
           var store_option_id = repostIsPolled?.option_id;
 
-          const is_repost_you_status = await post?.findOne({
+          const is_repost_you_status = await post.findOne({
             user_id: user_id,
             repost_id: data?.repost_id?._id,
             is_deleted: false
@@ -504,7 +504,7 @@ const getAllLocalpost = async (req, res) => {
                 user_id: user_id,
                 post_id: data.repost_id._id
               });
-              const is_repost_you_status = await post?.findOne({
+              const is_repost_you_status = await post.findOne({
                 user_id: user_id,
                 repost_id: data?.repost_id?._id,
                 is_deleted: false,
@@ -686,7 +686,7 @@ const getAllLocalpost = async (req, res) => {
               user_id: user_id,
               post_id: data.repost_id._id
             });
-            const is_repost_you_status = await post?.findOne({
+            const is_repost_you_status = await post.findOne({
               user_id: user_id,
               repost_id: data?.repost_id?._id,
               is_deleted: false,
@@ -885,7 +885,7 @@ const getAllLocalpost = async (req, res) => {
               post_id: data.repost_id._id,
             });
 
-            const is_repost_you_status = await post?.findOne({
+            const is_repost_you_status = await post.findOne({
               user_id: user_id,
               repost_id: data?.repost_id?._id,
               is_deleted: false,
@@ -1093,7 +1093,7 @@ const getAllLocalpost = async (req, res) => {
               post_id: data.repost_id._id,
             });
 
-            const is_repost_you_status = await post?.findOne({
+            const is_repost_you_status = await post.findOne({
               user_id: user_id,
               repost_id: data?.repost_id?._id,
               is_deleted: false,
@@ -1297,7 +1297,7 @@ const getAllLocalpost = async (req, res) => {
             user_id: user_id,
             post_id: data.repost_id._id,
           });
-          const is_repost_you_status = await post?.findOne({
+          const is_repost_you_status = await post.findOne({
             user_id: user_id,
             repost_id: data?.repost_id?._id,
             is_deleted: false,
