@@ -688,8 +688,6 @@ const groupList = async (req, res) => {
       group_list.map(async (value) => {
         var result = { ...value._doc };
 
-        
-
         var group_members_count = await group_members
           .find()
           .where({ is_deleted: false, group_id: value._id })
@@ -707,7 +705,7 @@ const groupList = async (req, res) => {
           let is_requested = false;
           let is_invited = false;
           let is_member = false;
-          var request_check = await notifications.findOne().where({
+          var request_check_discover = await notifications.findOne().where({
             is_deleted: false,
             group_id: value._id,
             is_accepted: null,
@@ -726,7 +724,7 @@ const groupList = async (req, res) => {
 
           console.log("request_check_data", request_check_data)
 
-          if (request_check) {
+          if (request_check_discover) {
             is_requested = true;
           }
 
@@ -756,10 +754,6 @@ const groupList = async (req, res) => {
             is_member = true;
           }
 
-
-
-
-
           result = {
             ...result,
             is_requested: is_requested,
@@ -772,7 +766,7 @@ const groupList = async (req, res) => {
           let is_requested = false;
           let is_invited = false;
           let is_member = false;
-          var request_check = await notifications.findOne().where({
+          var request_check_my_group = await notifications.findOne().where({
             is_deleted: false,
             group_id: value._id,
             is_accepted: null,
@@ -788,10 +782,9 @@ const groupList = async (req, res) => {
             noti_for: "group_join_request",
           });
 
-
           console.log("request_check_data", request_check_data)
 
-          if (request_check) {
+          if (request_check_my_group) {
             is_requested = true;
           }
 
@@ -1929,7 +1922,7 @@ const membersList = async (req, res) => {
                 encounteredIdsAdmin.set(value._id, true);
               }
             } else {
-           
+
 
               if (!encounteredIdsAdmin.has(value._id)) {
                 adminmodifiedData.admin_requested = false; // or any other default value
@@ -2695,28 +2688,28 @@ const groupListcheck = async (req, res) => {
     }
 
     if (user_id) {
-      var findMembersGroup = await group_members.distinct("group_id", {
+      var findMembersGroup1 = await group_members.distinct("group_id", {
         user_id: user_id,
         is_deleted: false,
       });
-      var whereCond = {}
-      whereCond =
+      var whereCond1 = {}
+      whereCond1 =
       {
         _id: {
-          $in: findMembersGroup
+          $in: findMembersGroup1
         },
         is_deleted: false,
       }
 
-      console.log("whereCond", whereCond)
-      var findMembersGroupcount = await group_members.distinct("group_id", {
+      console.log("whereCond", whereCond1)
+      var findMembersGroupcount1 = await group_members.distinct("group_id", {
         user_id: user_id,
         is_deleted: false,
       });
-      var findMembersGroupcountlength = findMembersGroupcount.length
+      var findMembersGroupcountlength1 = findMembersGroupcount1.length
 
       var groupList = await group
-        .find(whereCond)
+        .find(whereCond1)
         .select(
           "user_id group_name group_description group_code is_deleted group_image is_private interest_id sub_interest_id"
         )
@@ -2728,7 +2721,7 @@ const groupListcheck = async (req, res) => {
         .skip((page - 1) * limit)
         .sort({ createdAt: -1 });
 
-      var groupLists = await Promise.all(
+      var groupLists1 = await Promise.all(
         groupList.map(async (value) => {
           var result = { ...value._doc };
 
@@ -2751,7 +2744,7 @@ const groupListcheck = async (req, res) => {
       );
 
       const baseUrl = process.env.BASE_URL;
-      for (const value of groupLists) {
+      for (const value of groupLists1) {
         if (value.group_image && !value.group_image.includes(baseUrl)) {
           value.group_image = baseUrl + value.group_image;
         }
@@ -2766,8 +2759,8 @@ const groupListcheck = async (req, res) => {
       return multiSuccessRes(
         res,
         "Group list get successfully",
-        groupLists,
-        findMembersGroupcountlength
+        groupLists1,
+        findMembersGroupcountlength1
       );
     }
   } catch (error) {
