@@ -266,10 +266,16 @@ const unFollowUser = async (req, res) => {
 
 const removeFollowUser = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { follower_user_id } = req.body;
 
@@ -462,10 +468,16 @@ const acceptfollowrequest = async (req, res) => {
 
 const followerList = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var login_user_id = req.user._id;
     var { search, page = 1, limit = 10 } = req.body;

@@ -16,10 +16,16 @@ const geolib = require('geolib');
 
 const getAllfollowingpost = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { page = 1, limit = 10, language } = req.body;
 
@@ -262,10 +268,16 @@ const getAllfollowingpost = async (req, res) => {
 
 const getAllLocalpost = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var {
       page = 1,

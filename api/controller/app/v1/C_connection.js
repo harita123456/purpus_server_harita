@@ -15,10 +15,17 @@ const user_interactions = require("../../../../models/M_user_interactions");
 
 const connectionList = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var { search, following, page = 1, limit = 1 } = req.body;
@@ -183,10 +190,18 @@ const connectionList = async (req, res) => {
 
 const connectionCount = async (req, res) => {
   try {
+
+    let user_id
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var find_user = await users.findOne().where({
@@ -256,10 +271,17 @@ const connectionCount = async (req, res) => {
 
 const connectionSuggestion = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var login_user = req.user._id;
 
@@ -482,10 +504,17 @@ const connectionSuggestion = async (req, res) => {
 
 const allInterestuser = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
 
     var { interest_id, excludeUser, includeUser, page = 1, limit = 10 } = req.body;

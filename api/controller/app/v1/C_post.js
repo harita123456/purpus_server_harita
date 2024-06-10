@@ -150,12 +150,20 @@ const createPost = async (req, res) => {
         post_type,
       };
 
+      // if (check_media == false) {
+      //   var postmedia_array = [];
+      //   postmedia_array.push(post_media);
+      // } else {
+      //   var postmedia_array = post_media;
+      // }
+      let postmedia_array;
       if (check_media == false) {
-        var postmedia_array = [];
+        postmedia_array = [];
         postmedia_array.push(post_media);
       } else {
-        var postmedia_array = post_media;
+        postmedia_array = post_media;
       }
+
 
       if (postmedia_array) {
         var multiplepost_media_array = [];
