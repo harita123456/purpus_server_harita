@@ -2212,7 +2212,7 @@ const addComment = async (req, res) => {
           await notifications.deleteMany({
             post_id: find_post._id,
             noti_for: "post_comment",
-            receiver_id: find_post?.user_id,
+            receiver_id: find_post.user_id,
           })
 
           const currentDateTime = await dateTime();
@@ -2432,7 +2432,7 @@ const addComment = async (req, res) => {
 
             if (send_noti_comment) {
               await notifications.deleteMany({
-                post_id: find_post?._id,
+                post_id: find_post._id,
                 noti_for: "post_comment",
                 receiver_id: find_post?.user_id,
               })
@@ -2502,7 +2502,7 @@ const addComment = async (req, res) => {
 
             if (send_noti_reply) {
               await notifications.deleteMany({
-                post_id: find_post?._id,
+                post_id: find_post._id,
                 noti_for: "post_comment",
                 receiver_id: savedComment?.mention_user_id,
               })
@@ -4024,7 +4024,8 @@ const getPostdetails = async (req, res) => {
       }
 
       find_post?.post_media?.forEach((media) => {
-        if (media.file_type === "image" || media.file_type === "video") {
+        // if (media.file_type === "image" || media.file_type === "video") {
+        if (media && (media.file_type === "image" || media.file_type === "video")) {
           if (
             media?.file_name &&
             !media?.file_name.startsWith(process.env.BASE_URL)
@@ -4041,7 +4042,8 @@ const getPostdetails = async (req, res) => {
       });
 
       find_post?.repost_id?.post_media?.forEach((media) => {
-        if (media.file_type === "image" || media.file_type === "video") {
+        // if (media.file_type === "image" || media.file_type === "video") {
+        if (media && (media.file_type === "image" || media.file_type === "video")) {
           if (
             media?.file_name &&
             !media?.file_name.startsWith(process.env.BASE_URL)
