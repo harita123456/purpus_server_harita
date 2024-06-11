@@ -203,8 +203,8 @@ const followUser = async (req, res) => {
       });
 
       var device_token_array_follow_user = [];
-      for (var value of find_token_follow_request) {
-        var device_token_follow_user = value.device_token;
+      for (var val of find_token_follow_request) {
+        var device_token_follow_user = val.device_token;
         device_token_array_follow_user.push(device_token_follow_user);
       }
 

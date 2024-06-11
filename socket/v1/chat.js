@@ -213,19 +213,25 @@ module.exports = {
 
 
         let last_message_time;
+
+        let last_message;
         if (findLastMsg) {
           if (findLastMsg.message_type == "text") {
-            var last_message = findLastMsg.message;
+            // var last_message = findLastMsg.message;
+            last_message = findLastMsg.message;
           } else {
-            var last_message = "media";
+            // var last_message = "media";
+            last_message = "media";
           }
           if (findLastMsg.message_type == "post") {
-            var last_message = "post";
+            // var last_message = "post";
+            last_message = "post";
           }
           // var last_message_time = findLastMsg.message_time;
           last_message_time = findLastMsg.message_time;
         } else {
-          var last_message = null;
+          last_message = null;
+          // var last_message = null;
           // var last_message_time = null;
           last_message_time = null;
         }
@@ -547,6 +553,7 @@ module.exports = {
       let name = "";
       let img = "";
       if (get_sender_user != null) {
+
         name = get_sender_user.full_name;
         if (get_sender_user.profile_picture) {
           img = process.env.BASE_URL + get_sender_user.profile_picture;
@@ -1161,20 +1168,22 @@ module.exports = {
         });
 
         let last_message_time;
+
+        let last_message;
         if (findLastMsg) {
 
-          let last_message;
           if (findLastMsg.message_type == "text") {
             // var last_message = findLastMsg.message;
             last_message = findLastMsg.message;
           } else {
-            // var last_message = "media";
+            last_message = "media";
             // var last_message = "media";
           }
           // var last_message_time = findLastMsg.message_time;
           last_message_time = findLastMsg.message_time;
         } else {
-          var last_message = null;
+          last_message = null;
+          // var last_message = null;
           // var last_message_time = null;
           last_message_time = null;
         }

@@ -74,17 +74,31 @@ module.exports = {
             is_read_by: { $ne: user_id },
           });
 
+          // if (findLastMsg) {
+          //   if (findLastMsg.message_type == "text") {
+          //     var last_message = findLastMsg.message;
+          //   } else {
+          //     var last_message = "media";
+          //   }
+          //   var last_message_time = findLastMsg.message_time;
+          // } else {
+          //   var last_message = null;
+          //   var last_message_time = null;
+          // }
+
+          let last_message;
           if (findLastMsg) {
             if (findLastMsg.message_type == "text") {
-              var last_message = findLastMsg.message;
+              last_message = findLastMsg.message;
             } else {
-              var last_message = "media";
+              last_message = "media";
             }
             var last_message_time = findLastMsg.message_time;
           } else {
-            var last_message = null;
+            last_message = null;
             var last_message_time = null;
           }
+
 
           result = {
             ...result,
@@ -274,7 +288,7 @@ module.exports = {
 
         if (get_sender_user != null) {
           name = get_sender_user.full_name;
-          
+
           if (get_sender_user.profile_picture) {
             img = process.env.BASE_URL + get_sender_user.profile_picture;
           } else {

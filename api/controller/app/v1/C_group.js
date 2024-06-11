@@ -1040,8 +1040,8 @@ const acceptDeclineJoinRequest = async (req, res) => {
 
         var device_token_array = [];
         for (var datas of find_token) {
-          var device_token = datas.device_token;
-          device_token_array.push(device_token);
+          var device_tokenn = datas.device_token;
+          device_token_array.push(device_tokenn);
         }
 
         if (device_token_array.length > 0) {

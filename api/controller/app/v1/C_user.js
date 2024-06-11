@@ -748,8 +748,14 @@ const signIn = async (req, res) => {
             { unique_name: email_address },
           ],
           is_deleted: false,
-          is_block: false
         });
+      }
+
+      if (!find_user) {
+        return errorRes(
+          res,
+          "Couldn't found user"
+        );
       }
 
       if (find_user) {

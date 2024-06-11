@@ -4322,7 +4322,17 @@ const getAllPosts = async (req, res) => {
         );
         var userPosts = filteredPosts.concat(postWithPrivateAccountFalse, postWith200To300T);
 
-        var userPosts = [
+        // var userPosts = [
+        //   ...filteredPosts,
+        //   ...postWithPrivateAccountFalse.filter(
+        //     (post) =>
+        //       !filteredPosts.some((filteredPost) =>
+        //         filteredPost._id.equals(post._id)
+        //       )
+        //   ),
+        // ];
+
+        userPosts = [
           ...filteredPosts,
           ...postWithPrivateAccountFalse.filter(
             (post) =>
