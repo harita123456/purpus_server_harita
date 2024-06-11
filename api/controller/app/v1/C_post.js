@@ -2242,14 +2242,14 @@ const addComment = async (req, res) => {
             noti_for,
             sender_id: user_id,
             receiver_id: find_post?.user_id,
-            post_id: find_post?._id,
+            post_id: find_post._id,
             noti_date: currentDateTime,
             created_at: currentDateTime,
             updated_at: currentDateTime,
           });
 
           var find_token = await user_session.find({
-            user_id: find_post?.user_id,
+            user_id: find_post.user_id,
             is_deleted: false,
           });
 

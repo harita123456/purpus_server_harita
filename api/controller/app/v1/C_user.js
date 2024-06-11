@@ -473,6 +473,7 @@ const signup = async (req, res) => {
       let find_email = await users.findOne({
         email_address: { $eq: email_address, $ne: null, $nin: [""] },
         is_deleted: false,
+        is_block: false
       });
       if (find_email) {
         return errorRes(res, "This email address is already exists");
@@ -481,6 +482,7 @@ const signup = async (req, res) => {
     var find_uniquename = await users.findOne({
       unique_name: { $regex: new RegExp("^" + unique_name + "$", "i") },
       is_deleted: false,
+      is_block: false
     });
     if (find_uniquename) {
       return errorRes(res, "This unique name is already exists");
@@ -490,6 +492,7 @@ const signup = async (req, res) => {
       var find_mobile_number = await users.findOne({
         mobile_number: { $eq: mobile_number, $ne: null, $nin: [""] },
         is_deleted: false,
+        is_block: false
       });
       if (find_mobile_number) {
         return errorRes(res, "This mobile number is already exists");
@@ -745,6 +748,7 @@ const signIn = async (req, res) => {
             { unique_name: email_address },
           ],
           is_deleted: false,
+          is_block: false
         });
       }
 
@@ -807,6 +811,7 @@ const signIn = async (req, res) => {
           ],
 
           is_deleted: false,
+          is_block: false
         });
 
         console.log("check_user_email", check_user_email);
@@ -854,6 +859,7 @@ const signIn = async (req, res) => {
       let find_user = await users.findOne({
         mobile_number: mobile_number,
         is_deleted: false,
+        is_block: false
       });
 
       if (!find_user) {
@@ -895,6 +901,7 @@ const signIn = async (req, res) => {
       let find_user = await users.findOne({
         $or: [{ email_address: email_address }, { unique_name: email_address }],
         is_deleted: false,
+        is_block: false
       });
 
       if (!find_user) {
@@ -1100,6 +1107,7 @@ const sendOTP = async (req, res) => {
     let user_data = await users.findOne({
       email_address,
       is_deleted: false,
+      is_block: false
     });
 
     if (!user_data) {
@@ -1137,6 +1145,7 @@ const verifyOtp = async (req, res) => {
       })
       .where({
         is_deleted: false,
+        is_block: false
       });
 
     if (!find_user) {
@@ -1171,6 +1180,7 @@ const resetPassword = async (req, res) => {
     let find_user = await users.findOne({
       email_address,
       is_deleted: false,
+      is_block: false
     });
 
     if (!find_user) {
@@ -1202,6 +1212,7 @@ const checkEmail = async (req, res) => {
       let find_user = await users.findOne({
         email_address: { $eq: email_address, $ne: null, $nin: [""] },
         is_deleted: false,
+        is_block: false
       });
 
       if (!find_user) {
@@ -1975,7 +1986,7 @@ const editProfile = async (req, res) => {
       var { profile_picture } = req.files;
     }
 
-    let find_user = await users.findById(user_id).where({ is_deleted: false });
+    let find_user = await users.findById(user_id).where({ is_deleted: false, is_block: false });
 
     if (!find_user) {
       return errorRes(res, "Couldn't found user");
@@ -2417,7 +2428,7 @@ const createReportforproblem = async (req, res) => {
     var { feedback } = req.body;
     var { feedback_photo } = req.files;
 
-    let find_user = await users.findById(user_id).where({ is_deleted: false });
+    let find_user = await users.findById(user_id).where({ is_deleted: false, is_block: false });
     if (!find_user) {
       return errorRes(res, "This user id not exists");
     }
@@ -2525,7 +2536,7 @@ const reporttoUser = async (req, res) => {
 
     let find_report_user = await users
       .findById(report_user_id)
-      .where({ is_deleted: false });
+      .where({ is_deleted: false, is_block: false });
     if (!find_report_user) {
       return errorRes(res, "This report user id not exists");
     }
@@ -2566,7 +2577,7 @@ const createSupport = async (req, res) => {
     }
     var { title, message } = req.body;
 
-    let find_user = await users.findById(user_id).where({ is_deleted: false });
+    let find_user = await users.findById(user_id).where({ is_deleted: false, is_block: false });
     if (!find_user) {
       return errorRes(res, "This user id not exists");
     }
@@ -2709,6 +2720,7 @@ const getverifiedUserDetails = async (req, res) => {
         .findOne({ user_id: user_id })
         .where({
           is_deleted: false,
+          is_block: false
         })
         .sort({ createdAt: -1 });
       if (find_data?.gov_document) {
@@ -2754,7 +2766,7 @@ const getUserdetails = async (req, res) => {
     if (user_id) {
       var find_user = await users
         .findById(user_id)
-        .where({ is_deleted: false });
+        .where({ is_deleted: false, is_block: false });
 
       if (!find_user) {
         return errorRes(res, "Couldn't found user");
@@ -3627,6 +3639,7 @@ const searchPage = async (req, res) => {
             { _id: { $nin: blockedUserIds } },
             {
               is_deleted: false,
+              is_block: false
             },
           ],
         })
@@ -5485,6 +5498,7 @@ const addEduaction = async (req, res) => {
     let user_data = await users.findOne({
       _id: user_id,
       is_deleted: false,
+      is_block: false,
     });
 
     if (!user_data) {
@@ -5592,6 +5606,7 @@ const editEduaction = async (req, res) => {
     let user_data = await users.findOne({
       _id: user_id,
       is_deleted: false,
+      is_block: false,
     });
 
     if (!user_data) {
@@ -5690,6 +5705,7 @@ const deleteEduaction = async (req, res) => {
     let user_data = await users.findOne({
       _id: user_id,
       is_deleted: false,
+      is_block: false,
     });
 
     if (!user_data) {
@@ -5996,6 +6012,7 @@ const addExperience = async (req, res) => {
     let user_data = await users.findOne({
       _id: user_id,
       is_deleted: false,
+      is_block: false,
     });
 
     if (!user_data) {
@@ -6373,6 +6390,7 @@ const editExperince = async (req, res) => {
     let user_data = await users.findOne({
       _id: user_id,
       is_deleted: false,
+      is_block: false,
     });
 
     if (!user_data) {
@@ -6537,6 +6555,7 @@ const deleteExperince = async (req, res) => {
     let user_data = await users.findOne({
       _id: user_id,
       is_deleted: false,
+      is_block: false,
     });
 
     if (!user_data) {
@@ -6705,6 +6724,7 @@ const addCustomfield = async (req, res) => {
     let user_data = await users.findOne({
       _id: user_id,
       is_deleted: false,
+      is_block: false,
     });
 
     if (!user_data) {
@@ -6788,6 +6808,7 @@ const editCustomfield = async (req, res) => {
     let user_data = await users.findOne({
       _id: user_id,
       is_deleted: false,
+      is_block: false,
     });
 
     if (!user_data) {
@@ -6858,6 +6879,7 @@ const deleteCustomfield = async (req, res) => {
     let user_data = await users.findOne({
       _id: user_id,
       is_deleted: false,
+      is_block: false,
     });
 
     if (!user_data) {
@@ -6961,6 +6983,7 @@ const linkedinpersonalInfo = async (req, res) => {
       .where({
         is_block: false,
         is_deleted: false,
+        is_block: false,
       })
       .select(
         "_id skills_details demographics social_media_link is_linkedin_complete"
