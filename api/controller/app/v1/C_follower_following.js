@@ -241,23 +241,23 @@ const unFollowUser = async (req, res) => {
     if (!user_detail) {
       return errorRes(res, `Couldn't found record`);
     }
-    if (user_detail) {
-      var follow_id = user_detail._id;
 
-      var unFollow_user = await follower_following.findByIdAndDelete(follow_id);
+    var follow_id = user_detail._id;
 
-      await notifications.deleteMany({
-        sender_id: user_id,
-        receiver_id: following_user_id,
-        noti_for: { $in: ["started_following"] }
-      });
+    var unFollow_user = await follower_following.findByIdAndDelete(follow_id);
 
-      if (unFollow_user) {
-        return successRes(res, `User un-follow successfully`);
-      } else {
-        return errorRes(res, `Couldn't found user`);
-      }
+    await notifications.deleteMany({
+      sender_id: user_id,
+      receiver_id: following_user_id,
+      noti_for: { $in: ["started_following"] }
+    });
+
+    if (unFollow_user) {
+      return successRes(res, `User un-follow successfully`);
+    } else {
+      return errorRes(res, `Couldn't found user`);
     }
+
   } catch (error) {
     console.log(error);
     return errorRes(res, "Internal Server Error!");

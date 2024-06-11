@@ -51,15 +51,26 @@ module.exports = {
       is_request: true,
       is_deleted: false,
     });
-
+    let createData;
     if (follow_request_data != null) {
-      var createData = {
+      // var createData = {
+      //   user_id: user_id,
+      //   other_user_id: other_user_id,
+      //   room_code: room_code,
+      // };
+      createData = {
         user_id: user_id,
         other_user_id: other_user_id,
         room_code: room_code,
       };
     } else {
-      var createData = {
+      // var createData = {
+      //   user_id: user_id,
+      //   other_user_id: other_user_id,
+      //   room_code: room_code,
+      //   is_requested: true,
+      // };
+      createData = {
         user_id: user_id,
         other_user_id: other_user_id,
         room_code: room_code,

@@ -1145,8 +1145,8 @@ const likePost = async (req, res) => {
 
           var device_token_array = [];
           for (var value of find_token) {
-            var device_token = value.device_token;
-            device_token_array.push(device_token);
+            var device_token1 = value.device_token;
+            device_token_array.push(device_token1);
           }
 
           if (device_token_array.length > 0) {
@@ -2096,8 +2096,8 @@ const addComment = async (req, res) => {
 
           var device_token_array = [];
           for (var value of find_token) {
-            var device_token = value.device_token;
-            device_token_array.push(device_token);
+            var device_token2 = value.device_token;
+            device_token_array.push(device_token2);
           }
 
           if (device_token_array.length > 0) {
@@ -2260,8 +2260,8 @@ const addComment = async (req, res) => {
 
           var device_token_array = [];
           for (var value of find_token) {
-            var device_token = value.device_token;
-            device_token_array.push(device_token);
+            var device_token3 = value.device_token;
+            device_token_array.push(device_token3);
           }
 
           if (device_token_array.length > 0) {
@@ -2488,9 +2488,9 @@ const addComment = async (req, res) => {
 
               if (device_token_array.length > 0) {
                 notiData = { ...notiData, device_token: device_token_array };
-                var noti_send = await notiSendMultipleDevice(notiData);
+                var noti_sends = await notiSendMultipleDevice(notiData);
 
-                if (noti_send.status == 200) {
+                if (noti_sends.status == 200) {
                   await users.findByIdAndUpdate(find_post?.user_id, {
                     $inc: {
                       noti_badge: 1,
@@ -3858,8 +3858,8 @@ const likeComment = async (req, res) => {
 
           var device_token_array = [];
           for (var value of find_token) {
-            var device_token = value.device_token;
-            device_token_array.push(device_token);
+            var device_tokens = value.device_token;
+            device_token_array.push(device_tokens);
           }
 
           if (device_token_array.length > 0) {
