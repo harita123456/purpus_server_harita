@@ -1503,7 +1503,12 @@ const getAllLikedPosts = async (req, res) => {
 
     var likedPostsCount = await like_post.countDocuments({ user_id });
 
-    if (!likedPosts || likedPosts.length === 0) {
+    // if (!likedPosts || likedPosts.length === 0) {
+    //   return successRes(res, "No liked posts found for this user", []);
+    // }
+
+
+    if (likedPosts.length == 0) {
       return successRes(res, "No liked posts found for this user", []);
     }
 
@@ -2315,7 +2320,7 @@ const addComment = async (req, res) => {
             noti_for,
             sender_id: user_id,
             receiver_id: savedComment?.mention_user_id,
-            post_id: find_post?._id,
+            post_id: find_post._id,
             noti_date: currentDateTime,
             created_at: currentDateTime,
             updated_at: currentDateTime,
@@ -3298,7 +3303,9 @@ const getAllComments = async (req, res) => {
         is_deleted: false,
       });
 
-      if (!parentComments || parentComments.length === 0) {
+      // if (!parentComments || parentComments.length === 0) {
+
+      if (parentComments.length == 0) {
         const parentComments1 = await comment_post
           .find({
             post_id: post_id,
@@ -3394,7 +3401,9 @@ const getAllComments = async (req, res) => {
           is_deleted: false,
         });
 
-        if (!parentComments1 || parentComments1.length === 0) {
+        // if (!parentComments1 || parentComments1.length === 0) {
+
+        if (parentComments1.length == 0) {
           return successRes(res, "No comments found for this post", []);
         }
 

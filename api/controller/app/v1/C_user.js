@@ -1884,7 +1884,7 @@ const selfDelete = async (req, res) => {
           //  remove_experince
           await users.updateOne(
             { _id: user_id },
-            { $pull: { experience: value?._id } }
+            { $pull: { experience: value._id } }
           );
           if (find_image) {
             for (var value of find_image.media) {
@@ -2197,7 +2197,7 @@ const editProfile = async (req, res) => {
 
           var updateskill =
             [
-              skill = skills_update?.skill_name,
+              skill = skills_update.skill_name,
               identifier = skills_update._id.toString()
             ]
           await performQuery(
@@ -6407,7 +6407,7 @@ const editExperince = async (req, res) => {
     var update_experince_data = await experienceSchema.findOne({
       _id: update_experince._id
     });
-    if (update_experince) {
+    if (update_experince != null) {
       const sql = "SELECT * from user WHERE identifier  = ?";
       const values = [user_data?._id.toString()];
       const results = await performQuery(sql, values);
@@ -6982,8 +6982,7 @@ const linkedinpersonalInfo = async (req, res) => {
       .findById({ _id: user_id })
       .where({
         is_block: false,
-        is_deleted: false,
-        is_block: false,
+        is_deleted: false
       })
       .select(
         "_id skills_details demographics social_media_link is_linkedin_complete"
