@@ -2041,7 +2041,7 @@ const addComment = async (req, res) => {
         noti_for: "post_comment"
       })
 
-      if (savedComment) {
+      if (savedComment != null) {
         var find_post = await post.findByIdAndUpdate(savedComment.post_id, {
           $inc: { comment_count: 1 },
         });
@@ -2193,7 +2193,7 @@ const addComment = async (req, res) => {
         });
       }
 
-      if (savedComment) {
+      if (savedComment != null) {
         var find_post = await post.findByIdAndUpdate(savedComment.post_id, {
           $inc: { comment_count: 1 },
         });

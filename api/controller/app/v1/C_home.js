@@ -4594,8 +4594,13 @@ const getAllPosts = async (req, res) => {
               $match: {
                 interest_id: new mongoose.Types.ObjectId(selected_id),
                 // sub_interest_id: { $in: subInterestIds },
-                user_id: { $nin: blockedUserIds },
-                user_id: { $nin: userWithPrivateAccountIds },
+
+                $and: [
+                  { user_id: { $nin: blockedUserIds } },
+                  { user_id: { $nin: userWithPrivateAccountIds } }
+                ],
+                // user_id: { $nin: blockedUserIds },
+                // user_id: { $nin: userWithPrivateAccountIds },
                 is_deleted: false,
                 is_block: false,
                 is_local: false,
