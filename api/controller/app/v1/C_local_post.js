@@ -366,7 +366,9 @@ const getAllLocalpost = async (req, res) => {
           $gte: new Date(Date.now() - timeFrameInHours * 60 * 60 * 1000),
         },
       };
-      var find_local_post_trending = await post
+      let find_local_post_trending
+      // var find_local_post_trending = await post
+      find_local_post_trending = await post
         .find()
         .where(where_condition)
         .populate({
@@ -395,7 +397,8 @@ const getAllLocalpost = async (req, res) => {
             $gte: new Date(Date.now() - timeFrameInHours * 60 * 60 * 1000),
           },
         };
-        var find_local_post_trending = await post
+        // var find_local_post_trending = await post
+        find_local_post_trending = await post
           .find()
           .where(where_condition)
           .populate({
