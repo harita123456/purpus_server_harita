@@ -3216,7 +3216,7 @@ const getUserdetails = async (req, res) => {
 
       if (find_user.group_details) {
         find_user.group_details = find_user.group_details.map(async (data) => {
-          const groupId = data?.group_id?._id;
+          const groupId = data.group_id._id;
 
           const memberCount = await group_members.countDocuments({
             group_id: groupId,
@@ -3224,7 +3224,7 @@ const getUserdetails = async (req, res) => {
           });
 
           const updatedGroup = {
-            ...data?.group_id?._doc,
+            ...data.group_id._doc,
             member_count: memberCount,
           };
 
