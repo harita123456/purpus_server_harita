@@ -361,7 +361,7 @@ module.exports = {
       }
 
       if (message_type == "voice") {
-        for (var value of media_file) {
+        for (let value of media_file) {
           if (value.file_type == "audio") {
             var files = {
               file_type: value.file_type,
@@ -442,7 +442,7 @@ module.exports = {
     }
 
     if (message_type == "voice") {
-      for (var value of media_file) {
+      for (let value of media_file) {
         if (value.file_type == "audio") {
           var files_audio = {
             file_type: value.file_type,
@@ -459,7 +459,7 @@ module.exports = {
       }
     }
     if (message_type == "media" && Array.isArray(media_file)) {
-      for (var value of media_file) {
+      for (let value of media_file) {
         if (value.file_type == "image") {
           var files_image = {
             file_type: value.file_type,
@@ -637,7 +637,7 @@ module.exports = {
           });
 
           var device_token_array = [];
-          for (var value of find_token) {
+          for (let value of find_token) {
             var device_token = value.device_token;
             device_token_array.push(device_token);
           }
@@ -1461,14 +1461,15 @@ module.exports = {
           is_request: true,
           is_deleted: false,
         });
+        let createData
         if (follow_request_data != null) {
-          var createData = {
+          createData = {
             user_id: sender_id,
             other_user_id: receiver_id,
             room_code: room_code,
           };
         } else {
-          var createData = {
+          createData = {
             user_id: sender_id,
             other_user_id: receiver_id,
             room_code: room_code,
@@ -1660,7 +1661,7 @@ module.exports = {
           });
 
           var device_token_array = [];
-          for (var value of find_token) {
+          for (let value of find_token) {
             var device_token = value.device_token;
             device_token_array.push(device_token);
           }
