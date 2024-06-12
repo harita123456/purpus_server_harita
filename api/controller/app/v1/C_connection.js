@@ -423,7 +423,7 @@ const connectionSuggestion = async (req, res) => {
       },
     ]);
 
-    matchingUsers?.forEach((group) => {
+    matchingUsers.forEach((group) => {
       group.users = group.users.sort(() => Math.random() - 0.5);
       group.users = group.users.slice(0, 4);
     });
@@ -456,7 +456,7 @@ const connectionSuggestion = async (req, res) => {
       select: "color_code "
     })
 
-    const matchdata = matchingUsers?.map((interestGroup) => {
+    const matchdata = matchingUsers.map((interestGroup) => {
       const interestName = interestNames.find(({ _id }) =>
         _id.equals(interestGroup?.interest_id)
       )
@@ -492,7 +492,7 @@ const connectionSuggestion = async (req, res) => {
 
     });
 
-    matchdata?.forEach((value) => {
+    matchdata.forEach((value) => {
 
       value?.users?.map((data) => {
         if (data?.profile_picture != null) {
@@ -671,7 +671,7 @@ const allInterestuser = async (req, res) => {
 
         interestedUsers = [...findincludeUser, ...interestedUsers];
       }
-      interestedUsers?.forEach((value) => {
+      interestedUsers.forEach((value) => {
         if (value?.profile_picture != null) {
           value.profile_picture = process.env.BASE_URL + value.profile_picture;
         }
@@ -744,7 +744,7 @@ const allInterestuser = async (req, res) => {
         interested: { $in: [new mongoose.Types.ObjectId(interest_id)] },
       });
 
-      interestedUsers?.forEach((value) => {
+      interestedUsers.forEach((value) => {
         if (value?.profile_picture != null) {
           value.profile_picture = process.env.BASE_URL + value.profile_picture;
         }
