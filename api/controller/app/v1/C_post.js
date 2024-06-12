@@ -1972,12 +1972,12 @@ const addComment = async (req, res) => {
     }
 
     if (parent_comment_id) {
-      var find_post = await comment_post.findOne().where({
+      var find_post1 = await comment_post.findOne().where({
         _id: parent_comment_id,
         is_deleted: false,
       });
 
-      if (!find_post) {
+      if (!find_post1) {
         return errorRes(res, "This parent_comment_id does not exist");
       }
     }
@@ -2089,7 +2089,7 @@ const addComment = async (req, res) => {
             updated_at: currentDateTime,
           });
 
-          var find_token = await user_session.find({
+          let find_token = await user_session.find({
             user_id: find_post?.user_id,
             is_deleted: false,
           });
@@ -2253,7 +2253,7 @@ const addComment = async (req, res) => {
             updated_at: currentDateTime,
           });
 
-          var find_token = await user_session.find({
+          let find_token = await user_session.find({
             user_id: find_post.user_id,
             is_deleted: false,
           });
@@ -2326,7 +2326,7 @@ const addComment = async (req, res) => {
             updated_at: currentDateTime,
           });
 
-          var find_token = await user_session.find({
+          let find_token = await user_session.find({
             user_id: savedComment?.mention_user_id,
             is_deleted: false,
           });
@@ -2401,7 +2401,7 @@ const addComment = async (req, res) => {
               updated_at: currentDateTime,
             });
 
-            var find_token = await user_session.find({
+            let find_token = await user_session.find({
               user_id: savedComment?.mention_user_id,
               is_deleted: false,
             });
@@ -2475,7 +2475,7 @@ const addComment = async (req, res) => {
                 updated_at: currentDateTime,
               });
 
-              var find_token = await user_session.find({
+              let find_token = await user_session.find({
                 user_id: find_post?.user_id,
                 is_deleted: false,
               });
@@ -2546,7 +2546,7 @@ const addComment = async (req, res) => {
                 updated_at: currentDateTime,
               });
 
-              var find_token = await user_session.find({
+              let find_token = await user_session.find({
                 user_id: savedComment?.mention_user_id,
                 is_deleted: false,
               });
@@ -2696,12 +2696,12 @@ const editComment = async (req, res) => {
     }
 
     if (parent_comment_id) {
-      var find_post = await comment_post.findOne().where({
+      var find_post1 = await comment_post.findOne().where({
         _id: parent_comment_id,
         is_deleted: false,
       });
 
-      if (!find_post) {
+      if (!find_post1) {
         return errorRes(res, "This parent_comment_id does not exist");
       }
     }
@@ -3851,7 +3851,7 @@ const likeComment = async (req, res) => {
             updated_at: currentDateTime,
           });
 
-          var find_token = await user_session.find({
+          let find_token = await user_session.find({
             user_id: find_comment?.user_id,
             is_deleted: false,
           });
@@ -4388,7 +4388,7 @@ const getUserPostlist = async (req, res) => {
         is_block: false,
         is_deleted: false,
       });
-      var find_post = await post
+      let find_post = await post
         .find()
         .where({
           user_id: {
@@ -4529,7 +4529,7 @@ const getUserPostlist = async (req, res) => {
         is_repost: true,
       });
 
-      var find_post = await post
+      let find_post = await post
         .find()
         .where({
           user_id: {
