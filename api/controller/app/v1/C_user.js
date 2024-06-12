@@ -7177,16 +7177,7 @@ const mysqlscript = async (req, res) => {
   try {
 
     var find_user = await users.find({ is_deleted: false, is_block: false })
-    // var find_user_data = await users.findOne({
-    //   is_deleted: false, is_block: false, _id: new ObjectId("665576ab5c9c61bfac79ba07")
-    // })
 
-    // var find_user = []
-    // find_user.push(find_user_data)
-
-
-
-    // if (find_user) {
       find_user.map(async (value) => {
         const updatedata = await performQuery(
           "SELECT * FROM user WHERE identifier = ?",
@@ -7493,10 +7484,6 @@ const mysqlscript = async (req, res) => {
         }
 
       })
-
-
-    // }
-
 
     return successRes(res, `All data add in mysql successfully`);
 
