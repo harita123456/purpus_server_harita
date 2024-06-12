@@ -7186,7 +7186,7 @@ const mysqlscript = async (req, res) => {
 
       if (updatedata.length == 0) {
 
-        const nameParts = value.full_name.split(' ');
+        const nameParts = value?.full_name.split(' ');
         var firstName = nameParts[0];
         // var middleName = nameParts[0];
         // var lastName = nameParts[0];
