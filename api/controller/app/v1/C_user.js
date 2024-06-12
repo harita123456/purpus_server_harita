@@ -882,7 +882,7 @@ const signIn = async (req, res) => {
 
         let token = await userToken(find_user);
 
-        var update_data = {
+        let update_data = {
           is_login: true,
           is_social_login: true,
           social_platform,
