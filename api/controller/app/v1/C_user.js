@@ -766,7 +766,7 @@ const signIn = async (req, res) => {
           );
         }
 
-        var token = await userToken(find_user);
+        let token = await userToken(find_user);
 
         var update_data;
 
@@ -880,7 +880,7 @@ const signIn = async (req, res) => {
           );
         }
 
-        var token = await userToken(find_user);
+        let token = await userToken(find_user);
 
         var update_data = {
           is_login: true,
@@ -936,7 +936,7 @@ const signIn = async (req, res) => {
         );
       }
 
-      var token = await userToken(find_user);
+      let token = await userToken(find_user);
 
       let update_data = {
         is_login: true,
@@ -7063,13 +7063,13 @@ const getsubInteresttesting = async (req, res) => {
     var { language } = req.body;
 
     if (language == undefined) {
-      var find_interest = await interest
+      let find_interest = await interest
         .find()
         .where({ is_deleted: false, is_block: false })
         .sort({ createdAt: 1 });
-      var final_array = [];
+      let final_array = [];
       for (var data of find_interest) {
-        var find_sub_interest = await subinterest
+        let find_sub_interest = await subinterest
           .find()
           .where({
             interest_id: new ObjectId(data._id),
@@ -7077,7 +7077,7 @@ const getsubInteresttesting = async (req, res) => {
             is_block: false,
           })
           .sort({ createdAt: 1 });
-        var value;
+        let value;
         if (data._id == process.env.OFF_TOPIC_ID) {
           value = {
             ...data._doc,
@@ -7126,12 +7126,12 @@ const getsubInteresttesting = async (req, res) => {
     pipeline.push({
       $sort: { createdAt: 1 },
     });
-    var find_interest = await interest.aggregate(pipeline);
+    let find_interest = await interest.aggregate(pipeline);
 
     var final_array = [];
 
     for (var data of find_interest) {
-      var find_sub_interest = await subinterest
+      let find_sub_interest = await subinterest
         .find({
           interest_id: new ObjectId(data._id),
           is_deleted: false,
@@ -7139,7 +7139,7 @@ const getsubInteresttesting = async (req, res) => {
         })
         .sort({ createdAt: 1 });
 
-      var value;
+      let value;
 
       if (data._id == process.env.OFF_TOPIC_ID) {
         value = {
