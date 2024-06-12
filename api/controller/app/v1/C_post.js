@@ -1102,7 +1102,7 @@ const likePost = async (req, res) => {
         ) {
           const currentDateTime = await dateTime();
           let noti_msg = login_user_name + " liked your post";
-          var media;
+          let media;
           if (find_post.post_type == "media") {
             if (find_post.post_media[0]?.file_type == "image") {
               media =
@@ -1817,7 +1817,7 @@ const createRepost = async (req, res) => {
       const currentDateTime = await dateTime();
 
       let noti_msg = login_user_name + " re-posted your post ";
-      var media;
+      let media;
 
       let noti_title = "Repost";
       let noti_for = "repost";
@@ -1994,12 +1994,12 @@ const addComment = async (req, res) => {
     }
 
     if (mention_user_id) {
-      var find_user = await users.findOne().where({
+      var find_user1 = await users.findOne().where({
         _id: mention_user_id,
         is_deleted: false,
       });
 
-      if (!find_user) {
+      if (!find_user1) {
         return errorRes(res, "This mention_user_id does not exist");
       }
     }
@@ -2053,7 +2053,7 @@ const addComment = async (req, res) => {
         ) {
           const currentDateTime = await dateTime();
           let noti_msg = login_user_name + " commented: " + content;
-          var media;
+          let media;
           if (find_post.post_type == "media") {
             if (find_post.post_media[0]?.file_type == "image") {
               media =
@@ -2217,7 +2217,7 @@ const addComment = async (req, res) => {
 
           const currentDateTime = await dateTime();
           let noti_msg = login_user_name + " commented: " + content;
-          var media;
+          let media;
           if (find_post.post_type == "media") {
             if (find_post.post_media[0]?.file_type == "image") {
               media =
@@ -2290,7 +2290,7 @@ const addComment = async (req, res) => {
           const currentDateTime = await dateTime();
           let noti_msg =
             login_user_name + " replied to your comment: " + content;
-          var media;
+          let media;
           if (find_post.post_type == "media") {
             if (find_post.post_media[0]?.file_type == "image") {
               media =
@@ -2365,7 +2365,7 @@ const addComment = async (req, res) => {
             const currentDateTime = await dateTime();
             let noti_msg =
               login_user_name + " replied to your comment: " + content;
-            var media;
+            let media;
             if (find_post.post_type == "media") {
               if (find_post.post_media[0]?.file_type == "image") {
                 media =
@@ -2510,7 +2510,7 @@ const addComment = async (req, res) => {
               const currentDateTime = await dateTime();
               let noti_msg =
                 login_user_name + " replied to your comment: " + content;
-              var media;
+              let media;
               if (find_post.post_type == "media") {
                 if (find_post.post_media[0]?.file_type == "image") {
                   media =
@@ -2718,7 +2718,7 @@ const editComment = async (req, res) => {
     }
 
     if (mention_user_id) {
-      var find_user = await users.findOne().where({
+      let find_user = await users.findOne().where({
         _id: mention_user_id,
         is_deleted: false,
       });
@@ -3045,7 +3045,7 @@ const getAllComments = async (req, res) => {
         })
       );
 
-      var CommentPostsCount = await comment_post.countDocuments({
+      let CommentPostsCount = await comment_post.countDocuments({
         post_id: post_id,
         parent_comment_id: null,
         user_id: { $nin: blockedUserIds },
@@ -3167,7 +3167,7 @@ const getAllComments = async (req, res) => {
         })
       );
 
-      var CommentPostsCount = await comment_post.countDocuments({
+      let CommentPostsCount = await comment_post.countDocuments({
         post_id: post_id,
         parent_comment_id: null,
         user_id: { $nin: blockedUserIds },
@@ -3296,7 +3296,7 @@ const getAllComments = async (req, res) => {
         })
       );
 
-      var CommentPostsCount = await comment_post.countDocuments({
+      let CommentPostsCount = await comment_post.countDocuments({
         post_id: post_id,
         parent_comment_id: null,
         user_id: { $nin: blockedUserIds },
@@ -3394,7 +3394,7 @@ const getAllComments = async (req, res) => {
           })
         );
 
-        var CommentPostsCount = await comment_post.countDocuments({
+        let CommentPostsCount = await comment_post.countDocuments({
           post_id: post_id,
           parent_comment_id: null,
           user_id: { $nin: blockedUserIds },
@@ -3523,7 +3523,7 @@ const getAllComments = async (req, res) => {
       })
     );
 
-    var CommentPostsCount = await comment_post.countDocuments({
+    let CommentPostsCount = await comment_post.countDocuments({
       post_id: post_id,
       parent_comment_id: null,
       user_id: { $nin: blockedUserIds },
@@ -3733,7 +3733,7 @@ const getAllReplyComments = async (req, res) => {
       })
     );
 
-    var CommentPostsCount = await comment_post.countDocuments({
+    let CommentPostsCount = await comment_post.countDocuments({
       post_id: post_id,
       reply_comment_id: parent_comment_id,
       is_deleted: false,
