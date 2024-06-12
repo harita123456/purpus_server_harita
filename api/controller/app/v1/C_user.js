@@ -790,7 +790,7 @@ const signIn = async (req, res) => {
           social_platform,
         };
 
-        var update_user = await users.findByIdAndUpdate(
+        let update_user = await users.findByIdAndUpdate(
           find_user._id,
           update_data,
           { new: true }
@@ -890,7 +890,7 @@ const signIn = async (req, res) => {
           country_code,
         };
 
-        var update_user = await users.findByIdAndUpdate(
+        let update_user = await users.findByIdAndUpdate(
           find_user._id,
           update_data,
           { new: true }
@@ -1429,12 +1429,12 @@ const getsubInterest = async (req, res) => {
     var { language } = req.body;
 
     if (language == undefined) {
-      var find_interest = await interest
+      var find_interest1 = await interest
         .find()
         .where({ is_deleted: false, is_block: false })
         .sort({ createdAt: 1 });
-      var final_array = [];
-      for (var data of find_interest) {
+      var final_array1 = [];
+      for (var data of find_interest1) {
         let find_sub_interest = await subinterest
           .find()
           .where({
@@ -1443,22 +1443,22 @@ const getsubInterest = async (req, res) => {
             is_block: false,
           })
           .sort({ createdAt: 1 });
-        var value;
+        var value1;
         if (data._id == process.env.OFF_TOPIC_ID) {
-          value = {
+          value1 = {
             ...data._doc,
             sub_interest_data: [],
           };
         } else {
-          value = {
+          value1 = {
             ...data._doc,
             sub_interest_data: find_sub_interest,
           };
         }
 
-        final_array.push(value);
+        final_array1.push(value1);
       }
-      return successRes(res, `Interest get successfully`, final_array);
+      return successRes(res, `Interest get successfully`, final_array1);
     }
 
     var pipeline = [];
@@ -3131,12 +3131,12 @@ const getUserdetails = async (req, res) => {
           group_details = find_group;
         }
       } else {
-        var user_id = login_user.toString();
+        var user_id1 = login_user.toString();
         var find_groups = await group_members
           .find()
           .where({
             is_deleted: false,
-            user_id: user_id,
+            user_id: user_id1,
           })
           .populate("group_id");
 
@@ -3968,7 +3968,7 @@ const searchPage = async (req, res) => {
         })
         .sort({ is_verified: -1 });
 
-      var find_group = await Promise.all(
+      find_group = await Promise.all(
         find_group.map(async (value) => {
           var result = { ...value._doc };
 
@@ -6198,7 +6198,7 @@ const editExperince = async (req, res) => {
           "media._id": value1,
         });
         if (find_image) {
-          for (var value of find_image.media) {
+          for (let value of find_image.media) {
             if (value._id == value1) {
               if (value.file_type != "url") {
                 unlink(`${outputPath}/public/${value.file_name}`, (err) => {
@@ -6251,7 +6251,7 @@ const editExperince = async (req, res) => {
     }
     var multiplelinkedin_media_array = [];
     if (linkedin_media_array[0] != undefined) {
-      for (var value of linkedin_media_array) {
+      for (let value of linkedin_media_array) {
         let file_extension = value.originalFilename
           .split(".")
           .pop()
@@ -7068,7 +7068,7 @@ const getsubInteresttesting = async (req, res) => {
         .where({ is_deleted: false, is_block: false })
         .sort({ createdAt: 1 });
       let final_array = [];
-      for (var data of find_interest) {
+      for (let data of find_interest) {
         let find_sub_interest = await subinterest
           .find()
           .where({
@@ -7130,7 +7130,7 @@ const getsubInteresttesting = async (req, res) => {
 
     var final_array = [];
 
-    for (var data of find_interest) {
+    for (let data of find_interest) {
       let find_sub_interest = await subinterest
         .find({
           interest_id: new ObjectId(data._id),
