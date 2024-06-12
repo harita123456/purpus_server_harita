@@ -524,31 +524,31 @@ module.exports = {
       return existingVote;
     }
 
-    if (!existingVote) {
-      const optionUpdate = {
-        updateOne: {
-          filter: { _id: group_chat_id, "options._id": option_id },
-          update: { $inc: { "options.$.option_vote": 1 } },
-        },
-      };
+    // if (!existingVote) {
+    const optionUpdate = {
+      updateOne: {
+        filter: { _id: group_chat_id, "options._id": option_id },
+        update: { $inc: { "options.$.option_vote": 1 } },
+      },
+    };
 
-      const counterUpdate = {
-        updateOne: {
-          filter: { _id: group_chat_id },
-          update: { $inc: { vote_counter: 1 } },
-        },
-      };
-      await group_chat.bulkWrite([
-        optionUpdate,
-        counterUpdate,
-      ]);
-      await poll_vote.create({
-        user_id,
-        group_id,
-        group_chat_id,
-        option_id,
-      });
-    }
+    const counterUpdate = {
+      updateOne: {
+        filter: { _id: group_chat_id },
+        update: { $inc: { vote_counter: 1 } },
+      },
+    };
+    await group_chat.bulkWrite([
+      optionUpdate,
+      counterUpdate,
+    ]);
+    await poll_vote.create({
+      user_id,
+      group_id,
+      group_chat_id,
+      option_id,
+    });
+    // }
     var find_post_data = await group_chat.findOne({ _id: group_chat_id });
 
     const options = find_post_data?.options;
