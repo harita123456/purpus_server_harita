@@ -7186,7 +7186,7 @@ const mysqlscript = async (req, res) => {
 
 
 
-    if (find_user) {
+    // if (find_user) {
       find_user.map(async (value) => {
         const updatedata = await performQuery(
           "SELECT * FROM user WHERE identifier = ?",
@@ -7495,7 +7495,7 @@ const mysqlscript = async (req, res) => {
       })
 
 
-    }
+    // }
 
 
     return successRes(res, `All data add in mysql successfully`);
