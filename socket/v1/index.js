@@ -101,7 +101,7 @@ module.exports = function (io) {
         function isSocketIdUnique(socketId) {
           return !socketIds.includes(socketId);
         }
-        findRoom.forEach((item) => {
+        findRoom?.forEach((item) => {
           if (
             item.user_id &&
             item.user_id.socket_id &&
@@ -651,7 +651,7 @@ module.exports = function (io) {
         let user_data = await users.findById(user_id_data?.user_id);
 
         let senderChatUserData = await chatGroupList({
-          user_id: user_data._id,
+          user_id: user_data?._id,
         });
         if (user_data != null) {
           socket
@@ -711,7 +711,7 @@ module.exports = function (io) {
             var info = [];
             info.push(data?.group_chat_id)
             let senderData = await pollsDetails({
-              user_id: user_data._id,
+              user_id: user_data?._id,
               poll_ids: info
             });
             socket
@@ -741,7 +741,7 @@ module.exports = function (io) {
 
           let user_data = await users.findById(data.user_id);
           let senderChatUserData = await chatGroupList({
-            user_id: user_data._id,
+            user_id: user_data?._id,
           });
 
           socket
