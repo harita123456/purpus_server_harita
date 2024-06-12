@@ -1247,7 +1247,7 @@ const getAllSavedPosts = async (req, res) => {
       .limit(limit * 1)
       .skip((page - 1) * limit);
 
-    const modifiedPosts = savedPosts.map((post_id) => post_id?.post_id?._id);
+    const modifiedPosts = savedPosts?.map((post_id) => post_id?.post_id?._id);
 
     var userPosts = await post
       .find({
@@ -2207,7 +2207,7 @@ const addComment = async (req, res) => {
         });
 
         if (user_id.toString() == savedComment?.mention_user_id.toString()
-          && user_id.toString() !== find_post.user_id.toString()) {
+          && user_id.toString() !== find_post?.user_id.toString()) {
 
           await notifications.deleteMany({
             post_id: find_post._id,
@@ -2352,7 +2352,7 @@ const addComment = async (req, res) => {
         }
 
         if (user_id.toString() !== savedComment?.mention_user_id.toString()
-          && user_id.toString() !== find_post.user_id.toString()) {
+          && user_id.toString() !== find_post?.user_id.toString()) {
 
           if (savedComment?.mention_user_id.toString() == find_post.user_id.toString()) {
 
@@ -2977,7 +2977,7 @@ const getAllComments = async (req, res) => {
         .skip((page - 1) * limit);
 
       const parentCommentsWithLikeStatus = await Promise.all(
-        parentComments.map(async (parentComment) => {
+        parentComments?.map(async (parentComment) => {
           try {
             const isLiked = await like_comment.findOne({
               user_id: user_id,
@@ -3099,7 +3099,7 @@ const getAllComments = async (req, res) => {
         .skip((page - 1) * limit);
 
       const parentCommentsWithLikeStatus = await Promise.all(
-        parentComments.map(async (parentComment) => {
+        parentComments?.map(async (parentComment) => {
           try {
             const isLiked = await like_comment.findOne({
               user_id: user_id,
@@ -3225,7 +3225,7 @@ const getAllComments = async (req, res) => {
         .skip((page - 1) * limit);
 
       const parentCommentsWithLikeStatus = await Promise.all(
-        parentComments.map(async (parentComment) => {
+        parentComments?.map(async (parentComment) => {
           try {
             const isLiked = await like_comment.findOne({
               user_id: user_id,
@@ -3323,7 +3323,7 @@ const getAllComments = async (req, res) => {
           .skip((page - 1) * limit);
 
         const parentCommentsWithLikeStatus = await Promise.all(
-          parentComments1.map(async (parentComment) => {
+          parentComments1?.map(async (parentComment) => {
             try {
               const isLiked = await like_comment.findOne({
                 user_id: user_id,
@@ -3455,7 +3455,7 @@ const getAllComments = async (req, res) => {
       .skip((page - 1) * limit);
 
     const parentCommentsWithLikeStatus = await Promise.all(
-      parentComments.map(async (parentComment) => {
+      parentComments?.map(async (parentComment) => {
         try {
           const isLiked = await like_comment.findOne({
             user_id: user_id,
@@ -3720,7 +3720,7 @@ const getAllReplyComments = async (req, res) => {
       .skip((page - 1) * limit);
 
     parentComments = await Promise.all(
-      parentComments.map(async (post) => {
+      parentComments?.map(async (post) => {
         const isLiked = await like_comment.findOne({
           user_id: user_id,
           comment_id: post._id,
@@ -4030,13 +4030,13 @@ const getPostdetails = async (req, res) => {
             media?.file_name &&
             !media?.file_name.startsWith(process.env.BASE_URL)
           ) {
-            media.file_name = process.env.BASE_URL + media.file_name;
+            media?.file_name = process.env.BASE_URL + media.file_name;
           }
           if (
             media?.thumb_name &&
             !media?.thumb_name.startsWith(process.env.BASE_URL)
           ) {
-            media.thumb_name = process.env.BASE_URL + media.thumb_name;
+            media?.thumb_name = process.env.BASE_URL + media.thumb_name;
           }
         }
       });
@@ -4048,13 +4048,13 @@ const getPostdetails = async (req, res) => {
             media?.file_name &&
             !media?.file_name.startsWith(process.env.BASE_URL)
           ) {
-            media.file_name = process.env.BASE_URL + media.file_name;
+            media?.file_name = process.env.BASE_URL + media.file_name;
           }
           if (
             media?.thumb_name &&
             !media?.thumb_name.startsWith(process.env.BASE_URL)
           ) {
-            media.thumb_name = process.env.BASE_URL + media.thumb_name;
+            media?.thumb_name = process.env.BASE_URL + media.thumb_name;
           }
         }
       });
@@ -4257,18 +4257,18 @@ const getPostdetails = async (req, res) => {
         }
 
         find_post?.post_media?.forEach((media) => {
-          if (media.file_type === "image" || media.file_type === "video") {
+          if (media?.file_type === "image" || media?.file_type === "video") {
             if (
               media?.file_name &&
               !media?.file_name.startsWith(process.env.BASE_URL)
             ) {
-              media.file_name = process.env.BASE_URL + media.file_name;
+              media?.file_name = process.env.BASE_URL + media.file_name;
             }
             if (
               media?.thumb_name &&
               !media?.thumb_name.startsWith(process.env.BASE_URL)
             ) {
-              media.thumb_name = process.env.BASE_URL + media.thumb_name;
+              media?.thumb_name = process.env.BASE_URL + media.thumb_name;
             }
           }
         });
