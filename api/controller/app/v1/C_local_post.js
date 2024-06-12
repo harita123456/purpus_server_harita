@@ -141,7 +141,8 @@ const getAllfollowingpost = async (req, res) => {
 
         const is_repost_you_status = await post.findOne({
           user_id: user_id,
-          repost_id: data?.repost_id?._id,
+          // repost_id: data?.repost_id?._id,
+          repost_id: data.repost_id._id,
           is_deleted: false,
           is_repost: true
         })
@@ -194,7 +195,8 @@ const getAllfollowingpost = async (req, res) => {
 
           const is_repost_you_status = await post.findOne({
             user_id: user_id,
-            repost_id: data?.repost_id?._id,
+            // repost_id: data?.repost_id?._id,
+            repost_id: data.repost_id._id,
             is_deleted: false
           })
 
@@ -446,7 +448,8 @@ const getAllLocalpost = async (req, res) => {
             });
             const is_repost_you_status = await post.findOne({
               user_id: user_id,
-              repost_id: data?.repost_id?._id,
+              // repost_id: data?.repost_id?._id,
+              repost_id: data.repost_id._id,
               is_deleted: false,
               is_repost: true
             })
@@ -521,7 +524,8 @@ const getAllLocalpost = async (req, res) => {
               });
               const is_repost_you_status = await post.findOne({
                 user_id: user_id,
-                repost_id: data?.repost_id?._id,
+                // repost_id: data?.repost_id?._id,
+                repost_id: data.repost_id._id,
                 is_deleted: false,
                 is_repost: true
               })
