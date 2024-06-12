@@ -1859,11 +1859,11 @@ const selfDelete = async (req, res) => {
           // var remove_eduaction 
           await users.updateOne(
             { _id: user_id },
-            { $pull: { education: new ObjectId(value._id) } }
+            { $pull: { education: new ObjectId(value?._id) } }
           );
           // var delete_eduaction
           await eduaction.findByIdAndDelete({
-            _id: new ObjectId(value._id),
+            _id: new ObjectId(value?._id),
           });
         })
       }
@@ -1879,44 +1879,44 @@ const selfDelete = async (req, res) => {
       if (find_experience) {
         find_experience.map(async (value) => {
           var find_image = await experienceSchema.findOne({
-            _id: value._id,
+            _id: value?._id,
           });
 
           //  delete_remove_experince
           await experienceSchema.findByIdAndDelete({
-            _id: value._id,
+            _id: value?._id,
           });
 
           //  remove_experince
           await users.updateOne(
             { _id: user_id },
-            { $pull: { experience: value._id } }
+            { $pull: { experience: value?._id } }
           );
           if (find_image) {
             for (var value of find_image.media) {
-              if (value.file_type != "url") {
+              if (value?.file_type != "url") {
                 // if (`${outputPath}/public/${value?.file_name}`) {
                 //   unlink(`${outputPath}/public/${value?.file_name}`, (err) => {
                 //     if (err) console.log(err);
                 //   });
                 // }
 
-                const filePath = `${outputPath}/public/${value.file_name}`;
+                const filePath = `${outputPath}/public/${value?.file_name}`;
 
                 if (fs.existsSync(filePath)) {
-                  unlink(`${outputPath}/public/${value.file_name}`, (err) => {
+                  unlink(`${outputPath}/public/${value?.file_name}`, (err) => {
                     if (err) console.log(err);
                   });
                 }
-                if (value.file_type == "video") {
+                if (value?.file_type == "video") {
                   // if (`${outputPath}/public/${value?.thumb_name}`) {
                   //   unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
                   //     if (err) console.log(err);
                   //   });
                   // }
-                  const thumbPath = `${outputPath}/public/${value.thumb_name}`;
+                  const thumbPath = `${outputPath}/public/${value?.thumb_name}`;
                   if (fs.existsSync(thumbPath)) {
-                    unlink(`${outputPath}/public/${value.thumb_name}`, (err) => {
+                    unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
                       if (err) console.log(err);
                     });
                   }
@@ -1938,12 +1938,12 @@ const selfDelete = async (req, res) => {
         find_customfield.map(async (value) => {
           // delete_customfield 
           await custom_field.findByIdAndDelete({
-            _id: new ObjectId(value._id),
+            _id: new ObjectId(value?._id),
           });
           // var remove_customfield
           await users.updateOne(
             { _id: user_id },
-            { $pull: { custom_field: new ObjectId(value._id) } }
+            { $pull: { custom_field: new ObjectId(value?._id) } }
           );
 
         })
@@ -2466,7 +2466,7 @@ const createReportforproblem = async (req, res) => {
       if (feedback_photo.length > 0) {
         var multiplefeedback_media_array = [];
         for (var value of feedback_array) {
-          let file_extension = value.originalFilename
+          let file_extension = value?.originalFilename
             .split(".")
             .pop()
             .toLowerCase();
@@ -2489,7 +2489,7 @@ const createReportforproblem = async (req, res) => {
               file_type: "image",
               file_name: `feedback_photo/${file_name_gen}`,
             };
-            let old_path = value.path;
+            let old_path = value?.path;
             let new_path = "public/feedback_photo/" + file_name_gen;
             await fs.readFile(old_path, function (err, data) {
               if (err) throw err;
@@ -2510,8 +2510,8 @@ const createReportforproblem = async (req, res) => {
 
     var create_report = await report.create(insert_data);
     create_report?.feedback_photo.map((value) => {
-      if (value.file_type == "image") {
-        value.file_name = process.env.BASE_URL + value.file_name;
+      if (value?.file_type == "image") {
+        value?.file_name = process.env.BASE_URL + value?.file_name;
       }
     });
 
@@ -3359,8 +3359,8 @@ const block_list = async (req, res) => {
         value?.block_user_id?.profile_picture &&
         !value?.block_user_id?.profile_picture.startsWith(process.env.BASE_URL)
       ) {
-        value.block_user_id.profile_picture =
-          process.env.BASE_URL + value.block_user_id.profile_picture;
+        value?.block_user_id.profile_picture =
+          process.env.BASE_URL + value?.block_user_id.profile_picture;
       }
     });
 
@@ -7435,7 +7435,7 @@ const mysqlscript = async (req, res) => {
 
 
           var find_eduaction = await eduaction.find({
-            user_id: value._id,
+            user_id: value?._id,
             is_deleted: false,
           })
 
