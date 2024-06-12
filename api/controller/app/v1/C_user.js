@@ -7205,16 +7205,16 @@ const mysqlscript = async (req, res) => {
         // ];
 
         const data = [
-          value._id.toString(),
+          value?._id.toString(),
           firstName ?? null,
-          value.profile_picture ? value.profile_picture : value.profile_url ?? null,
-          value.dob ?? null,
-          value.unique_name ?? null,
-          last_seen = value.user_last_active_date ?? null,
-          value.is_online ?? null,
-          value.demographics?.disability ?? null,
-          gender = value.demographics?.gender ?? null,
-          value.demographics?.marriage_status ?? null
+          value?.profile_picture ? value?.profile_picture : value?.profile_url ?? null,
+          value?.dob ?? null,
+          value?.unique_name ?? null,
+          last_seen = value?.user_last_active_date ?? null,
+          value?.is_online ?? null,
+          value?.demographics?.disability ?? null,
+          gender = value?.demographics?.gender ?? null,
+          value?.demographics?.marriage_status ?? null
         ];
 
         const insertdata = await performQuery(
@@ -7223,16 +7223,16 @@ const mysqlscript = async (req, res) => {
         );
 
         if (insertdata) {
-          if (value.demographics?.zipcode != null && value.demographics?.zipcode != '') {
+          if (value?.demographics?.zipcode != null && value?.demographics?.zipcode != '') {
             // const addressdata = [
             //   identifier = value._id.toString(),
             //   user_idfr = insertdata?.insertId,
             //   zipcode = value?.demographics?.zipcode,
             // ]
             const addressdata = [
-              value._id.toString() ?? null,
+              value?._id.toString() ?? null,
               insertdata?.insertId ?? null,
-              value.demographics?.zipcode ?? null,
+              value?.demographics?.zipcode ?? null,
             ]
             await performQuery(
               "INSERT INTO user_address(identifier, user_idfr, zipcode) values(?,?,?)",
