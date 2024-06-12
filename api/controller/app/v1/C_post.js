@@ -2013,7 +2013,7 @@ const addComment = async (req, res) => {
 
       const savedComment = await newComment.save();
 
-      var find_interaction = await user_interactions.findOne({
+      let find_interaction = await user_interactions.findOne({
         user_id: user_id,
         interest_id: interest_id,
         sub_interest_id: sub_interest_id,
@@ -2170,7 +2170,7 @@ const addComment = async (req, res) => {
 
       const savedComment = await newComment.save();
 
-      var find_interaction = await user_interactions.findOne({
+      let find_interaction = await user_interactions.findOne({
         user_id: user_id,
         interest_id: interest_id,
         sub_interest_id: sub_interest_id,
@@ -2259,7 +2259,7 @@ const addComment = async (req, res) => {
           });
 
           let device_token_array = [];
-          for (var value of find_token) {
+          for (let value of find_token) {
             var device_token3 = value.device_token;
             device_token_array.push(device_token3);
           }
