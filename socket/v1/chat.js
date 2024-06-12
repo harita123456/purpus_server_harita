@@ -786,7 +786,6 @@ module.exports = {
     if (findAllMessage) {
       findAllMessage.map((data) => {
         if (
-          data?.sender_id?.profile_picture &&
           !data?.sender_id?.profile_picture.startsWith(process.env.BASE_URL)
         ) {
           data.sender_id.profile_picture =
@@ -794,7 +793,6 @@ module.exports = {
         }
 
         if (
-          data?.receiver_id?.profile_picture &&
           !data?.receiver_id?.profile_picture.startsWith(process.env.BASE_URL)
         ) {
           data.receiver_id.profile_picture =
@@ -850,7 +848,7 @@ module.exports = {
             }
           }
 
-        if (data.message_type == "media") {
+        if (data?.message_type == "media") {
           data.media_file.map((value) => {
             if (value?.file_type == "image") {
               if (value?.file_name) {
@@ -1504,8 +1502,8 @@ module.exports = {
       }
 
       if (
-        existingChatRoom?.screen_user_status == true ||
-        existingChatRoom?.screen_otheruser_status == true
+        existingChatRoom.screen_user_status == true ||
+        existingChatRoom.screen_otheruser_status == true
       ) {
         messageData = {
           ...messageData,
