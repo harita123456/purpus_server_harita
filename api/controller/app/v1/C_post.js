@@ -450,7 +450,7 @@ const editPost = async (req, res) => {
 
       if (postmedia_array[0] != undefined) {
         var multiplepost_media_array = [];
-        for (var value of postmedia_array) {
+        for (let value of postmedia_array) {
           let file_extension = value.originalFilename
             .split(".")
             .pop()
@@ -1849,7 +1849,7 @@ const createRepost = async (req, res) => {
       });
 
       let device_token_array = [];
-      for (var value of find_token) {
+      for (let value of find_token) {
         let device_token = value.device_token;
         device_token_array.push(device_token);
       }
@@ -2095,7 +2095,7 @@ const addComment = async (req, res) => {
           });
 
           let device_token_array = [];
-          for (var value of find_token) {
+          for (let value of find_token) {
             var device_token2 = value.device_token;
             device_token_array.push(device_token2);
           }
@@ -2332,7 +2332,7 @@ const addComment = async (req, res) => {
           });
 
           let device_token_array = [];
-          for (var value of find_token) {
+          for (let value of find_token) {
             let device_token = value.device_token;
             device_token_array.push(device_token);
           }
@@ -3857,7 +3857,7 @@ const likeComment = async (req, res) => {
           });
 
           let device_token_array = [];
-          for (var value of find_token) {
+          for (let value of find_token) {
             var device_tokens = value.device_token;
             device_token_array.push(device_tokens);
           }
