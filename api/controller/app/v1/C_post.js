@@ -4566,26 +4566,26 @@ const getUserPostlist = async (req, res) => {
         find_post.map(async (data) => {
           const isLiked = await like_post.findOne({
             user_id: login_user_id,
-            post_id: data._id,
+            post_id: data?._id,
           });
           const isSaved = await save_post.findOne({
             user_id: login_user_id,
-            post_id: data._id,
+            post_id: data?._id,
           });
           const isPolled = await pollvotes.findOne({
             user_id: login_user_id,
-            post_id: data._id,
+            post_id: data?._id,
           });
           var store_option_ids = isPolled?.option_id;
 
           const is_view_impression = await user_impressions.findOne({
             user_id: login_user_id,
-            post_id: data._id,
+            post_id: data?._id,
           });
 
           const is_view_Post = await view_post.findOne({
             user_id: login_user_id,
-            post_id: data._id,
+            post_id: data?._id,
           });
 
           const is_repost_you_status = await post.findOne({
