@@ -1143,7 +1143,7 @@ const likePost = async (req, res) => {
             is_deleted: false,
           });
 
-          var device_token_array = [];
+          let device_token_array = [];
           for (var value of find_token) {
             var device_token1 = value.device_token;
             device_token_array.push(device_token1);
@@ -1848,9 +1848,9 @@ const createRepost = async (req, res) => {
         is_deleted: false,
       });
 
-      var device_token_array = [];
+      let device_token_array = [];
       for (var value of find_token) {
-        var device_token = value.device_token;
+        let device_token = value.device_token;
         device_token_array.push(device_token);
       }
 
@@ -2094,7 +2094,7 @@ const addComment = async (req, res) => {
             is_deleted: false,
           });
 
-          var device_token_array = [];
+          let device_token_array = [];
           for (var value of find_token) {
             var device_token2 = value.device_token;
             device_token_array.push(device_token2);
@@ -2258,7 +2258,7 @@ const addComment = async (req, res) => {
             is_deleted: false,
           });
 
-          var device_token_array = [];
+          let device_token_array = [];
           for (var value of find_token) {
             var device_token3 = value.device_token;
             device_token_array.push(device_token3);
@@ -2331,9 +2331,9 @@ const addComment = async (req, res) => {
             is_deleted: false,
           });
 
-          var device_token_array = [];
+          let device_token_array = [];
           for (var value of find_token) {
-            var device_token = value.device_token;
+            let device_token = value.device_token;
             device_token_array.push(device_token);
           }
 
@@ -2406,9 +2406,9 @@ const addComment = async (req, res) => {
               is_deleted: false,
             });
 
-            var device_token_array = [];
+            let device_token_array = [];
             for (var val of find_token) {
-              var device_token = val.device_token;
+              let device_token = val.device_token;
               device_token_array.push(device_token);
             }
 
@@ -2480,7 +2480,7 @@ const addComment = async (req, res) => {
                 is_deleted: false,
               });
 
-              var device_token_array = [];
+              let device_token_array = [];
               for (var data of find_token) {
                 var device_tokens = data.device_token;
                 device_token_array.push(device_tokens);
@@ -2551,9 +2551,9 @@ const addComment = async (req, res) => {
                 is_deleted: false,
               });
 
-              var device_token_array = [];
+              let device_token_array = [];
               for (var values of find_token) {
-                var device_token = values.device_token;
+                let device_token = values.device_token;
                 device_token_array.push(device_token);
               }
 
@@ -3856,7 +3856,7 @@ const likeComment = async (req, res) => {
             is_deleted: false,
           });
 
-          var device_token_array = [];
+          let device_token_array = [];
           for (var value of find_token) {
             var device_tokens = value.device_token;
             device_token_array.push(device_tokens);
