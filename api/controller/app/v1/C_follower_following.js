@@ -348,8 +348,8 @@ const acceptfollowrequest = async (req, res) => {
 
         var update_follower = await follower_following.findOneAndUpdate(
           {
-            user_id: noti_update.sender_id,
-            following_id: noti_update.receiver_id,
+            user_id: noti_update?.sender_id,
+            following_id: noti_update?.receiver_id,
           },
           {
             $set: {
