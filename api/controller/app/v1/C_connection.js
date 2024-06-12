@@ -423,7 +423,7 @@ const connectionSuggestion = async (req, res) => {
       },
     ]);
 
-    matchingUsers.forEach((group) => {
+    matchingUsers?.forEach((group) => {
       group.users = group.users.sort(() => Math.random() - 0.5);
       group.users = group.users.slice(0, 4);
     });
@@ -441,7 +441,7 @@ const connectionSuggestion = async (req, res) => {
 
             const isRequest = followReqData.length > 0;
 
-            data.is_request = isRequest;
+            data?.is_request = isRequest;
           } catch (error) {
             console.error("Error processing follow requests:", error);
           }
@@ -460,8 +460,6 @@ const connectionSuggestion = async (req, res) => {
       const interestName = interestNames.find(({ _id }) =>
         _id.equals(interestGroup?.interest_id)
       )
-
-
 
       return {
         ...interestGroup,
@@ -752,7 +750,7 @@ const allInterestuser = async (req, res) => {
         }
       });
       const modifiedInterestedUsers = await Promise.all(
-        interestedUsers.map(async (data) => {
+        interestedUsers?.map(async (data) => {
           const followReqData = await follower_following.find({
             user_id: user_id,
             is_deleted: false,
