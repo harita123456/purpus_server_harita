@@ -750,7 +750,7 @@ const allInterestuser = async (req, res) => {
         }
       });
       const modifiedInterestedUsers = await Promise.all(
-        interestedUsers?.map(async (data) => {
+        interestedUsers.map(async (data) => {
           const followReqData = await follower_following.find({
             user_id: user_id,
             is_deleted: false,
