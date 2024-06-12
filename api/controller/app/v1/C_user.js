@@ -1434,7 +1434,7 @@ const getsubInterest = async (req, res) => {
         .where({ is_deleted: false, is_block: false })
         .sort({ createdAt: 1 });
       var final_array1 = [];
-      for (var data of find_interest1) {
+      for (let data of find_interest1) {
         let find_sub_interest = await subinterest
           .find()
           .where({
