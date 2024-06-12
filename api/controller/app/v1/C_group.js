@@ -986,6 +986,8 @@ const acceptDeclineJoinRequest = async (req, res) => {
     var user_id = req.user._id;
     var login_user_name = req.user.full_name;
 
+    let res_msg;
+
     var { notification_id, notification_status } = req.body;
 
     const currentDateTime = await dateTime();
@@ -1079,7 +1081,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
           receiver_id: group_details.user_id,
         })
 
-        let res_msg = "Request accepted successfully";
+        res_msg = "Request accepted successfully";
       } else {
         await notifications.deleteMany({
           noti_for: "group_join_request_decline",
@@ -1149,7 +1151,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
           _id: notification_id,
         });
 
-        let res_msg = "Request declined successfully";
+        res_msg = "Request declined successfully";
       }
     }
 
@@ -1227,7 +1229,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
           receiver_id: group_details.user_id,
         })
 
-        let res_msg = "Request accepted successfully";
+        res_msg = "Request accepted successfully";
       } else {
         await notifications.deleteMany({
           noti_for: "group_join_request_decline",
@@ -1296,7 +1298,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
           _id: notification_id,
         });
 
-        let res_msg = "Request declined successfully";
+        res_msg = "Request declined successfully";
       }
     }
 
