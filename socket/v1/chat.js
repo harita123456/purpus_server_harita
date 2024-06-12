@@ -802,7 +802,6 @@ module.exports = {
         }
 
         if (
-          data?.post_id?.user_id?.profile_picture &&
           !data?.post_id?.user_id?.profile_picture.startsWith(
             process.env.BASE_URL
           )
@@ -1711,13 +1710,11 @@ module.exports = {
       getMessage?.post_id?.post_media?.forEach((media) => {
         if (media.file_type === "image" || media.file_type === "video") {
           if (
-            media?.file_name &&
             !media?.file_name.startsWith(process.env.BASE_URL)
           ) {
             media.file_name = process.env.BASE_URL + media.file_name;
           }
           if (
-            media?.thumb_name &&
             !media?.thumb_name.startsWith(process.env.BASE_URL)
           ) {
             media.thumb_name = process.env.BASE_URL + media.thumb_name;
