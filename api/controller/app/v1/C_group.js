@@ -1908,10 +1908,10 @@ const membersList = async (req, res) => {
 
         if (existingMemberInvite.length > 0) {
           existingMemberInvite.forEach((data) => {
-            if (data.sender_id.equals(user_id) && data?.receiver_id.equals(value._id) && data.group_id.equals(group_id)) {
+            if (data.sender_id.equals(user_id) && data.receiver_id.equals(value._id) && data.group_id.equals(group_id)) {
               console.log("Conditions met:");
 
-              if (data?.is_accepted == null) {
+              if (data.is_accepted == null) {
                 adminmodifiedData.admin_requested = true;
               } else {
                 adminmodifiedData.admin_requested = false; // or any other default value
@@ -2200,10 +2200,10 @@ const membersList = async (req, res) => {
 
         if (existingMemberInvite.length > 0) {
           existingMemberInvite.forEach((data) => {
-            if (data.sender_id.equals(user_id) && data?.receiver_id.equals(value._id) && data.group_id.equals(group_id)) {
+            if (data.sender_id.equals(user_id) && data.receiver_id.equals(value._id) && data.group_id.equals(group_id)) {
               console.log("Conditions met:");
 
-              if (data?.is_accepted == null) {
+              if (data.is_accepted == null) {
                 adminmodifiedData.admin_requested = true;
               } else {
                 adminmodifiedData.admin_requested = false; // or any other default value
@@ -2258,8 +2258,8 @@ const membersList = async (req, res) => {
         profile_url: value.profile_url,
         is_verified: value.is_verified,
 
-        is_member: value?.is_member,
-        admin_requested: value?.admin_requested
+        is_member: value.is_member,
+        admin_requested: value.admin_requested
       }));
 
       return multiSuccessRes(
