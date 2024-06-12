@@ -543,7 +543,8 @@ const getAllLocalpost = async (req, res) => {
                 "mi"
               );
               updatedPost.repost_id = {
-                ...data.repost_id.toObject(),
+                // ...data.repost_id.toObject(),
+                ...data?.repost_id?.toObject(),
                 is_like: !!repostIsLiked,
                 is_save: !!repostIsSaved,
                 is_poll_response: !!repostIsPolled,
