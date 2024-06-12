@@ -424,31 +424,31 @@ module.exports = {
     }
 
     if (message_type == "emoji") {
-      var files = {
+      var files_emoji = {
         file_type: "emoji",
         file_name: file_url,
       };
 
-      image_array.push(files);
+      image_array.push(files_emoji);
     }
 
     if (message_type == "gif") {
-      var files = {
+      var files_gif = {
         file_type: "image",
         file_name: file_url,
       };
 
-      image_array.push(files);
+      image_array.push(files_gif);
     }
 
     if (message_type == "voice") {
       for (var value of media_file) {
         if (value.file_type == "audio") {
-          var files = {
+          var files_audio = {
             file_type: value.file_type,
             file_name: value.audio_file,
           };
-          image_array.push(files);
+          image_array.push(files_audio);
         }
         if (value.file_type == "audio") {
           insertData = {
@@ -461,11 +461,11 @@ module.exports = {
     if (message_type == "media" && Array.isArray(media_file)) {
       for (var value of media_file) {
         if (value.file_type == "image") {
-          var files = {
+          var files_image = {
             file_type: value.file_type,
             file_name: value.image_file,
           };
-          image_array.push(files);
+          image_array.push(files_image);
         }
         if (value.file_type == "image") {
           insertData = {
@@ -475,12 +475,12 @@ module.exports = {
         }
 
         if (value.file_type == "video") {
-          var files = {
+          var files_video = {
             file_type: value.file_type,
             video_name: value.video_name,
             thumbnail: value.thumbnail,
           };
-          image_array.push(files);
+          image_array.push(files_video);
         }
         if (value.file_type == "video") {
           insertData = {
@@ -490,11 +490,11 @@ module.exports = {
         }
 
         if (value.file_type == "audio") {
-          var files = {
+          var files_audio1 = {
             file_type: value.file_type,
             audio_file: value.audio_file,
           };
-          image_array.push(files);
+          image_array.push(files_audio1);
         }
 
         if (value.file_type == "audio") {
@@ -1044,7 +1044,7 @@ module.exports = {
           screen_user_status: data.screen_status,
           updated_At: new Date(),
         };
-        var updateData = await chat_room.findByIdAndUpdate(
+        let updateData = await chat_room.findByIdAndUpdate(
           data.chat_room_id,
           updateStatus,
           {
@@ -1052,7 +1052,7 @@ module.exports = {
           }
         );
 
-        var find_unread_message = await chat.find({
+        let find_unread_message = await chat.find({
           chat_room_id: data.chat_room_id,
           receiver_id: data.user_id,
           is_read: false,
@@ -1079,7 +1079,7 @@ module.exports = {
           screen_otheruser_status: data.screen_status,
           updated_At: new Date(),
         };
-        var updateData = await chat_room.findByIdAndUpdate(
+        let updateData = await chat_room.findByIdAndUpdate(
           data.chat_room_id,
           updateStatus,
           {
@@ -1087,7 +1087,7 @@ module.exports = {
           }
         );
 
-        var find_unread_message = await chat.find({
+        let find_unread_message = await chat.find({
           chat_room_id: data.chat_room_id,
           receiver_id: data.user_id,
           is_read: false,
