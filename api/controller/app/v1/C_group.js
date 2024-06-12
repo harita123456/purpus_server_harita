@@ -713,7 +713,7 @@ const groupList = async (req, res) => {
             noti_for: "group_join_request",
           });
 
-          var request_check_data = await notifications.findOne().where({
+          let request_check_data = await notifications.findOne().where({
             is_deleted: false,
             group_id: value._id,
             is_accepted: true,
@@ -774,7 +774,7 @@ const groupList = async (req, res) => {
             noti_for: "group_join_request",
           });
 
-          var request_check_data = await notifications.findOne().where({
+          let request_check_data = await notifications.findOne().where({
             is_deleted: false,
             group_id: value._id,
             is_accepted: true,
@@ -1033,12 +1033,12 @@ const acceptDeclineJoinRequest = async (req, res) => {
           updated_at: currentDateTime,
         });
 
-        var find_token = await user_session.find({
+        let find_token = await user_session.find({
           user_id: noti_data.sender_id,
           is_deleted: false,
         });
 
-        var device_token_array = [];
+        let device_token_array = [];
         for (var datas of find_token) {
           var device_tokenn = datas.device_token;
           device_token_array.push(device_tokenn);
@@ -1046,7 +1046,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
 
         if (device_token_array.length > 0) {
           notiData = { ...notiData, device_token: device_token_array };
-          var noti_send = await notiSendMultipleDevice(notiData);
+          let noti_send = await notiSendMultipleDevice(notiData);
           if (noti_send.status == 200) {
             await users.findByIdAndUpdate(noti_data.sender_id, {
               $inc: {
@@ -1116,14 +1116,14 @@ const acceptDeclineJoinRequest = async (req, res) => {
           updated_at: currentDateTime,
         });
 
-        var find_token = await user_session.find({
+        let find_token = await user_session.find({
           user_id: noti_data.sender_id,
           is_deleted: false,
         });
 
-        var device_token_array = [];
+        let device_token_array = [];
         for (var values of find_token) {
-          var device_token = values.device_token;
+          let device_token = values.device_token;
           device_token_array.push(device_token);
         }
 
@@ -1181,12 +1181,12 @@ const acceptDeclineJoinRequest = async (req, res) => {
           updated_at: currentDateTime,
         });
 
-        var find_token = await user_session.find({
+        let find_token = await user_session.find({
           user_id: noti_data.sender_id,
           is_deleted: false,
         });
 
-        var device_token_array = [];
+        let device_token_array = [];
         for (var data of find_token) {
           var device_token = data.device_token;
           device_token_array.push(device_token);
@@ -1194,7 +1194,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
 
         if (device_token_array.length > 0) {
           notiData = { ...notiData, device_token: device_token_array };
-          var noti_send = await notiSendMultipleDevice(notiData);
+          let noti_send = await notiSendMultipleDevice(notiData);
           if (noti_send.status == 200) {
             await users.findByIdAndUpdate(noti_data.sender_id, {
               $inc: {
@@ -1263,20 +1263,20 @@ const acceptDeclineJoinRequest = async (req, res) => {
           updated_at: currentDateTime,
         });
 
-        var find_token = await user_session.find({
+        let find_token = await user_session.find({
           user_id: noti_data.sender_id,
           is_deleted: false,
         });
 
-        var device_token_arrays = [];
+        let device_token_arrays = [];
         for (var val of find_token) {
-          var device_token = val.device_token;
+          let device_token = val.device_token;
           device_token_arrays.push(device_token);
         }
 
         if (device_token_arrays.length > 0) {
           notiData = { ...notiData, device_token: device_token_arrays };
-          var noti_send = await notiSendMultipleDevice(notiData);
+          let noti_send = await notiSendMultipleDevice(notiData);
           if (noti_send.status == 200) {
             await users.findByIdAndUpdate(noti_data.sender_id, {
               $inc: {
@@ -2715,7 +2715,7 @@ const groupListcheck = async (req, res) => {
       });
       var findMembersGroupcountlength1 = findMembersGroupcount1.length
 
-      var groupList = await group
+      let groupList = await group
         .find(whereCond1)
         .select(
           "user_id group_name group_description group_code is_deleted group_image is_private interest_id sub_interest_id"
