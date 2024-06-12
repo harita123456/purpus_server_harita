@@ -436,12 +436,12 @@ const connectionSuggestion = async (req, res) => {
               user_id: user_id,
               is_deleted: false,
               is_request: false,
-              following_id: data?._id,
+              following_id: data._id,
             });
 
             const isRequest = followReqData.length > 0;
 
-            data?.is_request = isRequest;
+            data.is_request = isRequest;
           } catch (error) {
             console.error("Error processing follow requests:", error);
           }
