@@ -7063,7 +7063,7 @@ const getsubInteresttesting = async (req, res) => {
     var { language } = req.body;
 
     if (language == undefined) {
-      var find_interest = await interest
+      let find_interest = await interest
         .find()
         .where({ is_deleted: false, is_block: false })
         .sort({ createdAt: 1 });
@@ -7126,7 +7126,7 @@ const getsubInteresttesting = async (req, res) => {
     pipeline.push({
       $sort: { createdAt: 1 },
     });
-    var find_interest = await interest.aggregate(pipeline);
+    let find_interest = await interest.aggregate(pipeline);
 
     var final_array = [];
 
