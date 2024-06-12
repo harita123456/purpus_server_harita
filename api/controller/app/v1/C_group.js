@@ -728,7 +728,7 @@ const groupList = async (req, res) => {
             is_requested = true;
           }
 
-          var invite_check = await notifications.findOne().where({
+          let invite_check = await notifications.findOne().where({
             is_deleted: false,
             group_id: value._id,
             is_accepted: null,
@@ -788,7 +788,7 @@ const groupList = async (req, res) => {
             is_requested = true;
           }
 
-          var invite_check = await notifications.findOne().where({
+          let invite_check = await notifications.findOne().where({
             is_deleted: false,
             group_id: value._id,
             is_accepted: null,
@@ -1079,7 +1079,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
           receiver_id: group_details.user_id,
         })
 
-        var res_msg = "Request accepted successfully";
+        let res_msg = "Request accepted successfully";
       } else {
         await notifications.deleteMany({
           noti_for: "group_join_request_decline",
@@ -1149,7 +1149,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
           _id: notification_id,
         });
 
-        var res_msg = "Request declined successfully";
+        let res_msg = "Request declined successfully";
       }
     }
 
@@ -1227,7 +1227,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
           receiver_id: group_details.user_id,
         })
 
-        var res_msg = "Request accepted successfully";
+        let res_msg = "Request accepted successfully";
       } else {
         await notifications.deleteMany({
           noti_for: "group_join_request_decline",
@@ -1296,7 +1296,7 @@ const acceptDeclineJoinRequest = async (req, res) => {
           _id: notification_id,
         });
 
-        var res_msg = "Request declined successfully";
+        let res_msg = "Request declined successfully";
       }
     }
 
