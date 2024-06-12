@@ -7327,7 +7327,7 @@ const mysqlscript = async (req, res) => {
 
           }
           var find_customfield = await custom_field.find({
-            user_id: value._id,
+            user_id: value?._id,
             is_deleted: false,
           });
 
