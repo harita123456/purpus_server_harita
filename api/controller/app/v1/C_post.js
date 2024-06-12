@@ -2575,7 +2575,7 @@ const addComment = async (req, res) => {
       }
 
       const getComment = await comment_post
-        .find({ _id: savedComment?  ._id, is_deleted: false })
+        .find({ _id: savedComment?._id, is_deleted: false })
         .populate({
           path: "user_id",
           select: "_id unique_name profile_url profile_picture full_name",
