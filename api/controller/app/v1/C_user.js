@@ -619,10 +619,10 @@ const signup = async (req, res) => {
     const data = [
       create_user._id.toString(),
       firstName,
-      (user_data.profile_picture != null && user_data.profile_picture !== '')
-        ? user_data.profile_picture
-        : (user_data?.profile_url != null && user_data.profile_url !== '')
-          ? user_data.profile_url
+      (user_data?.profile_picture != null && user_data?.profile_picture !== '')
+        ? user_data?.profile_picture
+        : (user_data?.profile_url != null && user_data?.profile_url !== '')
+          ? user_data?.profile_url
           : null,
       create_user.dob,
       create_user.unique_name,
@@ -873,35 +873,35 @@ const signIn = async (req, res) => {
       }
 
       // if (find_user) {
-        if (find_user.is_block == true || find_user.is_block == "true") {
-          return errorRes(
-            res,
-            "This account is blocked, Please contact to administrator"
-          );
-        }
-
-        let token = await userToken(find_user);
-
-        let update_data = {
-          is_login: true,
-          is_social_login: true,
-          social_platform,
-          social_id,
-          country_code,
-        };
-
-        let update_user = await users.findByIdAndUpdate(
-          find_user._id,
-          update_data,
-          { new: true }
+      if (find_user.is_block == true || find_user.is_block == "true") {
+        return errorRes(
+          res,
+          "This account is blocked, Please contact to administrator"
         );
+      }
 
-        var user_data = {
-          ...update_user._doc,
-          token: token,
-        };
+      let token = await userToken(find_user);
 
-        find_user.token = token;
+      let update_data = {
+        is_login: true,
+        is_social_login: true,
+        social_platform,
+        social_id,
+        country_code,
+      };
+
+      let update_user = await users.findByIdAndUpdate(
+        find_user._id,
+        update_data,
+        { new: true }
+      );
+
+      var user_data = {
+        ...update_user._doc,
+        token: token,
+      };
+
+      find_user.token = token;
       // }
     } else {
       let find_user = await users.findOne({
@@ -3261,7 +3261,7 @@ const getUserdetails = async (req, res) => {
       //   return errorRes(res, "Couldn't found user");
       // }
       // else {
-        return successRes(res, `User details get successfully`, find_user);
+      return successRes(res, `User details get successfully`, find_user);
       // }
     }
   } catch (error) {
@@ -3458,7 +3458,7 @@ const notificationList = async (req, res) => {
       notification_data.map(async (value) => {
         var is_request;
         var follow_request_status = await follower_following.findOne({
-          user_id: value?.sender_id?._id,
+          user_id: value.sender_id?._id,
           following_id: user_id,
           is_deleted: false,
           is_request: false,
@@ -3469,7 +3469,7 @@ const notificationList = async (req, res) => {
         }
 
         var follow_request_status_true = await follower_following.findOne({
-          user_id: value?.sender_id?._id,
+          user_id: value.sender_id?._id,
           following_id: user_id,
           is_deleted: false,
           is_request: true,
@@ -3487,7 +3487,7 @@ const notificationList = async (req, res) => {
 
         var follow_sender_status = await follower_following.findOne({
           user_id: user_id,
-          following_id: value?.sender_id?._id,
+          following_id: value.sender_id?._id,
           is_deleted: false,
           is_request: false,
         });
@@ -3498,7 +3498,7 @@ const notificationList = async (req, res) => {
 
         var follow_sender_true = await follower_following.findOne({
           user_id: user_id,
-          following_id: value?.sender_id?._id,
+          following_id: value.sender_id?._id,
           is_deleted: false,
           is_request: true,
         });
@@ -3512,14 +3512,14 @@ const notificationList = async (req, res) => {
         }
 
         const user_following_data = await follower_following.find({
-          user_id: value?.sender_id?._id,
+          user_id: value.sender_id?._id,
           following_id: user_id,
           is_deleted: false,
           is_request: true,
         });
 
         const other_following_data = await follower_following.find({
-          following_id: value?.sender_id?._id,
+          following_id: value.sender_id?._id,
           user_id: user_id,
           is_deleted: false,
           is_request: true,
@@ -3534,7 +3534,7 @@ const notificationList = async (req, res) => {
         }
 
         const is_otheruser_follow = await follower_following.findOne({
-          user_id: value?.sender_id?._id,
+          user_id: value.sender_id?._id,
           following_id: user_id,
           is_deleted: false,
           is_request: true,
@@ -3581,13 +3581,13 @@ const notificationList = async (req, res) => {
       }
     });
 
-    if (notification_data) {
-      return successRes(
-        res,
-        `Notification list get successfully`,
-        notification_data
-      );
-    }
+    // if (notification_data) {
+    return successRes(
+      res,
+      `Notification list get successfully`,
+      notification_data
+    );
+    // }
   } catch (error) {
     console.log("Error : ", error);
     return errorRes(res, "Internal Server Error!");
@@ -6206,7 +6206,7 @@ const editExperince = async (req, res) => {
                   if (err) console.log(err);
                 });
 
-                if (value?.file_type == "video") {
+                if (value.file_type == "video") {
                   unlink(`${outputPath}/public/${value.thumb_name}`, (err) => {
                     if (err) console.log(err);
                   });
@@ -7178,312 +7178,312 @@ const mysqlscript = async (req, res) => {
 
     var find_user = await users.find({ is_deleted: false, is_block: false })
 
-      find_user.map(async (value) => {
-        const updatedata = await performQuery(
-          "SELECT * FROM user WHERE identifier = ?",
-          value._id.toString()
+    find_user.map(async (value) => {
+      const updatedata = await performQuery(
+        "SELECT * FROM user WHERE identifier = ?",
+        value._id.toString()
+      );
+
+      if (updatedata.length == 0) {
+
+        const nameParts = value.full_name.split(' ');
+        var firstName = nameParts[0];
+        // var middleName = nameParts[0];
+        // var lastName = nameParts[0];
+
+        // const data = [
+        //   identifier = value._id.toString(),
+        //   first_name = firstName,
+        //   profile_picture = value.profile_picture ? value.profile_picture : value.profile_url,
+        //   dob = value?.dob,
+        //   user_id = value.unique_name,
+        //   last_seen = value.user_last_active_date,
+        //   is_online = value.is_online,
+        //   disability = value?.demographics?.disability,
+        //   gender = value?.demographics?.gender,
+        //   relation_status = value?.demographics?.marriage_status
+        // ];
+
+        const data = [
+          value._id.toString(),
+          firstName ?? null,
+          value.profile_picture ? value.profile_picture : value.profile_url ?? null,
+          value?.dob ?? null,
+          value.unique_name ?? null,
+          last_seen = value.user_last_active_date ?? null,
+          value.is_online ?? null,
+          value?.demographics?.disability ?? null,
+          gender = value?.demographics?.gender ?? null,
+          value?.demographics?.marriage_status ?? null
+        ];
+
+        const insertdata = await performQuery(
+          "INSERT INTO user(identifier, first_name, profile_picture,dob ,user_id,last_seen,is_online,disability,gender,relation_status ) values(?,?,?,?,?,?,?,?,?,?)",
+          data
         );
 
-        if (updatedata.length == 0) {
-
-          const nameParts = value.full_name.split(' ');
-          var firstName = nameParts[0];
-          // var middleName = nameParts[0];
-          // var lastName = nameParts[0];
-
-          // const data = [
-          //   identifier = value._id.toString(),
-          //   first_name = firstName,
-          //   profile_picture = value.profile_picture ? value.profile_picture : value.profile_url,
-          //   dob = value?.dob,
-          //   user_id = value.unique_name,
-          //   last_seen = value.user_last_active_date,
-          //   is_online = value.is_online,
-          //   disability = value?.demographics?.disability,
-          //   gender = value?.demographics?.gender,
-          //   relation_status = value?.demographics?.marriage_status
-          // ];
-
-          const data = [
-            value._id.toString(),
-            firstName ?? null,
-            value.profile_picture ? value.profile_picture : value.profile_url ?? null,
-            value?.dob ?? null,
-            value.unique_name ?? null,
-            last_seen = value.user_last_active_date ?? null,
-            value.is_online ?? null,
-            value?.demographics?.disability ?? null,
-            gender = value?.demographics?.gender ?? null,
-            value?.demographics?.marriage_status ?? null
-          ];
-
-          const insertdata = await performQuery(
-            "INSERT INTO user(identifier, first_name, profile_picture,dob ,user_id,last_seen,is_online,disability,gender,relation_status ) values(?,?,?,?,?,?,?,?,?,?)",
-            data
-          );
-
-          if (insertdata) {
-            if (value?.demographics?.zipcode != null && value?.demographics?.zipcode != '') {
-              // const addressdata = [
-              //   identifier = value._id.toString(),
-              //   user_idfr = insertdata?.insertId,
-              //   zipcode = value?.demographics?.zipcode,
-              // ]
-              const addressdata = [
-                value._id.toString() ?? null,
-                insertdata?.insertId ?? null,
-                value?.demographics?.zipcode ?? null,
-              ]
-              await performQuery(
-                "INSERT INTO user_address(identifier, user_idfr, zipcode) values(?,?,?)",
-                addressdata
-              );
-
-            }
-            // var linkedin_link_data = value?.social_media_link?.linkedin
-            // var facebook_link_data = value?.social_media_link?.facebook
-            // var twitter_link_data = value?.social_media_link?.twitter
-            // var instagram_link_data = value?.social_media_link?.instagram
-
-            // const social_data = [
+        if (insertdata) {
+          if (value?.demographics?.zipcode != null && value?.demographics?.zipcode != '') {
+            // const addressdata = [
             //   identifier = value._id.toString(),
             //   user_idfr = insertdata?.insertId,
-            //   linkedin_link = value?.social_media_link?.linkedin,
-            //   facebook_link = value?.social_media_link?.facebook,
-            //   twitter_link = value?.social_media_link?.twitter,
-            //   instagram_link = value?.social_media_link?.instagram,
-            // ];
-
-            const social_data = [
-              value._id.toString(),
-              insertdata?.insertId,
-              value?.social_media_link?.linkedin,
-              value?.social_media_link?.facebook,
-              value?.social_media_link?.twitter,
-              value?.social_media_link?.instagram,
-            ];
-
+            //   zipcode = value?.demographics?.zipcode,
+            // ]
+            const addressdata = [
+              value._id.toString() ?? null,
+              insertdata?.insertId ?? null,
+              value?.demographics?.zipcode ?? null,
+            ]
             await performQuery(
-              "INSERT INTO user_social(identifier, user_idfr, linkedin_link ,facebook_link,twitter_link,instagram_link ) values(?,?,?,?,?,?)",
-              social_data
+              "INSERT INTO user_address(identifier, user_idfr, zipcode) values(?,?,?)",
+              addressdata
             );
 
+          }
+          // var linkedin_link_data = value?.social_media_link?.linkedin
+          // var facebook_link_data = value?.social_media_link?.facebook
+          // var twitter_link_data = value?.social_media_link?.twitter
+          // var instagram_link_data = value?.social_media_link?.instagram
 
-            if (value?.skills_details != null && value.skills_details.length > 0) {
-              value?.skills_details.map(async (val) => {
-                if (val?._id) {
-                  const datas = [
-                    identifier = val?._id.toString(),
-                    user_idfr = insertdata?.insertId,
-                    skill = val?.skill_name,
-                    level = 5,
-                  ];
+          // const social_data = [
+          //   identifier = value._id.toString(),
+          //   user_idfr = insertdata?.insertId,
+          //   linkedin_link = value?.social_media_link?.linkedin,
+          //   facebook_link = value?.social_media_link?.facebook,
+          //   twitter_link = value?.social_media_link?.twitter,
+          //   instagram_link = value?.social_media_link?.instagram,
+          // ];
 
-                  await performQuery(
-                    "INSERT INTO user_skill(identifier, user_idfr, skill ,level ) values(?,?,?,?)",
-                    datas
-                  );
-                }
+          const social_data = [
+            value._id.toString(),
+            insertdata?.insertId,
+            value?.social_media_link?.linkedin,
+            value?.social_media_link?.facebook,
+            value?.social_media_link?.twitter,
+            value?.social_media_link?.instagram,
+          ];
 
-              })
-            }
-
-
-
-
-            var find_session = await user_session.find({
-              user_id: value._id,
-              is_deleted: false,
-            })
-
-            if (find_session) {
-
-              find_session?.map(async (val) => {
-
-                // const data = [
-                //   identifier = val.user_id.toString(),
-                //   user_idfr = insertdata?.insertId,
-                //   login_timestamp = val.createdAt,
-                //   session_token = val.device_token,
-                //   device_info = val.device_type,
-                //   logout_timestamp = val.logout_time
-                // ]
+          await performQuery(
+            "INSERT INTO user_social(identifier, user_idfr, linkedin_link ,facebook_link,twitter_link,instagram_link ) values(?,?,?,?,?,?)",
+            social_data
+          );
 
 
-                const data = [
-                  val.user_id.toString(),
-                  insertdata?.insertId,
-                  val.createdAt,
-                  val.device_token,
-                  val.device_type,
-                  val.logout_time
-                ]
-                await performQuery(
-                  "INSERT INTO user_session(identifier, user_idfr, login_timestamp ,session_token,device_info ,logout_timestamp) values(?,?,?,?,?,?)",
-                  data
-                );
-
-              })
-
-            }
-            var find_customfield = await custom_field.find({
-              user_id: value._id,
-              is_deleted: false,
-            });
-
-
-            console.log("find_customfield", insertdata?.insertId)
-            if (find_customfield) {
-              find_customfield?.map(async (val) => {
-                const data = [
-                  identifier = val?.user_id.toString(),
+          if (value?.skills_details != null && value.skills_details.length > 0) {
+            value?.skills_details.map(async (val) => {
+              if (val?._id) {
+                const datas = [
+                  identifier = val?._id.toString(),
                   user_idfr = insertdata?.insertId,
-                  title = val?.title,
-                  description = val?.description
+                  skill = val?.skill_name,
+                  level = 5,
                 ];
+
                 await performQuery(
-                  "INSERT INTO user_custom_field (identifier, user_idfr, title ,description ) values(?,?,?,?)",
-                  data
+                  "INSERT INTO user_skill(identifier, user_idfr, skill ,level ) values(?,?,?,?)",
+                  datas
                 );
-              })
-            }
+              }
+
+            })
+          }
 
 
-            var find_user_experience = await experienceSchema.find({
-              user_id: value?._id,
-              is_deleted: false,
+
+
+          var find_session = await user_session.find({
+            user_id: value._id,
+            is_deleted: false,
+          })
+
+          if (find_session) {
+
+            find_session?.map(async (val) => {
+
+              // const data = [
+              //   identifier = val.user_id.toString(),
+              //   user_idfr = insertdata?.insertId,
+              //   login_timestamp = val.createdAt,
+              //   session_token = val.device_token,
+              //   device_info = val.device_type,
+              //   logout_timestamp = val.logout_time
+              // ]
+
+
+              const data = [
+                val.user_id.toString(),
+                insertdata?.insertId,
+                val.createdAt,
+                val.device_token,
+                val.device_type,
+                val.logout_time
+              ]
+              await performQuery(
+                "INSERT INTO user_session(identifier, user_idfr, login_timestamp ,session_token,device_info ,logout_timestamp) values(?,?,?,?,?,?)",
+                data
+              );
+
             })
 
+          }
+          var find_customfield = await custom_field.find({
+            user_id: value._id,
+            is_deleted: false,
+          });
 
-            if (find_user_experience) {
-              find_user_experience.map(async (val) => {
+
+          console.log("find_customfield", insertdata?.insertId)
+          if (find_customfield) {
+            find_customfield?.map(async (val) => {
+              const data = [
+                identifier = val?.user_id.toString(),
+                user_idfr = insertdata?.insertId,
+                title = val?.title,
+                description = val?.description
+              ];
+              await performQuery(
+                "INSERT INTO user_custom_field (identifier, user_idfr, title ,description ) values(?,?,?,?)",
+                data
+              );
+            })
+          }
 
 
-                // const data = [
-                //   identifier = val?._id.toString(),
-                //   user_idfr = insertdata?.insertId,
-                //   job_title = val?.title,
-                //   employee_type = val?.emp_type,
-                //   company_name = val?.company_name,
-                //   company_address = val?.address,
-                //   industry = val?.industry,
-                //   start_date = val?.start_date,
-                //   end_date = val?.end_date,
-                //   job_description = val?.description,
-                // ];
-                const data = [
-                  val?._id.toString(),
-                  insertdata?.insertId,
-                  val?.title,
-                  val?.emp_type,
-                  val?.company_name,
-                  val?.address,
-                  val?.industry,
-                  val?.start_date,
-                  val?.end_date,
-                  val?.description,
-                ];
-                const insertingdata = await performQuery(
-                  "INSERT INTO user_experience (identifier, user_idfr, job_title,employee_type, company_name, company_address, industry, start_date, end_date, job_description) values(?,?,?,?,?,?,?,?,?,?)",
-                  data
-                );
+          var find_user_experience = await experienceSchema.find({
+            user_id: value?._id,
+            is_deleted: false,
+          })
 
-                if (insertingdata.affectedRows === 0) {
-                  console.log("User not found.");
-                } else {
 
-                  console.log("insertingdata of find_user_experience", insertingdata)
+          if (find_user_experience) {
+            find_user_experience.map(async (val) => {
 
-                  if (val?.media.length > 0) {
-                    val?.media.map(async (valuedata) => {
-                      if (valuedata?.file_type == "image" || valuedata?.file_type == "document" || valuedata?.file_type == "video" || valuedata?.file_type == "url") {
-                        // const data1 = [
-                        //   identifier = valuedata?._id.toString(),
-                        //   user_experience_idfr = insertingdata.insertId,
-                        //   media_url = valuedata?.file_name,
-                        //   media_size = valuedata?.file_size,
-                        //   media_type = valuedata?.file_type,
-                        // ];
 
-                        const data1 = [
-                          valuedata?._id.toString(),
-                          insertingdata.insertId,
-                          valuedata?.file_name,
-                          valuedata?.file_size,
-                          valuedata?.file_type,
-                        ];
+              // const data = [
+              //   identifier = val?._id.toString(),
+              //   user_idfr = insertdata?.insertId,
+              //   job_title = val?.title,
+              //   employee_type = val?.emp_type,
+              //   company_name = val?.company_name,
+              //   company_address = val?.address,
+              //   industry = val?.industry,
+              //   start_date = val?.start_date,
+              //   end_date = val?.end_date,
+              //   job_description = val?.description,
+              // ];
+              const data = [
+                val?._id.toString(),
+                insertdata?.insertId,
+                val?.title,
+                val?.emp_type,
+                val?.company_name,
+                val?.address,
+                val?.industry,
+                val?.start_date,
+                val?.end_date,
+                val?.description,
+              ];
+              const insertingdata = await performQuery(
+                "INSERT INTO user_experience (identifier, user_idfr, job_title,employee_type, company_name, company_address, industry, start_date, end_date, job_description) values(?,?,?,?,?,?,?,?,?,?)",
+                data
+              );
 
-                        const insertdata1 = await performQuery(
-                          "INSERT INTO user_experience_media (identifier, user_experience_idfr, media_url, media_size, media_type) values(?,?,?,?,?)",
-                          data1
-                        );
+              if (insertingdata.affectedRows === 0) {
+                console.log("User not found.");
+              } else {
 
-                        if (insertdata1.affectedRows === 0) {
-                          console.log("User experience not found.");
-                        } else {
-                          console.log("User experience media data add successfully.");
-                        }
+                console.log("insertingdata of find_user_experience", insertingdata)
+
+                if (val?.media.length > 0) {
+                  val?.media.map(async (valuedata) => {
+                    if (valuedata?.file_type == "image" || valuedata?.file_type == "document" || valuedata?.file_type == "video" || valuedata?.file_type == "url") {
+                      // const data1 = [
+                      //   identifier = valuedata?._id.toString(),
+                      //   user_experience_idfr = insertingdata.insertId,
+                      //   media_url = valuedata?.file_name,
+                      //   media_size = valuedata?.file_size,
+                      //   media_type = valuedata?.file_type,
+                      // ];
+
+                      const data1 = [
+                        valuedata?._id.toString(),
+                        insertingdata.insertId,
+                        valuedata?.file_name,
+                        valuedata?.file_size,
+                        valuedata?.file_type,
+                      ];
+
+                      const insertdata1 = await performQuery(
+                        "INSERT INTO user_experience_media (identifier, user_experience_idfr, media_url, media_size, media_type) values(?,?,?,?,?)",
+                        data1
+                      );
+
+                      if (insertdata1.affectedRows === 0) {
+                        console.log("User experience not found.");
+                      } else {
+                        console.log("User experience media data add successfully.");
                       }
+                    }
 
-                    });
-                  }
-                  console.log("User experience data add successfully.");
+                  });
                 }
-              })
-
-            }
-
-
-            var find_eduaction = await eduaction.find({
-              user_id: value._id,
-              is_deleted: false,
+                console.log("User experience data add successfully.");
+              }
             })
 
-            if (find_eduaction) {
-              find_eduaction?.map(async (val) => {
-                // const data = [
-                //   identifier = val?._id.toString(),
-                //   user_idfr = insertdata?.insertId,
-                //   degree_obtained = val?.degree,
-                //   field_of_study = val?.field_of_Study,
-                //   institution_attended = val?.school,
-                //   start_date = val?.start_date,
-                //   end_date = val?.end_date,
-                //   description = val?.description,
-                //   activities_societies = val?.activities_and_societies,
-                //   grade = val?.grade
-                // ];
+          }
 
-                const data = [
-                  val?._id.toString(),
-                  insertdata?.insertId,
-                  val?.degree,
-                  val?.field_of_Study,
-                  val?.school,
-                  val?.start_date,
-                  val?.end_date,
-                  val?.description,
-                  val?.activities_and_societies,
-                  val?.grade
-                ];
 
-                const inserteducation = await performQuery(
-                  "INSERT INTO user_education (identifier, user_idfr, degree_obtained ,field_of_study ,institution_attended ,start_date ,end_date ,description ,activities_societies ,grade ) values(?,?,?,?,?,?,?,?,?,?)",
-                  data
-                );
-                if (inserteducation.affectedRows === 0) {
-                  console.log("User not found.");
-                } else {
-                  console.log(" Education data add successfully.");
-                }
-              })
-            }
+          var find_eduaction = await eduaction.find({
+            user_id: value._id,
+            is_deleted: false,
+          })
 
+          if (find_eduaction) {
+            find_eduaction?.map(async (val) => {
+              // const data = [
+              //   identifier = val?._id.toString(),
+              //   user_idfr = insertdata?.insertId,
+              //   degree_obtained = val?.degree,
+              //   field_of_study = val?.field_of_Study,
+              //   institution_attended = val?.school,
+              //   start_date = val?.start_date,
+              //   end_date = val?.end_date,
+              //   description = val?.description,
+              //   activities_societies = val?.activities_and_societies,
+              //   grade = val?.grade
+              // ];
+
+              const data = [
+                val?._id.toString(),
+                insertdata?.insertId,
+                val?.degree,
+                val?.field_of_Study,
+                val?.school,
+                val?.start_date,
+                val?.end_date,
+                val?.description,
+                val?.activities_and_societies,
+                val?.grade
+              ];
+
+              const inserteducation = await performQuery(
+                "INSERT INTO user_education (identifier, user_idfr, degree_obtained ,field_of_study ,institution_attended ,start_date ,end_date ,description ,activities_societies ,grade ) values(?,?,?,?,?,?,?,?,?,?)",
+                data
+              );
+              if (inserteducation.affectedRows === 0) {
+                console.log("User not found.");
+              } else {
+                console.log(" Education data add successfully.");
+              }
+            })
           }
 
         }
 
-      })
+      }
+
+    })
 
     return successRes(res, `All data add in mysql successfully`);
 
