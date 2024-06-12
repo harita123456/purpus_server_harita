@@ -680,7 +680,7 @@ const getAllPosts = async (req, res) => {
           user_id: user_id,
           post_id: post._id,
         });
-        var store_option_id = isPolled?.option_id;
+        let store_option_id = isPolled?.option_id;
 
         const updatedPost = {
           ...post.toObject(),
@@ -704,7 +704,7 @@ const getAllPosts = async (req, res) => {
             post_id: post.repost_id._id,
           });
 
-          var store_option_id = repostIsPolled?.option_id;
+          let store_option_id = repostIsPolled?.option_id;
           updatedPost.repost_id = {
             ...post.repost_id.toObject(),
             is_like: !!repostIsLiked,
@@ -1151,7 +1151,7 @@ const likePost = async (req, res) => {
 
           if (device_token_array.length > 0) {
             notiData = { ...notiData, device_token: device_token_array };
-            var noti_send = await notiSendMultipleDevice(notiData);
+            let noti_send = await notiSendMultipleDevice(notiData);
 
             if (noti_send.status == 200) {
               await users.findByIdAndUpdate(find_post?.user_id, {
@@ -1294,7 +1294,7 @@ const getAllSavedPosts = async (req, res) => {
           user_id: user_id,
           post_id: data._id,
         });
-        var store_option_id = isPolled?.option_id;
+        let store_option_id = isPolled?.option_id;
 
         const is_repost_you_status = await post.findOne({
           user_id: user_id,
@@ -1527,7 +1527,7 @@ const getAllLikedPosts = async (req, res) => {
           user_id: user_id,
           post_id: data._id,
         });
-        var store_option_id = isPolled?.option_id;
+        let store_option_id = isPolled?.option_id;
 
         const is_repost_you_status = await post.findOne({
           user_id: user_id,
@@ -1856,7 +1856,7 @@ const createRepost = async (req, res) => {
 
       if (device_token_array.length > 0) {
         notiData = { ...notiData, device_token: device_token_array };
-        var noti_send = await notiSendMultipleDevice(notiData);
+        let noti_send = await notiSendMultipleDevice(notiData);
 
         if (noti_send.status == 200) {
           await users.findByIdAndUpdate(original_user?.user_id, {
@@ -2102,7 +2102,7 @@ const addComment = async (req, res) => {
 
           if (device_token_array.length > 0) {
             notiData = { ...notiData, device_token: device_token_array };
-            var noti_send = await notiSendMultipleDevice(notiData);
+            let noti_send = await notiSendMultipleDevice(notiData);
 
             if (noti_send.status == 200) {
               await users.findByIdAndUpdate(find_post?.user_id, {
@@ -2266,7 +2266,7 @@ const addComment = async (req, res) => {
 
           if (device_token_array.length > 0) {
             notiData = { ...notiData, device_token: device_token_array };
-            var noti_send = await notiSendMultipleDevice(notiData);
+            let noti_send = await notiSendMultipleDevice(notiData);
 
             if (noti_send.status == 200) {
               await users.findByIdAndUpdate(find_post?.user_id, {
@@ -2339,7 +2339,7 @@ const addComment = async (req, res) => {
 
           if (device_token_array.length > 0) {
             notiData = { ...notiData, device_token: device_token_array };
-            var noti_send = await notiSendMultipleDevice(notiData);
+            let noti_send = await notiSendMultipleDevice(notiData);
 
             if (noti_send.status == 200) {
               await users.findByIdAndUpdate(savedComment?.mention_user_id, {
@@ -2414,7 +2414,7 @@ const addComment = async (req, res) => {
 
             if (device_token_array.length > 0) {
               notiData = { ...notiData, device_token: device_token_array };
-              var noti_send = await notiSendMultipleDevice(notiData);
+              let noti_send = await notiSendMultipleDevice(notiData);
 
               if (noti_send.status == 200) {
 
@@ -2559,7 +2559,7 @@ const addComment = async (req, res) => {
 
               if (device_token_array.length > 0) {
                 notiData = { ...notiData, device_token: device_token_array };
-                var noti_send = await notiSendMultipleDevice(notiData);
+                let noti_send = await notiSendMultipleDevice(notiData);
 
                 if (noti_send.status == 200) {
                   await users.findByIdAndUpdate(savedComment?.mention_user_id, {
@@ -3864,7 +3864,7 @@ const likeComment = async (req, res) => {
 
           if (device_token_array.length > 0) {
             notiData = { ...notiData, device_token: device_token_array };
-            var noti_send = await notiSendMultipleDevice(notiData);
+            let noti_send = await notiSendMultipleDevice(notiData);
 
             if (noti_send.status == 200) {
               await users.findByIdAndUpdate(find_comment?.user_id, {
@@ -4079,7 +4079,7 @@ const getPostdetails = async (req, res) => {
               user_id: login_user_id,
               post_id: data._id,
             });
-            var store_option_id = isPolled?.option_id;
+            let store_option_id = isPolled?.option_id;
 
             const is_view_impression = await user_impressions.findOne({
               user_id: login_user_id,
@@ -4198,7 +4198,7 @@ const getPostdetails = async (req, res) => {
           is_deleted: false,
           is_repost: true
         })
-        var store_option_id = isPolled?.option_id;
+        let store_option_id = isPolled?.option_id;
 
         var find_repost = await post.find({
           repost_id: post_id,
@@ -4427,7 +4427,7 @@ const getUserPostlist = async (req, res) => {
             user_id: login_user_id,
             post_id: data._id,
           });
-          var store_option_id = isPolled?.option_id;
+          let store_option_id = isPolled?.option_id;
 
           const is_view_impression = await user_impressions.findOne({
             user_id: login_user_id,
@@ -4643,7 +4643,7 @@ const getUserPostlist = async (req, res) => {
               user_id: login_user_id,
               post_id: data.repost_id._id,
             });
-            var store_option_id = repostIsPolled?.option_id;
+            let store_option_id = repostIsPolled?.option_id;
 
             const is_repost_you_status = await post.findOne({
               user_id: login_user_id,
