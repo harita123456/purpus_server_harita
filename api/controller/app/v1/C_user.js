@@ -1901,20 +1901,20 @@ const selfDelete = async (req, res) => {
                 //   });
                 // }
 
-                const filePath = `${outputPath}/public/${value?.file_name}`;
+                const filePath = `${outputPath}/public/${value.file_name}`;
 
                 if (fs.existsSync(filePath)) {
                   unlink(`${outputPath}/public/${value.file_name}`, (err) => {
                     if (err) console.log(err);
                   });
                 }
-                if (value?.file_type == "video") {
+                if (value.file_type == "video") {
                   // if (`${outputPath}/public/${value?.thumb_name}`) {
                   //   unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
                   //     if (err) console.log(err);
                   //   });
                   // }
-                  const thumbPath = `${outputPath}/public/${value?.thumb_name}`;
+                  const thumbPath = `${outputPath}/public/${value.thumb_name}`;
                   if (fs.existsSync(thumbPath)) {
                     unlink(`${outputPath}/public/${value.thumb_name}`, (err) => {
                       if (err) console.log(err);
@@ -2510,7 +2510,7 @@ const createReportforproblem = async (req, res) => {
 
     var create_report = await report.create(insert_data);
     create_report?.feedback_photo.map((value) => {
-      if (value?.file_type == "image") {
+      if (value.file_type == "image") {
         value.file_name = process.env.BASE_URL + value.file_name;
       }
     });
@@ -4059,7 +4059,7 @@ const searchPage = async (req, res) => {
         }
 
         if (value?.post_media) {
-          value.post_media.map((media) => {
+          value?.post_media.map((media) => {
             if (media.file_type === "image" || media.file_type === "video") {
               media.file_name = process.env.BASE_URL + media.file_name;
               if (media.thumb_name) {
@@ -4080,7 +4080,7 @@ const searchPage = async (req, res) => {
         }
 
         if (value?.repost_id?.post_media) {
-          value.repost_id.post_media.map((media) => {
+          value?.repost_id.post_media.map((media) => {
             if (media.file_type === "image" || media.file_type === "video") {
               media.file_name = process.env.BASE_URL + media.file_name;
               if (media.thumb_name) {
@@ -4532,7 +4532,7 @@ const searchPost = async (req, res) => {
       }
 
       if (value?.post_media) {
-        value.post_media.map((media) => {
+        value?.post_media.map((media) => {
           if (media.file_type === "image" || media.file_type === "video") {
             media.file_name = process.env.BASE_URL + media.file_name;
             if (media.thumb_name) {
@@ -4553,7 +4553,7 @@ const searchPost = async (req, res) => {
       }
 
       if (value?.repost_id?.post_media) {
-        value.repost_id.post_media.map((media) => {
+        value?.repost_id?.post_media.map((media) => {
           if (media.file_type === "image" || media.file_type === "video") {
             media.file_name = process.env.BASE_URL + media.file_name;
             if (media.thumb_name) {
@@ -6595,7 +6595,7 @@ const deleteExperince = async (req, res) => {
       for (var value of find_image.media) {
         if (value.file_type != "url") {
 
-          const filePath = `${outputPath}/public/${value?.file_name}`;
+          const filePath = `${outputPath}/public/${value.file_name}`;
 
           if (fs.existsSync(filePath)) {
             unlink(`${outputPath}/public/${value.file_name}`, (err) => {
@@ -6607,8 +6607,8 @@ const deleteExperince = async (req, res) => {
           //     if (err) console.log(err);
           //   });
           // }
-          if (value.file_type != null && value?.file_type == "video") {
-            const thumbPath = `${outputPath}/public/${value?.thumb_name}`;
+          if (value.file_type != null && value.file_type == "video") {
+            const thumbPath = `${outputPath}/public/${value.thumb_name}`;
             // if (`${outputPath}/public/${value?.thumb_name}`) {
             //   unlink(`${outputPath}/public/${value?.thumb_name}`, (err) => {
             //     if (err) console.log(err);
@@ -7255,7 +7255,7 @@ const mysqlscript = async (req, res) => {
           // ];
 
           const social_data = [
-            value._id.toString(),
+            value?._id.toString(),
             insertdata?.insertId,
             value?.social_media_link?.linkedin,
             value?.social_media_link?.facebook,
@@ -7269,7 +7269,7 @@ const mysqlscript = async (req, res) => {
           );
 
 
-          if (value?.skills_details != null && value.skills_details.length > 0) {
+          if (value?.skills_details != null && value?.skills_details.length > 0) {
             value?.skills_details.map(async (val) => {
               if (val?._id) {
                 const datas = [
@@ -7292,7 +7292,7 @@ const mysqlscript = async (req, res) => {
 
 
           var find_session = await user_session.find({
-            user_id: value._id,
+            user_id: value?._id,
             is_deleted: false,
           })
 
