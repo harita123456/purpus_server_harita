@@ -7181,7 +7181,7 @@ const mysqlscript = async (req, res) => {
     find_user.map(async (value) => {
       const updatedata = await performQuery(
         "SELECT * FROM user WHERE identifier = ?",
-        value._id.toString()
+        value?._id.toString()
       );
 
       if (updatedata.length == 0) {
