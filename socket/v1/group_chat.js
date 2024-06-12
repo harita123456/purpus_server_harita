@@ -86,6 +86,8 @@ module.exports = {
           //   var last_message_time = null;
           // }
 
+          let last_message_time = null;
+
           let last_message;
           if (findLastMsg) {
             if (findLastMsg.message_type == "text") {
@@ -93,10 +95,10 @@ module.exports = {
             } else {
               last_message = "media";
             }
-            var last_message_time = findLastMsg.message_time;
+            last_message_time = findLastMsg.message_time;
           } else {
             last_message = null;
-            var last_message_time = null;
+            // var last_message_time = null;
           }
 
 
@@ -174,11 +176,11 @@ module.exports = {
       if (message_type == "media" && Array.isArray(media_file)) {
         for (var value of media_file) {
           if (value.file_type == "image") {
-            var files = {
+            var files_image = {
               file_type: value.file_type,
               file_name: value.image_file,
             };
-            image_array.push(files);
+            image_array.push(files_image);
           }
           if (value.file_type == "image") {
             insertData = {
@@ -188,12 +190,12 @@ module.exports = {
           }
 
           if (value.file_type == "video") {
-            var files = {
+            var files_video = {
               file_type: value.file_type,
               video_name: value.video_name,
               thumbnail: value.thumbnail,
             };
-            image_array.push(files);
+            image_array.push(files_video);
           }
           if (value.file_type == "video") {
             insertData = {
@@ -203,11 +205,11 @@ module.exports = {
           }
 
           if (value.file_type == "audio") {
-            var files = {
+            var files_audio = {
               file_type: value.file_type,
               audio_file: value.audio_file,
             };
-            image_array.push(files);
+            image_array.push(files_audio);
           }
 
           if (value.file_type == "audio") {
@@ -365,7 +367,7 @@ module.exports = {
 
         var device_token_array = [];
         var user_id_array = [];
-        for (var value of find_user_device_token) {
+        for (let value of find_user_device_token) {
           var device_token = value.device_token;
           device_token_array.push(device_token);
           user_id_array.push(value._id);
