@@ -287,11 +287,11 @@ const createPost = async (req, res) => {
       user_id: user_id,
       interest_id: interest_id,
       sub_interest_id: sub_interest_id,
-      post_id: create_post._id,
+      post_id: create_post?._id,
       interaction_type: "post",
     })
 
-    await post.findByIdAndUpdate(create_post._id, {
+    await post.findByIdAndUpdate(create_post?._id, {
       $inc: { interaction_count: 1 },
     });
 
@@ -1828,7 +1828,7 @@ const createRepost = async (req, res) => {
         noti_title,
         noti_for,
         media: media,
-        id: create_post._id,
+        id: create_post?._id,
       };
 
       await notifications.create({
@@ -1837,7 +1837,7 @@ const createRepost = async (req, res) => {
         noti_for,
         sender_id: user_id,
         receiver_id: original_user?.user_id,
-        post_id: create_post._id,
+        post_id: create_post?._id,
         noti_date: currentDateTime,
         created_at: currentDateTime,
         updated_at: currentDateTime,
@@ -1869,7 +1869,7 @@ const createRepost = async (req, res) => {
     }
 
     var find_post = await post
-      .findOne({ _id: create_post._id })
+      .findOne({ _id: create_post?._id })
       .populate("repost_id");
 
     if (create_post) {
@@ -2042,7 +2042,7 @@ const addComment = async (req, res) => {
       })
 
       if (savedComment != null) {
-        var find_post = await post.findByIdAndUpdate(savedComment.post_id, {
+        var find_post = await post.findByIdAndUpdate(savedComment?.post_id, {
           $inc: { comment_count: 1 },
         });
 
@@ -2116,7 +2116,7 @@ const addComment = async (req, res) => {
       }
 
       const getComment = await comment_post
-        .find({ _id: savedComment._id, is_deleted: false })
+        .find({ _id: savedComment?._id, is_deleted: false })
         .populate({
           path: "user_id",
           select: "_id unique_name profile_url profile_picture full_name",
@@ -2194,19 +2194,19 @@ const addComment = async (req, res) => {
       }
 
       if (savedComment != null) {
-        var find_post = await post.findByIdAndUpdate(savedComment.post_id, {
+        var find_post = await post.findByIdAndUpdate(savedComment?.post_id, {
           $inc: { comment_count: 1 },
         });
-        await comment_post.findByIdAndUpdate(savedComment.reply_comment_id, {
+        await comment_post.findByIdAndUpdate(savedComment?.reply_comment_id, {
           $inc: { comment_reply_count: 1 },
         });
 
         await users.findOne().where({
-          _id: savedComment.mention_user_id,
+          _id: savedComment?.mention_user_id,
           is_deleted: false,
         });
 
-        if (user_id.toString() == savedComment.mention_user_id.toString()
+        if (user_id.toString() == savedComment?.mention_user_id.toString()
           && user_id.toString() !== find_post.user_id.toString()) {
 
           await notifications.deleteMany({
@@ -2278,7 +2278,7 @@ const addComment = async (req, res) => {
           }
         }
 
-        if (user_id.toString() !== savedComment.mention_user_id.toString()
+        if (user_id.toString() !== savedComment?.mention_user_id.toString()
           && user_id.toString() == find_post.user_id.toString()) {
 
           await notifications.deleteMany({
@@ -2351,7 +2351,7 @@ const addComment = async (req, res) => {
           }
         }
 
-        if (user_id.toString() !== savedComment.mention_user_id.toString()
+        if (user_id.toString() !== savedComment?.mention_user_id.toString()
           && user_id.toString() !== find_post.user_id.toString()) {
 
           if (savedComment?.mention_user_id.toString() == find_post.user_id.toString()) {
@@ -2633,7 +2633,7 @@ const addComment = async (req, res) => {
     const savedComment = await newComment.save();
 
     if (savedComment) {
-      await post.findByIdAndUpdate(savedComment.post_id, {
+      await post.findByIdAndUpdate(savedComment?.post_id, {
         $inc: { comment_count: 1 },
       });
     }
@@ -4493,7 +4493,7 @@ const getUserPostlist = async (req, res) => {
           post.repost_id.user_id.profile_picture =
             process.env.BASE_URL + post.repost_id.user_id.profile_picture;
         }
-        post.post_media.forEach((media) => {
+        post?.post_media.forEach((media) => {
           if (media.file_type === "image" || media.file_type === "video") {
             media.file_name = process.env.BASE_URL + media.file_name;
             if (media.thumb_name) {
