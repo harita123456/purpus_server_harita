@@ -1361,7 +1361,8 @@ const getAllSavedPosts = async (req, res) => {
           var store_option_id_update = repostIsPolled?.option_id;
           const is_repost_you_status = await post.findOne({
             user_id: user_id,
-            repost_id: data?.repost_id?._id,
+            // repost_id: data?.repost_id?._id,
+            repost_id: data.repost_id._id,
             is_deleted: false,
             is_repost: true
           })
@@ -1591,7 +1592,8 @@ const getAllLikedPosts = async (req, res) => {
           var store_option_id_update = repostIsPolled?.option_id;
           const is_repost_you_status = await post.findOne({
             user_id: user_id,
-            repost_id: data?.repost_id?._id,
+            // repost_id: data?.repost_id?._id,
+            repost_id: data.repost_id._id,
             is_deleted: false,
             is_repost: true
           })
@@ -2352,7 +2354,7 @@ const addComment = async (req, res) => {
         if (user_id.toString() !== savedComment.mention_user_id.toString()
           && user_id.toString() !== find_post.user_id.toString()) {
 
-          if (savedComment.mention_user_id.toString() == find_post.user_id.toString()) {
+          if (savedComment?.mention_user_id.toString() == find_post.user_id.toString()) {
 
             await notifications.deleteMany({
               post_id: find_post?._id,
@@ -2573,7 +2575,7 @@ const addComment = async (req, res) => {
       }
 
       const getComment = await comment_post
-        .find({ _id: savedComment._id, is_deleted: false })
+        .find({ _id: savedComment?._id, is_deleted: false })
         .populate({
           path: "user_id",
           select: "_id unique_name profile_url profile_picture full_name",
@@ -4091,7 +4093,8 @@ const getPostdetails = async (req, res) => {
 
             const is_repost_you_status = await post.findOne({
               user_id: login_user_id,
-              repost_id: data?.repost_id?._id,
+              // repost_id: data?.repost_id?._id,
+              repost_id: data.repost_id._id,
               is_deleted: false,
               is_repost: true
             })
@@ -4143,7 +4146,8 @@ const getPostdetails = async (req, res) => {
 
               const is_repost_you_status = await post.findOne({
                 user_id: login_user_id,
-                repost_id: data?.repost_id?._id,
+                // repost_id: data?.repost_id?._id,
+                repost_id: data.repost_id._id,
                 is_deleted: false
               })
 
@@ -4566,31 +4570,32 @@ const getUserPostlist = async (req, res) => {
         find_post.map(async (data) => {
           const isLiked = await like_post.findOne({
             user_id: login_user_id,
-            post_id: data?._id,
+            post_id: data._id,
           });
           const isSaved = await save_post.findOne({
             user_id: login_user_id,
-            post_id: data?._id,
+            post_id: data._id,
           });
           const isPolled = await pollvotes.findOne({
             user_id: login_user_id,
-            post_id: data?._id,
+            post_id: data._id,
           });
           var store_option_ids = isPolled?.option_id;
 
           const is_view_impression = await user_impressions.findOne({
             user_id: login_user_id,
-            post_id: data?._id,
+            post_id: data._id,
           });
 
           const is_view_Post = await view_post.findOne({
             user_id: login_user_id,
-            post_id: data?._id,
+            post_id: data._id,
           });
 
           const is_repost_you_status = await post.findOne({
             user_id: login_user_id,
-            repost_id: data?.repost_id?._id,
+            // repost_id: data?.repost_id?._id,
+            repost_id: data.repost_id._id,
             is_deleted: false,
             is_repost: true
           })
@@ -4645,7 +4650,8 @@ const getUserPostlist = async (req, res) => {
 
             const is_repost_you_status = await post.findOne({
               user_id: login_user_id,
-              repost_id: data?.repost_id?._id,
+              // repost_id: data?.repost_id?._id,
+              repost_id: data.repost_id._id,
               is_deleted: false
             })
 
