@@ -502,13 +502,13 @@ const connectionSuggestion = async (req, res) => {
     });
 
 
-    if (matchdata) {
+    // if (matchdata) {
       return successRes(
         res,
         "Manage connections list get successfully",
         matchdata
       );
-    }
+    // }
   } catch (error) {
     console.log("error", error);
     return errorRes(res, "Internal Server Error!");
@@ -733,7 +733,7 @@ const allInterestuser = async (req, res) => {
               (id) => new mongoose.Types.ObjectId(id)
             ),
             ...following_data_array.map((id) => new mongoose.Types.ObjectId(id)),
-            ...excludeUserdata.map(
+            ...excludeUserdata?.map(
               (id) => new mongoose.Types.ObjectId(id)
             ),
 

@@ -643,7 +643,7 @@ module.exports = {
         poll_data.map(async (post) => {
           const isPolled = await poll_vote.findOne({
             user_id: user_id,
-            group_id: post?.group_id,
+            group_id: post.group_id,
             group_chat_id: post._id
           });
           var store_option_id = isPolled?.option_id;
