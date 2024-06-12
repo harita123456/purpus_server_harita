@@ -532,7 +532,8 @@ const getAllLocalpost = async (req, res) => {
 
               var store_option_id_is_repost = repostIsPolled?.option_id;
 
-              const postCoordinates = data?.repost_id?.location.coordinates;
+              // const postCoordinates = data?.repost_id?.location.coordinates;
+              const postCoordinates = data.repost_id.location.coordinates;
               let point1 = {
                 latitude: lat,
                 longitude: long,
@@ -633,7 +634,8 @@ const getAllLocalpost = async (req, res) => {
           });
           const is_repost_you_status = await post.findOne({
             user_id: user_id,
-            repost_id: data?.repost_id?._id,
+            // repost_id: data?.repost_id?._id,
+            repost_id: data.repost_id._id,
             is_deleted: false,
             is_repost: true
           })
@@ -707,7 +709,8 @@ const getAllLocalpost = async (req, res) => {
             });
             const is_repost_you_status = await post.findOne({
               user_id: user_id,
-              repost_id: data?.repost_id?._id,
+              // repost_id: data?.repost_id?._id,
+              repost_id: data.repost_id._id,
               is_deleted: false,
               is_repost: true
             })
@@ -715,7 +718,8 @@ const getAllLocalpost = async (req, res) => {
             var store_option_id_use = repostIsPolled?.option_id;
 
 
-            const postCoordinates = data?.repost_id?.location.coordinates;
+            // const postCoordinates = data?.repost_id?.location.coordinates;
+            const postCoordinates = data.repost_id.location.coordinates;
             let point1 = {
               latitude: lat,
               longitude: long,
@@ -840,7 +844,8 @@ const getAllLocalpost = async (req, res) => {
 
           const is_repost_you_status = await post.findOne({
             user_id: user_id,
-            repost_id: data?.repost_id?._id,
+            // repost_id: data?.repost_id?._id,
+            repost_id: data.repost_id._id,
             is_deleted: false,
             is_repost: true
           })
@@ -906,7 +911,8 @@ const getAllLocalpost = async (req, res) => {
 
             const is_repost_you_status = await post.findOne({
               user_id: user_id,
-              repost_id: data?.repost_id?._id,
+              // repost_id: data?.repost_id?._id,
+              repost_id: data.repost_id._id,
               is_deleted: false,
               is_repost: true
             })
@@ -922,7 +928,8 @@ const getAllLocalpost = async (req, res) => {
             });
 
             var store_option_id_use_repost = repostIsPolled?.option_id;
-            const postCoordinates = data?.repost_id?.location.coordinates;
+            // const postCoordinates = data?.repost_id?.location.coordinates;
+            const postCoordinates = data.repost_id.location.coordinates;
             let point1 = {
               latitude: lat,
               longitude: long,
@@ -1038,7 +1045,8 @@ const getAllLocalpost = async (req, res) => {
           var store_option_id = isPolled?.option_id;
           const is_repost_you_status = await post.findOne({
             user_id: user_id,
-            repost_id: data?.repost_id?._id,
+            // repost_id: data?.repost_id?._id,
+            repost_id: data.repost_id._id,
             is_deleted: false,
             is_repost: true
           })
@@ -1114,7 +1122,8 @@ const getAllLocalpost = async (req, res) => {
 
             const is_repost_you_status = await post.findOne({
               user_id: user_id,
-              repost_id: data?.repost_id?._id,
+              // repost_id: data?.repost_id?._id,
+              repost_id: data.repost_id._id,
               is_deleted: false,
               is_repost: true
             })
@@ -1129,7 +1138,8 @@ const getAllLocalpost = async (req, res) => {
               post_id: data.repost_id._id
             });
             var store_option_id_repost = repostIsPolled?.option_id;
-            const postCoordinates = data?.repost_id?.location.coordinates;
+            // const postCoordinates = data?.repost_id?.location.coordinates;
+            const postCoordinates = data.repost_id.location.coordinates;
             let point1 = {
               latitude: lat,
               longitude: long,
@@ -1243,7 +1253,8 @@ const getAllLocalpost = async (req, res) => {
         var store_option_id = isPolled?.option_id;
         const is_repost_you_status = await post.findOne({
           user_id: user_id,
-          repost_id: data?.repost_id?._id,
+          // repost_id: data?.repost_id?._id,
+          repost_id: data.repost_id._id,
           is_deleted: false,
           is_repost: true
         })
@@ -1318,7 +1329,8 @@ const getAllLocalpost = async (req, res) => {
           });
           const is_repost_you_status = await post.findOne({
             user_id: user_id,
-            repost_id: data?.repost_id?._id,
+            // repost_id: data?.repost_id?._id,
+            repost_id: data.repost_id._id,
             is_deleted: false,
             is_local: true
           })
@@ -1333,7 +1345,8 @@ const getAllLocalpost = async (req, res) => {
             post_id: data._id,
           });
           var store_option_id_repost_use = repostIsPolled?.option_id;
-          const postCoordinates = data?.repost_id?.location.coordinates;
+          // const postCoordinates = data?.repost_id?.location.coordinates;
+          const postCoordinates = data.repost_id.location.coordinates;
           let point1 = {
             latitude: lat,
             longitude: long,
