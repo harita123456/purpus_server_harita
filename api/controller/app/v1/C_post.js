@@ -864,20 +864,20 @@ const deletePost = async (req, res) => {
       );
     }
 
-    if (find_post) {
-      await post.updateMany(
-        {
-          $and: [
-            { repost_id: find_post._id },
-            { is_deleted: false },
-            {
-              $or: [{ description: null }, { description: { $exists: false } }],
-            },
-          ],
-        },
-        { $set: { is_deleted: true } }
-      );
-    }
+    // if (find_post) {
+    await post.updateMany(
+      {
+        $and: [
+          { repost_id: find_post._id },
+          { is_deleted: false },
+          {
+            $or: [{ description: null }, { description: { $exists: false } }],
+          },
+        ],
+      },
+      { $set: { is_deleted: true } }
+    );
+    // }
     var delete_post = await post.findByIdAndUpdate(
       { _id: post_id },
       { $set: { is_deleted: true } },
@@ -933,8 +933,6 @@ const pollLike = async (req, res) => {
         ...existingVote._doc,
         is_response: true,
       };
-    }
-    if (existingVote) {
       return successRes(res, "User already response", existingVote);
     }
 
@@ -958,27 +956,27 @@ const pollLike = async (req, res) => {
       );
     }
 
-    if (!existingVote) {
-      const optionUpdate = {
-        updateOne: {
-          filter: { _id: post_id, "options._id": option_id },
-          update: { $inc: { "options.$.option_vote": 1 } },
-        },
-      };
+    // if (!existingVote) {
+    const optionUpdate = {
+      updateOne: {
+        filter: { _id: post_id, "options._id": option_id },
+        update: { $inc: { "options.$.option_vote": 1 } },
+      },
+    };
 
-      const counterUpdate = {
-        updateOne: {
-          filter: { _id: post_id },
-          update: { $inc: { vote_counter: 1 } },
-        },
-      };
-      await post.bulkWrite([optionUpdate, counterUpdate]);
-      await pollvotes.create({
-        user_id,
-        option_id,
-        post_id,
-      });
-    }
+    const counterUpdate = {
+      updateOne: {
+        filter: { _id: post_id },
+        update: { $inc: { vote_counter: 1 } },
+      },
+    };
+    await post.bulkWrite([optionUpdate, counterUpdate]);
+    await pollvotes.create({
+      user_id,
+      option_id,
+      post_id,
+    });
+    // }
     var find_post_data = await post
       .findOne({ _id: post_id })
       .where({ is_deleted: false });
@@ -4033,7 +4031,7 @@ const getPostdetails = async (req, res) => {
             media.file_name = process.env.BASE_URL + media.file_name;
           }
           if (
-            media && media?.thumb_name &&
+            media?.thumb_name &&
             !media?.thumb_name.startsWith(process.env.BASE_URL)
           ) {
             media.thumb_name = process.env.BASE_URL + media.thumb_name;
@@ -4051,7 +4049,7 @@ const getPostdetails = async (req, res) => {
             media.file_name = process.env.BASE_URL + media.file_name;
           }
           if (
-            media && media?.thumb_name &&
+            media?.thumb_name &&
             !media?.thumb_name.startsWith(process.env.BASE_URL)
           ) {
             media.thumb_name = process.env.BASE_URL + media.thumb_name;

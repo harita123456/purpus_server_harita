@@ -295,17 +295,16 @@ const removeFollowUser = async (req, res) => {
       noti_for: { $in: ["started_following"] }
     });
 
-    if (user_detail) {
-      var follow_id = user_detail._id;
+    var follow_id = user_detail._id;
 
-      var unFollow_user = await follower_following.findByIdAndDelete(follow_id);
+    var unFollow_user = await follower_following.findByIdAndDelete(follow_id);
 
-      if (unFollow_user) {
-        return successRes(res, `user removed successfully`);
-      } else {
-        return errorRes(res, `Couldn't found user`);
-      }
+    if (unFollow_user) {
+      return successRes(res, `user removed successfully`);
+    } else {
+      return errorRes(res, `Couldn't found user`);
     }
+
   } catch (error) {
     console.log(error);
     return errorRes(res, "Internal Server Error!");
