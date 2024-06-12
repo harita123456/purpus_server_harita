@@ -173,7 +173,7 @@ const createPost = async (req, res) => {
 
       if (postmedia_array) {
         var multiplepost_media_array = [];
-        for (var value of postmedia_array) {
+        for (let value of postmedia_array) {
           let file_extension = value.originalFilename
             .split(".")
             .pop()
@@ -1144,7 +1144,7 @@ const likePost = async (req, res) => {
           });
 
           let device_token_array = [];
-          for (var value of find_token) {
+          for (let value of find_token) {
             var device_token1 = value.device_token;
             device_token_array.push(device_token1);
           }
@@ -2575,7 +2575,7 @@ const addComment = async (req, res) => {
       }
 
       const getComment = await comment_post
-        .find({ _id: savedComment?._id, is_deleted: false })
+        .find({ _id: savedComment._id, is_deleted: false })
         .populate({
           path: "user_id",
           select: "_id unique_name profile_url profile_picture full_name",
