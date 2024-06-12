@@ -872,7 +872,7 @@ const signIn = async (req, res) => {
         return errorRes(res, `Account is not found, Please try again.`);
       }
 
-      if (find_user) {
+      // if (find_user) {
         if (find_user.is_block == true || find_user.is_block == "true") {
           return errorRes(
             res,
@@ -902,7 +902,7 @@ const signIn = async (req, res) => {
         };
 
         find_user.token = token;
-      }
+      // }
     } else {
       let find_user = await users.findOne({
         $or: [{ email_address: email_address }, { unique_name: email_address }],
@@ -3214,7 +3214,7 @@ const getUserdetails = async (req, res) => {
 
       const baseUrl = process.env.BASE_URL;
 
-      if (find_user && find_user.group_details) {
+      if (find_user.group_details) {
         find_user.group_details = find_user.group_details.map(async (data) => {
           const groupId = data?.group_id?._id;
 
@@ -3257,11 +3257,12 @@ const getUserdetails = async (req, res) => {
         }));
       }
 
-      if (!find_user) {
-        return errorRes(res, "Couldn't found user");
-      } else {
+      // if (!find_user) {
+      //   return errorRes(res, "Couldn't found user");
+      // }
+      // else {
         return successRes(res, `User details get successfully`, find_user);
-      }
+      // }
     }
   } catch (error) {
     console.log("Error : ", error);
