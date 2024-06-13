@@ -2212,7 +2212,7 @@ const addComment = async (req, res) => {
           await notifications.deleteMany({
             post_id: find_post._id,
             noti_for: "post_comment",
-            receiver_id: find_post.user_id,
+            receiver_id: find_post?.user_id,
           })
 
           const currentDateTime = await dateTime();
@@ -2254,7 +2254,7 @@ const addComment = async (req, res) => {
           });
 
           let find_token = await user_session.find({
-            user_id: find_post.user_id,
+            user_id: find_post?.user_id,
             is_deleted: false,
           });
 
@@ -2354,7 +2354,7 @@ const addComment = async (req, res) => {
         if (user_id.toString() !== savedComment?.mention_user_id.toString()
           && user_id.toString() !== find_post?.user_id.toString()) {
 
-          if (savedComment?.mention_user_id.toString() == find_post.user_id.toString()) {
+          if (savedComment?.mention_user_id.toString() == find_post?.user_id.toString()) {
 
             await notifications.deleteMany({
               post_id: find_post?._id,
@@ -2977,7 +2977,7 @@ const getAllComments = async (req, res) => {
         .skip((page - 1) * limit);
 
       const parentCommentsWithLikeStatus = await Promise.all(
-        parentComments?.map(async (parentComment) => {
+        parentComments.map(async (parentComment) => {
           try {
             const isLiked = await like_comment.findOne({
               user_id: user_id,
@@ -3099,7 +3099,7 @@ const getAllComments = async (req, res) => {
         .skip((page - 1) * limit);
 
       const parentCommentsWithLikeStatus = await Promise.all(
-        parentComments?.map(async (parentComment) => {
+        parentComments.map(async (parentComment) => {
           try {
             const isLiked = await like_comment.findOne({
               user_id: user_id,
@@ -3225,7 +3225,7 @@ const getAllComments = async (req, res) => {
         .skip((page - 1) * limit);
 
       const parentCommentsWithLikeStatus = await Promise.all(
-        parentComments?.map(async (parentComment) => {
+        parentComments.map(async (parentComment) => {
           try {
             const isLiked = await like_comment.findOne({
               user_id: user_id,
@@ -3323,7 +3323,7 @@ const getAllComments = async (req, res) => {
           .skip((page - 1) * limit);
 
         const parentCommentsWithLikeStatus = await Promise.all(
-          parentComments1?.map(async (parentComment) => {
+          parentComments1.map(async (parentComment) => {
             try {
               const isLiked = await like_comment.findOne({
                 user_id: user_id,
@@ -3455,7 +3455,7 @@ const getAllComments = async (req, res) => {
       .skip((page - 1) * limit);
 
     const parentCommentsWithLikeStatus = await Promise.all(
-      parentComments?.map(async (parentComment) => {
+      parentComments.map(async (parentComment) => {
         try {
           const isLiked = await like_comment.findOne({
             user_id: user_id,
@@ -3720,7 +3720,7 @@ const getAllReplyComments = async (req, res) => {
       .skip((page - 1) * limit);
 
     parentComments = await Promise.all(
-      parentComments?.map(async (post) => {
+      parentComments.map(async (post) => {
         const isLiked = await like_comment.findOne({
           user_id: user_id,
           comment_id: post._id,
