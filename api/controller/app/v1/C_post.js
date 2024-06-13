@@ -2210,15 +2210,15 @@ const addComment = async (req, res) => {
           && user_id.toString() !== find_post?.user_id.toString()) {
 
           await notifications.deleteMany({
-            post_id: find_post._id,
+            post_id: find_post?._id,
             noti_for: "post_comment",
-            receiver_id: find_post.user_id,
+            receiver_id: find_post?.user_id,
           })
 
           const currentDateTime = await dateTime();
           let noti_msg = login_user_name + " commented: " + content;
           let media;
-          if (find_post.post_type == "media") {
+          if (find_post?.post_type == "media") {
             if (find_post.post_media[0]?.file_type == "image") {
               media =
                 process.env.BASE_URL + find_post.post_media[0].file_name;
@@ -2354,7 +2354,7 @@ const addComment = async (req, res) => {
         if (user_id.toString() !== savedComment?.mention_user_id.toString()
           && user_id.toString() !== find_post?.user_id.toString()) {
 
-          if (savedComment?.mention_user_id.toString() == find_post.user_id.toString()) {
+          if (savedComment?.mention_user_id.toString() == find_post?.user_id.toString()) {
 
             await notifications.deleteMany({
               post_id: find_post?._id,
@@ -2366,7 +2366,7 @@ const addComment = async (req, res) => {
             let noti_msg =
               login_user_name + " replied to your comment: " + content;
             let media;
-            if (find_post.post_type == "media") {
+            if (find_post?.post_type == "media") {
               if (find_post.post_media[0]?.file_type == "image") {
                 media =
                   process.env.BASE_URL + find_post.post_media[0].file_name;
@@ -2386,7 +2386,7 @@ const addComment = async (req, res) => {
               noti_title,
               noti_for,
               media: media,
-              id: find_post._id,
+              id: find_post?._id,
             };
 
             await notifications.create({
@@ -2432,7 +2432,7 @@ const addComment = async (req, res) => {
 
             if (send_noti_comment) {
               await notifications.deleteMany({
-                post_id: find_post._id,
+                post_id: find_post?._id,
                 noti_for: "post_comment",
                 receiver_id: find_post?.user_id,
               })
@@ -2440,7 +2440,7 @@ const addComment = async (req, res) => {
               const currentDateTime = await dateTime();
               let noti_msg = login_user_name + " commented: " + content;
               let media;
-              if (find_post.post_type == "media") {
+              if (find_post?.post_type == "media") {
                 if (find_post.post_media[0]?.file_type == "image") {
                   media =
                     process.env.BASE_URL + find_post.post_media[0].file_name;
@@ -2502,7 +2502,7 @@ const addComment = async (req, res) => {
 
             if (send_noti_reply) {
               await notifications.deleteMany({
-                post_id: find_post._id,
+                post_id: find_post?._id,
                 noti_for: "post_comment",
                 receiver_id: savedComment?.mention_user_id,
               })
@@ -2511,7 +2511,7 @@ const addComment = async (req, res) => {
               let noti_msg =
                 login_user_name + " replied to your comment: " + content;
               let media;
-              if (find_post.post_type == "media") {
+              if (find_post?.post_type == "media") {
                 if (find_post.post_media[0]?.file_type == "image") {
                   media =
                     process.env.BASE_URL + find_post.post_media[0].file_name;
@@ -3305,7 +3305,7 @@ const getAllComments = async (req, res) => {
 
       // if (!parentComments || parentComments.length === 0) {
 
-      if (parentComments.length == 0) {
+      if (parentComments?.length == 0) {
         const parentComments1 = await comment_post
           .find({
             post_id: post_id,
@@ -3323,7 +3323,7 @@ const getAllComments = async (req, res) => {
           .skip((page - 1) * limit);
 
         const parentCommentsWithLikeStatus = await Promise.all(
-          parentComments1?.map(async (parentComment) => {
+          parentComments1.map(async (parentComment) => {
             try {
               const isLiked = await like_comment.findOne({
                 user_id: user_id,
