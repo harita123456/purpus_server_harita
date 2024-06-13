@@ -9476,8 +9476,10 @@ const getAllPosts = async (req, res) => {
         is_deleted: false,
         is_local: false,
         is_repost: false,
-        user_id: { $nin: blockedUserIds },
-        user_id: { $nin: userWithPrivateAccountIds },
+        // user_id: { $nin: blockedUserIds },
+        // user_id: { $nin: userWithPrivateAccountIds },
+
+        user_id: { $nin: [...blockedUserIds, ...userWithPrivateAccountIds] },
         impression_count: { $gte: 300 },
       })
       .populate({
@@ -10171,7 +10173,6 @@ const getAllPosts = async (req, res) => {
           "interest_id.tamil": 1,
           "interest_id.malayalam": 1,
           "interest_id.createdAt": 1,
-          "interest_id.updatedAt": 1,
           "sub_interest_id": {
             $ifNull: ["$sub_interest_id", null]
           },
@@ -10511,16 +10512,17 @@ const getAllPosts = async (req, res) => {
         resultPosts.push(newestPostAlgorithm_300[i]);
       }
     }
-
+    const excludedUserDataIds = [...blockedUserIds, ...userWithPrivateAccountIds]
     const total_data_userPostTrending_300_to_1000 = await post.countDocuments({
       // sub_interest_id: { $in: subInterestIds },
-      user_id: { $nin: blockedUserIds },
+      // user_id: { $nin: blockedUserIds },
+      // user_id: { $nin: userWithPrivateAccountIds },
+      user_id: { $nin: excludedUserDataIds },
 
       $or: [
         { sub_interest_id: { $in: subInterestIds } },
         { sub_interest_id: { $eq: null } }]
       ,
-      user_id: { $nin: userWithPrivateAccountIds },
       is_deleted: false,
       is_block: false,
       is_local: false,
@@ -10538,8 +10540,9 @@ const getAllPosts = async (req, res) => {
         { sub_interest_id: { $in: subInterestIds } },
         { sub_interest_id: { $eq: null } }]
       ,
-      user_id: { $nin: blockedUserIds },
-      user_id: { $nin: userWithPrivateAccountIds },
+      // user_id: { $nin: blockedUserIds },
+      // user_id: { $nin: userWithPrivateAccountIds },
+      user_id: { $nin: excludedUserDataIds },
       is_deleted: false,
       is_block: false,
       is_local: false,
@@ -10579,8 +10582,9 @@ const getAllPosts = async (req, res) => {
               { sub_interest_id: { $in: subInterestIds } },
               { sub_interest_id: { $eq: null } }]
             ,
-            user_id: { $nin: blockedUserIds },
-            user_id: { $nin: userWithPrivateAccountIds },
+            // user_id: { $nin: blockedUserIds },
+            // user_id: { $nin: userWithPrivateAccountIds },
+            user_id: { $nin: excludedUserDataIds },
             is_deleted: false,
             is_block: false,
             is_local: false,
@@ -10914,8 +10918,9 @@ const getAllPosts = async (req, res) => {
         {
           $match: {
             // sub_interest_id: { $in: subInterestIds },
-            user_id: { $nin: blockedUserIds },
-            user_id: { $nin: userWithPrivateAccountIds },
+            // user_id: { $nin: blockedUserIds },
+            // user_id: { $nin: userWithPrivateAccountIds },
+            user_id: { $nin: excludedUserDataIds },
             is_deleted: false,
             is_block: false,
             is_local: false,
@@ -11070,8 +11075,9 @@ const getAllPosts = async (req, res) => {
               { sub_interest_id: { $in: subInterestIds } },
               { sub_interest_id: { $eq: null } }]
             ,
-            user_id: { $nin: blockedUserIds },
-            user_id: { $nin: userWithPrivateAccountIds },
+            // user_id: { $nin: blockedUserIds },
+            // user_id: { $nin: userWithPrivateAccountIds },
+            user_id: { $nin: excludedUserDataIds },
             is_deleted: false,
             is_block: false,
             is_local: false,
@@ -11388,32 +11394,32 @@ const getAllPosts = async (req, res) => {
           },
         })
         .sort({ createdAt: "desc" });
-/*
-      const newUserTrendingData = await post
-        .find({
-          sub_interest_id: { $in: userOwnSubInterests },
-          is_deleted: false,
-          is_local: false,
-          is_repost: false,
-          user_id: { $nin: blockedUserIds },
-          user_id: { $nin: userWithPrivateAccountIds },
-          impression_count: { $gte: 300 },
-        })
-        .populate({
-          path: "user_id",
-          select:
-            "unique_name full_name post_type profile_url profile_picture full_name is_private_account is_verified",
-        })
-        .populate("interest_id sub_interest_id")
-        .populate({
-          path: "repost_id",
-          populate: {
-            path: "user_id",
-            select:
-              "unique_name full_name post_type profile_url profile_picture full_name is_private_account is_verified",
-          },
-        })
-        .sort({ impression_count: -1 });  */
+      /*
+            const newUserTrendingData = await post
+              .find({
+                sub_interest_id: { $in: userOwnSubInterests },
+                is_deleted: false,
+                is_local: false,
+                is_repost: false,
+                user_id: { $nin: blockedUserIds },
+                user_id: { $nin: userWithPrivateAccountIds },
+                impression_count: { $gte: 300 },
+              })
+              .populate({
+                path: "user_id",
+                select:
+                  "unique_name full_name post_type profile_url profile_picture full_name is_private_account is_verified",
+              })
+              .populate("interest_id sub_interest_id")
+              .populate({
+                path: "repost_id",
+                populate: {
+                  path: "user_id",
+                  select:
+                    "unique_name full_name post_type profile_url profile_picture full_name is_private_account is_verified",
+                },
+              })
+              .sort({ impression_count: -1 });  */
 
       const sortedSubinterestCountResult = subinterestCountResult.sort((a, b) => b.count - a.count);
       const sortedinterestCountResult = interestCountResult.sort((a, b) => b.count - a.count);
@@ -12352,8 +12358,9 @@ const getAllPosts = async (req, res) => {
               $match: {
                 interest_id: new mongoose.Types.ObjectId(selected_id),
                 sub_interest_id: { $in: subInterestIds },
-                user_id: { $nin: blockedUserIds },
-                user_id: { $nin: userWithPrivateAccountIds },
+                // user_id: { $nin: blockedUserIds },
+                // user_id: { $nin: userWithPrivateAccountIds },
+                user_id: { $nin: excludedUserIdsData },
                 is_deleted: false,
                 is_block: false,
                 is_local: false,
@@ -12495,8 +12502,9 @@ const getAllPosts = async (req, res) => {
               $match: {
                 interest_id: new mongoose.Types.ObjectId(selected_id),
                 // sub_interest_id: { $in: subInterestIds },
-                user_id: { $nin: blockedUserIds },
-                user_id: { $nin: userWithPrivateAccountIds },
+                // user_id: { $nin: blockedUserIds },
+                // user_id: { $nin: userWithPrivateAccountIds },
+                user_id: { $nin: excludedUserIdsData },
                 is_deleted: false,
                 is_block: false,
                 is_local: false,
@@ -12679,8 +12687,9 @@ const getAllPosts = async (req, res) => {
               $match: {
                 interest_id: new mongoose.Types.ObjectId(selected_id),
                 // sub_interest_id: { $in: subInterestIds },
-                user_id: { $nin: blockedUserIds },
-                user_id: { $nin: userWithPrivateAccountIds },
+                // user_id: { $nin: blockedUserIds },
+                // user_id: { $nin: userWithPrivateAccountIds },
+                user_id: { $nin: excludedUserIdsData },
                 is_deleted: false,
                 is_block: false,
                 is_local: false,
