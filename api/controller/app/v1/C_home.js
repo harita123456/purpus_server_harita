@@ -6424,8 +6424,8 @@ const getAllPosts = async (req, res) => {
 //            }
 //          }
 //        ])
-   
-   
+
+
 //    */
 
 //     const filteredPosts = postWithPrivateAccountTrue.filter(
@@ -11388,7 +11388,7 @@ const getAllPosts = async (req, res) => {
           },
         })
         .sort({ createdAt: "desc" });
-
+/*
       const newUserTrendingData = await post
         .find({
           sub_interest_id: { $in: userOwnSubInterests },
@@ -11413,7 +11413,7 @@ const getAllPosts = async (req, res) => {
               "unique_name full_name post_type profile_url profile_picture full_name is_private_account is_verified",
           },
         })
-        .sort({ impression_count: -1 });
+        .sort({ impression_count: -1 });  */
 
       const sortedSubinterestCountResult = subinterestCountResult.sort((a, b) => b.count - a.count);
       const sortedinterestCountResult = interestCountResult.sort((a, b) => b.count - a.count);
@@ -12298,11 +12298,12 @@ const getAllPosts = async (req, res) => {
             resultPosts.push(newestPostAlgorithm_300[i]);
           }
         }
-
+        const excludedUserIdsData = [...blockedUserIds, ...userWithPrivateAccountIds]
         const total_data_userPostTrending_300_to_1000 = await post.countDocuments({
           sub_interest_id: { $in: subInterestIds },
-          user_id: { $nin: blockedUserIds },
-          user_id: { $nin: userWithPrivateAccountIds },
+          // user_id: { $nin: blockedUserIds },
+          // user_id: { $nin: userWithPrivateAccountIds },
+          user_id: { $nin: excludedUserIdsData },
           is_deleted: false,
           is_block: false,
           is_local: false,
@@ -12315,8 +12316,9 @@ const getAllPosts = async (req, res) => {
 
         const total_data_userPostTrending_more_than_1000 = await post.countDocuments({
           sub_interest_id: { $in: subInterestIds },
-          user_id: { $nin: blockedUserIds },
-          user_id: { $nin: userWithPrivateAccountIds },
+          // user_id: { $nin: blockedUserIds },
+          // user_id: { $nin: userWithPrivateAccountIds },
+          user_id: { $nin: excludedUserIdsData },
           is_deleted: false,
           is_block: false,
           is_local: false,
@@ -12814,12 +12816,13 @@ const getAllPosts = async (req, res) => {
             },
           ]);
         }
-
+        const excludedUserIds = [...blockedUserIds, ...userWithPrivateAccountIds]
         const find_userPostTrending_300_to_1000 = await post.find({
           interest_id: new mongoose.Types.ObjectId(selected_id),
           sub_interest_id: { $in: subInterestIds },
-          user_id: { $nin: blockedUserIds },
-          user_id: { $nin: userWithPrivateAccountIds },
+          // user_id: { $nin: blockedUserIds },
+          // user_id: { $nin: userWithPrivateAccountIds },
+          user_id: { $nin: excludedUserIds },
           is_deleted: false,
           is_block: false,
           is_local: false,
@@ -12832,12 +12835,12 @@ const getAllPosts = async (req, res) => {
             common_data_Array.push(data?._id);
           })
         }
-
         const find_userPostTrending_more_than_1000 = await post.find({
           interest_id: new mongoose.Types.ObjectId(selected_id),
           sub_interest_id: { $in: subInterestIds },
-          user_id: { $nin: blockedUserIds },
-          user_id: { $nin: userWithPrivateAccountIds },
+          // user_id: { $nin: blockedUserIds },
+          // user_id: { $nin: userWithPrivateAccountIds },
+          user_id: { $nin: excludedUserIds },
           is_deleted: false,
           is_block: false,
           is_local: false,
@@ -12846,7 +12849,7 @@ const getAllPosts = async (req, res) => {
         });
 
         if (find_userPostTrending_more_than_1000.length > 0) {
-          find_userPostTrending_more_than_1000?.map((data) => {
+          find_userPostTrending_more_than_1000.map((data) => {
             common_data_Array.push(data?._id);
           })
         }
@@ -13479,7 +13482,7 @@ const getHomeInterests = async (req, res) => {
 //                    //     { sub_interest_id: { $in: new mongoose.Types.ObjectId(queryObject.sub_interest_id) } },
 //                    //   ],
 //                    // },
-     
+
 //                    {
 //                      $or: [
 //                        { sub_interest_id: new mongoose.Types.ObjectId(queryObject.sub_interest_id) },
@@ -13598,7 +13601,7 @@ const getHomeInterests = async (req, res) => {
 //                  impression_count: 1
 //                }
 //              },
-     
+
 //            ]);
 //      */
 
@@ -13760,8 +13763,8 @@ const getHomeInterests = async (req, res) => {
 //                 impression_count: 1
 //               }
 //             },
-    
-    
+
+
 //           ]);
 //           */
 
