@@ -11467,7 +11467,7 @@ const getAllPosts = async (req, res) => {
               is_repost_you: !!is_repost_you_status,
             };
 
-            if (post.is_repost && post.repost_id) {
+            if (post?.is_repost && post?.repost_id) {
               const repostIsLiked = await like_post.findOne({
                 user_id: user_id,
                 post_id: data.repost_id._id,
@@ -15003,7 +15003,7 @@ const getAllPostsBySubInterest = async (req, res) => {
           post.repost_id.user_id.profile_picture =
             process.env.BASE_URL + post.repost_id.user_id.profile_picture;
         }
-        post.post_media.forEach((media) => {
+        post?.post_media.forEach((media) => {
           if (media?.file_type === "image" || media?.file_type === "video") {
             media.file_name = process.env.BASE_URL + media.file_name;
             if (media.thumb_name) {
