@@ -9640,7 +9640,7 @@ const getAllPosts = async (req, res) => {
     // ]);
 
     const sortedSubinterestCountResult = subinterestCountResult.sort((a, b) => b.count - a.count);
-    const sortedinterestCountResult = interestCountResult.sort((a, b) => b.count - a.count);
+    // const sortedinterestCountResult = interestCountResult.sort((a, b) => b.count - a.count);
 
     const totalCount = subinterestCountResult.reduce((acc, item) => acc + item.count, 0);
     const percentageData = subinterestCountResult.map(item => ({
@@ -11487,13 +11487,13 @@ const getAllPosts = async (req, res) => {
                 post_id: data.repost_id._id,
               });
 
-              var store_option_id = repostIsPolled?.option_id;
+              var store_option_ids = repostIsPolled?.option_id;
               updatedPost.repost_id = {
                 ...data.repost_id.toObject(),
                 is_like: !!repostIsLiked,
                 is_save: !!repostIsSaved,
                 is_poll_response: !!repostIsPolled,
-                store_option_id: store_option_id,
+                store_option_id: store_option_ids,
               };
             }
             return updatedPost;
@@ -14865,13 +14865,13 @@ const getAllPostsBySubInterest = async (req, res) => {
                 post_id: data.repost_id._id,
               });
 
-              var store_option_id = repostIsPolled?.option_id;
+              var store_option_id_data = repostIsPolled?.option_id;
               updatedPost.repost_id = {
                 ...data.repost_id,
                 is_like: !!repostIsLiked,
                 is_save: !!repostIsSaved,
                 is_poll_response: !!repostIsPolled,
-                store_option_id: store_option_id,
+                store_option_id: store_option_id_data,
               };
             }
 
