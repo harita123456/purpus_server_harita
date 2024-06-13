@@ -868,7 +868,7 @@ const deletePost = async (req, res) => {
     await post.updateMany(
       {
         $and: [
-          { repost_id: find_post._id },
+          { repost_id: find_post?._id },
           { is_deleted: false },
           {
             $or: [{ description: null }, { description: { $exists: false } }],
@@ -1096,12 +1096,12 @@ const likePost = async (req, res) => {
         if (
           user_id &&
           find_post &&
-          user_id.toString() !== find_post.user_id.toString()
+          user_id.toString() !== find_post?.user_id.toString()
         ) {
           const currentDateTime = await dateTime();
           let noti_msg = login_user_name + " liked your post";
           let media;
-          if (find_post.post_type == "media") {
+          if (find_post?.post_type == "media") {
             if (find_post.post_media[0]?.file_type == "image") {
               media =
                 process.env.BASE_URL + find_post.post_media[0].file_name;
@@ -1121,7 +1121,7 @@ const likePost = async (req, res) => {
             noti_title,
             noti_for,
             media: media,
-            id: find_post._id,
+            id: find_post?._id,
           };
 
           await notifications.create({
@@ -2049,7 +2049,7 @@ const addComment = async (req, res) => {
         if (
           user_id &&
           find_post &&
-          user_id.toString() !== find_post.user_id.toString()
+          user_id.toString() !== find_post?.user_id.toString()
         ) {
           const currentDateTime = await dateTime();
           let noti_msg = login_user_name + " commented: " + content;
@@ -2074,7 +2074,7 @@ const addComment = async (req, res) => {
             noti_title,
             noti_for,
             media: media,
-            id: find_post._id,
+            id: find_post?._id,
           };
 
           await notifications.create({
@@ -2238,7 +2238,7 @@ const addComment = async (req, res) => {
             noti_title,
             noti_for,
             media: media,
-            id: find_post._id,
+            id: find_post?._id,
           };
 
           await notifications.create({
@@ -2247,14 +2247,14 @@ const addComment = async (req, res) => {
             noti_for,
             sender_id: user_id,
             receiver_id: find_post?.user_id,
-            post_id: find_post._id,
+            post_id: find_post?._id,
             noti_date: currentDateTime,
             created_at: currentDateTime,
             updated_at: currentDateTime,
           });
 
           let find_token = await user_session.find({
-            user_id: find_post.user_id,
+            user_id: find_post?.user_id,
             is_deleted: false,
           });
 
@@ -2279,10 +2279,10 @@ const addComment = async (req, res) => {
         }
 
         if (user_id.toString() !== savedComment?.mention_user_id.toString()
-          && user_id.toString() == find_post.user_id.toString()) {
+          && user_id.toString() == find_post?.user_id.toString()) {
 
           await notifications.deleteMany({
-            post_id: find_post._id,
+            post_id: find_post?._id,
             noti_for: "post_comment",
             receiver_id: savedComment?.mention_user_id,
           })
@@ -2291,7 +2291,7 @@ const addComment = async (req, res) => {
           let noti_msg =
             login_user_name + " replied to your comment: " + content;
           let media;
-          if (find_post.post_type == "media") {
+          if (find_post?.post_type == "media") {
             if (find_post.post_media[0]?.file_type == "image") {
               media =
                 process.env.BASE_URL + find_post.post_media[0].file_name;
@@ -2311,7 +2311,7 @@ const addComment = async (req, res) => {
             noti_title,
             noti_for,
             media: media,
-            id: find_post._id,
+            id: find_post?._id,
           };
 
           await notifications.create({
@@ -2320,7 +2320,7 @@ const addComment = async (req, res) => {
             noti_for,
             sender_id: user_id,
             receiver_id: savedComment?.mention_user_id,
-            post_id: find_post._id,
+            post_id: find_post?._id,
             noti_date: currentDateTime,
             created_at: currentDateTime,
             updated_at: currentDateTime,
@@ -2460,7 +2460,7 @@ const addComment = async (req, res) => {
                 noti_title,
                 noti_for,
                 media: media,
-                id: find_post._id,
+                id: find_post?._id,
               };
 
               await notifications.create({
@@ -2531,7 +2531,7 @@ const addComment = async (req, res) => {
                 noti_title,
                 noti_for,
                 media: media,
-                id: find_post._id,
+                id: find_post?._id,
               };
 
               await notifications.create({
@@ -4183,15 +4183,15 @@ const getPostdetails = async (req, res) => {
       } else {
         const isLiked = await like_post.findOne({
           user_id: login_user_id,
-          post_id: find_post._id,
+          post_id: find_post?._id,
         });
         const isSaved = await save_post.findOne({
           user_id: login_user_id,
-          post_id: find_post._id,
+          post_id: find_post?._id,
         });
         const isPolled = await pollvotes.findOne({
           user_id: login_user_id,
-          post_id: find_post._id,
+          post_id: find_post?._id,
         });
 
         const is_repost_you_status = await post.findOne({
@@ -4210,12 +4210,12 @@ const getPostdetails = async (req, res) => {
 
         const is_view_impression = await user_impressions.findOne({
           user_id: user_id,
-          post_id: find_post._id,
+          post_id: find_post?._id,
         });
 
         const is_view_Post = await view_post.findOne({
           user_id: user_id,
-          post_id: find_post._id,
+          post_id: find_post?._id,
         });
 
         if (language === "hindi") {
