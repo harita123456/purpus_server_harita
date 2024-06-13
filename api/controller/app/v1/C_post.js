@@ -4030,13 +4030,13 @@ const getPostdetails = async (req, res) => {
             media?.file_name &&
             !media?.file_name.startsWith(process.env.BASE_URL)
           ) {
-            media?.file_name = process.env.BASE_URL + media.file_name;
+            media.file_name = process.env.BASE_URL + media.file_name;
           }
           if (
             media?.thumb_name &&
             !media?.thumb_name.startsWith(process.env.BASE_URL)
           ) {
-            media?.thumb_name = process.env.BASE_URL + media.thumb_name;
+            media.thumb_name = process.env.BASE_URL + media.thumb_name;
           }
         }
       });
@@ -4048,13 +4048,13 @@ const getPostdetails = async (req, res) => {
             media?.file_name &&
             !media?.file_name.startsWith(process.env.BASE_URL)
           ) {
-            media?.file_name = process.env.BASE_URL + media.file_name;
+            media.file_name = process.env.BASE_URL + media.file_name;
           }
           if (
             media?.thumb_name &&
             !media?.thumb_name.startsWith(process.env.BASE_URL)
           ) {
-            media?.thumb_name = process.env.BASE_URL + media.thumb_name;
+            media.thumb_name = process.env.BASE_URL + media.thumb_name;
           }
         }
       });
@@ -4262,13 +4262,13 @@ const getPostdetails = async (req, res) => {
               media?.file_name &&
               !media?.file_name.startsWith(process.env.BASE_URL)
             ) {
-              media?.file_name = process.env.BASE_URL + media.file_name;
+              media.file_name = process.env.BASE_URL + media.file_name;
             }
             if (
               media?.thumb_name &&
               !media?.thumb_name.startsWith(process.env.BASE_URL)
             ) {
-              media?.thumb_name = process.env.BASE_URL + media.thumb_name;
+              media.thumb_name = process.env.BASE_URL + media.thumb_name;
             }
           }
         });
