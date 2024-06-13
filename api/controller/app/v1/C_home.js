@@ -10724,8 +10724,9 @@ const getAllPosts = async (req, res) => {
         {
           $match: {
             // sub_interest_id: { $in: subInterestIds },
-            user_id: { $nin: blockedUserIds },
-            user_id: { $nin: userWithPrivateAccountIds },
+            // user_id: { $nin: blockedUserIds },
+            // user_id: { $nin: userWithPrivateAccountIds },
+            user_id: { $nin: excludedUserDataIds },
             is_deleted: false,
             is_block: false,
             is_local: false,
@@ -14882,7 +14883,7 @@ const getAllPostsBySubInterest = async (req, res) => {
             post.repost_id.user_id.profile_picture =
               process.env.BASE_URL + post.repost_id.user_id.profile_picture;
           }
-          post.post_media.forEach((media) => {
+          post?.post_media.forEach((media) => {
             if (media.file_type === "image" || media.file_type === "video") {
               media.file_name = process.env.BASE_URL + media.file_name;
               if (media.thumb_name) {
