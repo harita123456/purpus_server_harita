@@ -9333,10 +9333,16 @@ const getAllPosts = async (req, res) => {
 //aggreagtion
 const getAllPosts = async (req, res) => {
   try {
+    // if (!req.body.user_id) {
+    //   var user_id = req.user._id;
+    // } else {
+    //   var user_id = req.body.user_id;
+    // }
+    let user_id;
     if (!req.body.user_id) {
-      var user_id = req.user._id;
+      user_id = req.user._id;
     } else {
-      var user_id = req.body.user_id;
+      user_id = req.body.user_id;
     }
     var { page = 1, limit = 10, selected_id } = req.body;
 
@@ -9679,7 +9685,7 @@ const getAllPosts = async (req, res) => {
             is_repost_you: !!is_repost_you_status,
           };
 
-          if (post.is_repost && post.repost_id) {
+          if (post?.is_repost && post?.repost_id) {
             const repostIsLiked = await like_post.findOne({
               user_id: user_id,
               post_id: data.repost_id._id,
@@ -10495,7 +10501,7 @@ const getAllPosts = async (req, res) => {
       var newestPostAlgorithm_300 = shuffleArray([...newestPostAlgorithm_300_data]);
     }
 
-    const combinedPosts = [...usersOwnPostsNotInView, ...newestPostAlgorithm_300];
+    // const combinedPosts = [...usersOwnPostsNotInView, ...newestPostAlgorithm_300];
 
     const resultPosts = [];
 
@@ -11307,7 +11313,7 @@ const getAllPosts = async (req, res) => {
         is_request: true,
       });
 
-      const userOwnSubInterests = queryObject.interest_id;
+      // const userOwnSubInterests = queryObject.interest_id;
 
       const following_user_Ids = user_following_data.map((data) => data.following_id);
 
@@ -12288,7 +12294,7 @@ const getAllPosts = async (req, res) => {
         }
 
 
-        const combinedPosts = [...usersOwnPostsNotInView, ...newestPostAlgorithm_300];
+        // const combinedPosts = [...usersOwnPostsNotInView, ...newestPostAlgorithm_300];
 
         const resultPosts = [];
 
