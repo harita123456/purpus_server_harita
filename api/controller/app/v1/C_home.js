@@ -9422,6 +9422,7 @@ const getAllPosts = async (req, res) => {
       },
     ]);
 
+    // interestCountResult 
     // const interestCountResult = await user_interactions.aggregate([
     //   {
     //     $match: {
