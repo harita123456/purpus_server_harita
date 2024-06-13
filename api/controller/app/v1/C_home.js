@@ -9422,32 +9422,32 @@ const getAllPosts = async (req, res) => {
       },
     ]);
 
-    const interestCountResult = await user_interactions.aggregate([
-      {
-        $match: {
-          user_id: new mongoose.Types.ObjectId(user_id),
-          interest_id: { $ne: null },
-          sub_interest_id: null,
-        },
-      },
-      {
-        $group: {
-          _id: {
-            interest_id: "$interest_id",
-            sub_interest_id: { $ifNull: ["$sub_interest_id", "null"] },
-          },
-          count: { $sum: 1 },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          interest_id: "$_id.interest_id",
-          sub_interest_id: "$_id.sub_interest_id",
-          count: 1,
-        },
-      },
-    ]);
+    // const interestCountResult = await user_interactions.aggregate([
+    //   {
+    //     $match: {
+    //       user_id: new mongoose.Types.ObjectId(user_id),
+    //       interest_id: { $ne: null },
+    //       sub_interest_id: null,
+    //     },
+    //   },
+    //   {
+    //     $group: {
+    //       _id: {
+    //         interest_id: "$interest_id",
+    //         sub_interest_id: { $ifNull: ["$sub_interest_id", "null"] },
+    //       },
+    //       count: { $sum: 1 },
+    //     },
+    //   },
+    //   {
+    //     $project: {
+    //       _id: 0,
+    //       interest_id: "$_id.interest_id",
+    //       sub_interest_id: "$_id.sub_interest_id",
+    //       count: 1,
+    //     },
+    //   },
+    // ]);
 
     const usersOwnPostsNotInView = await post.find({
       user_id: user_id,
