@@ -2218,7 +2218,7 @@ const addComment = async (req, res) => {
           const currentDateTime = await dateTime();
           let noti_msg = login_user_name + " commented: " + content;
           let media;
-          if (find_post.post_type == "media") {
+          if (find_post?.post_type == "media") {
             if (find_post.post_media[0]?.file_type == "image") {
               media =
                 process.env.BASE_URL + find_post.post_media[0].file_name;
@@ -2386,7 +2386,7 @@ const addComment = async (req, res) => {
               noti_title,
               noti_for,
               media: media,
-              id: find_post._id,
+              id: find_post?._id,
             };
 
             await notifications.create({
@@ -2440,7 +2440,7 @@ const addComment = async (req, res) => {
               const currentDateTime = await dateTime();
               let noti_msg = login_user_name + " commented: " + content;
               let media;
-              if (find_post.post_type == "media") {
+              if (find_post?.post_type == "media") {
                 if (find_post.post_media[0]?.file_type == "image") {
                   media =
                     process.env.BASE_URL + find_post.post_media[0].file_name;
@@ -2511,7 +2511,7 @@ const addComment = async (req, res) => {
               let noti_msg =
                 login_user_name + " replied to your comment: " + content;
               let media;
-              if (find_post.post_type == "media") {
+              if (find_post?.post_type == "media") {
                 if (find_post.post_media[0]?.file_type == "image") {
                   media =
                     process.env.BASE_URL + find_post.post_media[0].file_name;
