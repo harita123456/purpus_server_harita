@@ -2354,7 +2354,7 @@ const addComment = async (req, res) => {
         if (user_id.toString() !== savedComment?.mention_user_id.toString()
           && user_id.toString() !== find_post?.user_id.toString()) {
 
-          if (savedComment?.mention_user_id.toString() == find_post.user_id.toString()) {
+          if (savedComment?.mention_user_id.toString() == find_post?.user_id.toString()) {
 
             await notifications.deleteMany({
               post_id: find_post?._id,
@@ -3305,7 +3305,7 @@ const getAllComments = async (req, res) => {
 
       // if (!parentComments || parentComments.length === 0) {
 
-      if (parentComments.length == 0) {
+      if (parentComments?.length == 0) {
         const parentComments1 = await comment_post
           .find({
             post_id: post_id,
@@ -3323,7 +3323,7 @@ const getAllComments = async (req, res) => {
           .skip((page - 1) * limit);
 
         const parentCommentsWithLikeStatus = await Promise.all(
-          parentComments1?.map(async (parentComment) => {
+          parentComments1.map(async (parentComment) => {
             try {
               const isLiked = await like_comment.findOne({
                 user_id: user_id,
